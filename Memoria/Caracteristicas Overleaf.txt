@@ -1,0 +1,9 @@
+Ventajas:
+· La mayoría de librerías de uso cotidiano están instaladas en Overleaf.
+· El autocompletado ayuda a aprender LaTeX.
+· Se puede trabajar online en paralelo.
+· Los proyectos son privados hasta que los compartes.
+
+Desventajas:
+· En fecha actual, sólo permite compartir con una persona más.
+· No hay gestión de versiones.
