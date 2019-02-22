@@ -1,18 +1,22 @@
+int const VEL_MOTOR_A = 10;
+int const VEL_MOTOR_B = 11;
+int const DIR_MOTOR_A = 12;
+int const DIR_MOTOR_B = 13;
 
-int const SIRENA = 4;
-int const LED_FUNDU = 10;
-int const LED_DES = 11; 
 void setup(){
-  PORTD = 0b00000000;
   for(int i=10; i<=13; i++){
     pinMode(i, OUTPUT);
   }
-  digitalWrite(11, HIGH);//Velocidad
+  digitalWrite(VEL_MOTOR_A, HIGH);
+  digitalWrite(VEL_MOTOR_B, HIGH);
+  delay(500);
 }
 
 void loop(){
-  digitalWrite(13, LOW);//Direccion
-  delay(1000);
-  digitalWrite(13, HIGH);
+  digitalWrite(DIR_MOTOR_A, LOW); //Alante
+  digitalWrite(DIR_MOTOR_B, LOW);
+  delay(3000);
+  digitalWrite(DIR_MOTOR_A, HIGH); //Atras
+  digitalWrite(DIR_MOTOR_B, HIGH);
   delay(1000);
 }
