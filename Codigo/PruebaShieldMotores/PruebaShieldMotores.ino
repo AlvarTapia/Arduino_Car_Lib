@@ -9,14 +9,16 @@ void setup(){
   }
   digitalWrite(VEL_MOTOR_A, HIGH);
   digitalWrite(VEL_MOTOR_B, HIGH);
-  delay(500);
 }
 
 void loop(){
+  
   digitalWrite(DIR_MOTOR_A, LOW); //Alante
   digitalWrite(DIR_MOTOR_B, LOW);
   delay(3000);
+  
   digitalWrite(DIR_MOTOR_A, HIGH); //Atras
   digitalWrite(DIR_MOTOR_B, HIGH);
   delay(1000);
+  
 }
