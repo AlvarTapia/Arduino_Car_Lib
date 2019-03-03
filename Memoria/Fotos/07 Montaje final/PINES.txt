@@ -7,7 +7,7 @@ A2 -> sensor centro
 A4 -> sensor derecha
 
 
-V5 -> alimentacion de la Arduino, a la salida de voltaje de las pilas (rojo)
+5V -> alimentacion de la Arduino, a la salida de voltaje de las pilas (rojo)
 GND -> tierra, a tierra de las pilas (negro)
 
 
