@@ -12,20 +12,18 @@ void setup(){
   
   pinMode(VEL_MOTOR_A, OUTPUT);
   pinMode(VEL_MOTOR_B, OUTPUT);
-  digitalWrite(VEL_MOTOR_A, HIGH);
-  digitalWrite(VEL_MOTOR_B, HIGH);
-  pinMode(ANALOG_MOTOR_A, OUTPUT);
-  pinMode(ANALOG_MOTOR_B, OUTPUT);
 }
 
 void loop(){
   
-  analogWrite(ANALOG_MOTOR_A, 0b10000000); //Lento
-  analogWrite(ANALOG_MOTOR_B, 0b10000000); //Lento
+  analogWrite(VEL_MOTOR_A, 180);
+  analogWrite(VEL_MOTOR_B, 180);
   delay(3000);
   
-  analogWrite(ANALOG_MOTOR_A, 0b11111111); //Max velocidad
-  analogWrite(ANALOG_MOTOR_B, 0b11111111); //Max velocidad
+  analogWrite(VEL_MOTOR_A, 255);
+  analogWrite(VEL_MOTOR_B, 255);
   delay(1000);
 
   //EDIT: Los motores van siempre a la misma velocidad
+
+}
