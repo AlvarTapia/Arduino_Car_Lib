@@ -12,14 +12,19 @@ void setup(){
   
   pinMode(VEL_MOTOR_A, OUTPUT);
   pinMode(VEL_MOTOR_B, OUTPUT);
+
+  pinMode(4, OUTPUT);
 }
 
-void loop(){  
-  analogWrite(VEL_MOTOR_A, 85);
-  analogWrite(VEL_MOTOR_B, 85);
-  delay(3000);
-  
-  analogWrite(VEL_MOTOR_A, 210);
-  analogWrite(VEL_MOTOR_B, 210);
-  delay(1000);
+void loop(){
+  for(int i=255; i>0; i-=5){
+    analogWrite(VEL_MOTOR_A, i);
+    analogWrite(VEL_MOTOR_B, i);
+    if(i==85){
+      analogWrite(4, 130); //Sirena
+    }else{
+      digitalWrite(4, LOW);
+    }
+    delay(200);
+  }
 }
