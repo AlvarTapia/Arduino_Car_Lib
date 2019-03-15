@@ -17,6 +17,7 @@ void setup(){
 }
 
 void loop(){
+  
   for(int i=255; i>0; i-=5){
     analogWrite(VEL_MOTOR_A, i);
     analogWrite(VEL_MOTOR_B, i);
@@ -27,4 +28,16 @@ void loop(){
     }
     delay(200);
   }
+  /*
+  for(int i=0; i<255; i+=5){
+    analogWrite(VEL_MOTOR_A, i);
+    analogWrite(VEL_MOTOR_B, i);
+    if(i==200){
+      analogWrite(4, 130); //Sirena
+    }else{
+      digitalWrite(4, LOW);
+    }
+    delay(200);
+  }
+  */
 }

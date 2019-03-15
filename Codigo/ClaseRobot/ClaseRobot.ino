@@ -75,3 +75,5 @@ void Robot::maxVelocidad(){
   analogWrite(PIN_VEL_DCHA_ARRIBA, 255);
   analogWrite(PIN_VEL_DCHA_ABAJO, 255);
 };
+
+Robot arduino(12, 13, 10, 11);
