@@ -7,10 +7,15 @@ class Robot{
     ~Robot(); 
 
     void arranca();
+    void para();
     void lento();
     void maxVelocidad();
     void giraIzda();
     void giraDcha();
+    void alante();
+    void atras();
+    void rotaIzda();
+    void rotaDcha();
 
   protected: //Solo la clase y sus hijos pueden ver estos elementos
     int PIN_GIRO_IZDA_ARRIBA;
@@ -23,9 +28,9 @@ class Robot{
     int PIN_VEL_DCHA_ARRIBA;
     int PIN_VEL_DCHA_ABAJO;
     
-    int pinSiguelineasIzda;
-    int pinSiguelineasCentro;
-    int pinSiguelineasDcha;
+    int PIN_SIGUELINEAS_IZDA;
+    int PIN_SIGUELINEAS_CENTRO;
+    int PIN_SIGUELINEAS_DCHA;
 };
 
 /** Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores */
@@ -76,4 +81,62 @@ void Robot::maxVelocidad(){
   analogWrite(PIN_VEL_DCHA_ABAJO, 255);
 };
 
+/** Deja de alimentar los motores. Debe arrancarse de nuevo cuando quiera retomar la marcha*/
+void Robot::para(){
+  analogWrite(PIN_VEL_IZDA_ARRIBA, 0);
+  analogWrite(PIN_VEL_IZDA_ABAJO, 0);
+  analogWrite(PIN_VEL_DCHA_ARRIBA, 0);
+  analogWrite(PIN_VEL_DCHA_ABAJO, 0);
+}
+
+/** El robot gira hacia la izda parando los motores de la izda*/
+void Robot::giraIzda(){
+  analogWrite(PIN_VEL_IZDA_ARRIBA, 0);
+  analogWrite(PIN_VEL_IZDA_ABAJO, 0);
+  analogWrite(PIN_VEL_DCHA_ARRIBA, 255);
+  analogWrite(PIN_VEL_DCHA_ABAJO, 255);
+}
+
+/** El robot gira hacia la dcha parando los motores de la dcha*/
+void Robot::giraDcha(){
+  analogWrite(PIN_VEL_IZDA_ARRIBA, 0);
+  analogWrite(PIN_VEL_IZDA_ABAJO, 0);
+  analogWrite(PIN_VEL_DCHA_ARRIBA, 255);
+  analogWrite(PIN_VEL_DCHA_ABAJO, 255);
+}
+
+void Robot::alante(){
+  digitalWrite(PIN_GIRO_IZDA_ARRIBA, LOW);
+  digitalWrite(PIN_GIRO_IZDA_ABAJO, LOW);
+  digitalWrite(PIN_GIRO_DCHA_ARRIBA, LOW);
+  digitalWrite(PIN_GIRO_DCHA_ABAJO, LOW);
+}
+
+void Robot::atras(){
+  digitalWrite(PIN_GIRO_IZDA_ARRIBA, HIGH);
+  digitalWrite(PIN_GIRO_IZDA_ABAJO, HIGH);
+  digitalWrite(PIN_GIRO_DCHA_ARRIBA, HIGH);
+  digitalWrite(PIN_GIRO_DCHA_ABAJO, HIGH);
+}
+
+/** El robot pivota hacia la izda cambiando la direccion de giro de los motores de la izda*/
+void Robot::rotaIzda(){
+  digitalWrite(PIN_GIRO_IZDA_ARRIBA, HIGH);
+  digitalWrite(PIN_GIRO_IZDA_ABAJO, HIGH);
+  digitalWrite(PIN_GIRO_DCHA_ARRIBA, LOW);
+  digitalWrite(PIN_GIRO_DCHA_ABAJO, LOW);
+}
+
+/** El robot pivota hacia la dcha cambiando la direccion de giro de los motores de la dcha*/
+void Robot::rotaDcha(){
+  digitalWrite(PIN_GIRO_IZDA_ARRIBA, LOW);
+  digitalWrite(PIN_GIRO_IZDA_ABAJO, LOW);
+  digitalWrite(PIN_GIRO_DCHA_ARRIBA, HIGH);
+  digitalWrite(PIN_GIRO_DCHA_ABAJO, HIGH);
+}
+
+
+
+
+/** OBJETOS YA DISEÑADOS */
 Robot arduino(12, 13, 10, 11);

@@ -1,4 +1,5 @@
 void setup(){
+  arduino.alante();
   arduino.arranca();
 }
 
