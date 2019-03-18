@@ -1,22 +1,24 @@
+Robot robotActual = elegoo;
+
 void setup(){
-  arduino.arranca();
+  robotActual.arranca();
 }
 
 void loop(){
-  arduino.alante();
-  arduino.lento();
+  robotActual.alante();
+  robotActual.lento();
   delay(2000);
-  arduino.giraIzda();
+  robotActual.giraIzda();
   delay(1000);
-  arduino.giraDcha();
+  robotActual.giraDcha();
   delay(1000);
   
-  arduino.atras();
-  arduino.arranca();
-  arduino.maxVelocidad();//No pivota bien en "lento"
+  robotActual.atras();
+  robotActual.arranca();
+  robotActual.maxVelocidad();//No pivota bien en "lento"
   delay(500);
-  arduino.rotaIzda();
+  robotActual.rotaIzda();
   delay(1000);
-  arduino.rotaDcha();
+  robotActual.rotaDcha();
   delay(1000);
 }

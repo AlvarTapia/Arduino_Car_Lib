@@ -3,8 +3,9 @@ class Robot{
     //Constructores
     Robot(int, int, int, int, int, int); 
     //Destructores
-    ~Robot(); 
 
+    
+    //Funciones del robot
     void arranca();
     void para();
     void lento();
@@ -48,9 +49,6 @@ Robot::Robot(int pinIzdaAlante, int pinIzdaAtras, int pinDchaAlante, int pinDcha
     pinMode(PIN_VEL_DCHA, OUTPUT);
 }
 
-/** Destructor TODO */
-Robot::~Robot(){};
-
 /** Se aplica mucha tensión durante un corto periodo de tiempo para que los motores empiecen a funcionar*/
 void Robot::arranca(){
   analogWrite(PIN_VEL_IZDA, 255);
@@ -68,7 +66,7 @@ void Robot::lento(){
 void Robot::maxVelocidad(){
   analogWrite(PIN_VEL_IZDA, 255);
   analogWrite(PIN_VEL_DCHA, 255);
-};
+}
 
 /** Deja de alimentar los motores. Debe arrancarse de nuevo cuando quiera retomar la marcha*/
 void Robot::para(){
@@ -124,3 +122,5 @@ void Robot::rotaDcha(){
 /** OBJETOS YA DISEÑADOS */
 Robot arduino(9, 12, 9, 13, 10, 11); //El pin 9 no está siendo usado, 
 //y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
+
+Robot elegoo(6, 7, 9, 8, 5, 11);
