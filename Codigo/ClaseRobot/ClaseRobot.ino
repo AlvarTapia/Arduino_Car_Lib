@@ -1,8 +1,7 @@
 class Robot{
   public:
     //Constructores
-    Robot(int, int, int, int); //Pares de motores
-    Robot(int, int, int, int, int, int, int, int); //Cada motor por separado
+    Robot(int, int, int, int, int, int); 
     //Destructores
     ~Robot(); 
 
@@ -18,15 +17,13 @@ class Robot{
     void rotaDcha();
 
   protected: //Solo la clase y sus hijos pueden ver estos elementos
-    int PIN_GIRO_IZDA_ARRIBA;
-    int PIN_GIRO_IZDA_ABAJO;
-    int PIN_GIRO_DCHA_ARRIBA;
-    int PIN_GIRO_DCHA_ABAJO;
+    int PIN_IZDA_ALANTE;
+    int PIN_IZDA_ATRAS;
+    int PIN_DCHA_ALANTE;
+    int PIN_DCHA_ATRAS;
     
-    int PIN_VEL_IZDA_ARRIBA;
-    int PIN_VEL_IZDA_ABAJO;
-    int PIN_VEL_DCHA_ARRIBA;
-    int PIN_VEL_DCHA_ABAJO;
+    int PIN_VEL_IZDA;
+    int PIN_VEL_DCHA;
     
     int PIN_SIGUELINEAS_IZDA;
     int PIN_SIGUELINEAS_CENTRO;
@@ -34,23 +31,21 @@ class Robot{
 };
 
 /** Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores */
-Robot::Robot(int pinGiroIzda, int pinGiroDcha, int pinVelIzda, int pinVelDcha){
-    PIN_GIRO_IZDA_ARRIBA = pinGiroIzda;
-    PIN_GIRO_IZDA_ABAJO = pinGiroIzda;
-    pinMode(pinGiroIzda, OUTPUT);
+Robot::Robot(int pinIzdaAlante, int pinIzdaAtras, int pinDchaAlante, int pinDchaAtras, int pinVelIzda, int pinVelDcha){
+    PIN_IZDA_ALANTE = pinIzdaAlante;
+    pinMode(PIN_IZDA_ALANTE, OUTPUT);
+    PIN_IZDA_ATRAS = pinIzdaAtras;
+    pinMode(PIN_IZDA_ATRAS, OUTPUT);
     
-    PIN_GIRO_DCHA_ARRIBA = pinGiroDcha;
-    PIN_GIRO_DCHA_ABAJO = pinGiroDcha;
-    pinMode(pinGiroDcha, OUTPUT);
-
+    PIN_DCHA_ALANTE = pinDchaAlante;
+    pinMode(PIN_DCHA_ALANTE, OUTPUT);
+    PIN_DCHA_ATRAS = pinDchaAtras;
+    pinMode(PIN_DCHA_ATRAS, OUTPUT);
     
-    PIN_VEL_IZDA_ARRIBA = pinVelIzda;
-    PIN_VEL_IZDA_ABAJO = pinVelIzda;
-    pinMode(pinVelIzda, OUTPUT);
-    
-    PIN_VEL_DCHA_ARRIBA = pinVelDcha;
-    PIN_VEL_DCHA_ABAJO = pinVelDcha;
-    pinMode(pinVelDcha, OUTPUT);
+    PIN_VEL_IZDA = pinVelIzda;
+    pinMode(PIN_VEL_IZDA, OUTPUT);
+    PIN_VEL_DCHA = pinVelDcha;
+    pinMode(PIN_VEL_DCHA, OUTPUT);
 }
 
 /** Destructor TODO */
@@ -58,85 +53,74 @@ Robot::~Robot(){};
 
 /** Se aplica mucha tensión durante un corto periodo de tiempo para que los motores empiecen a funcionar*/
 void Robot::arranca(){
-  analogWrite(PIN_VEL_IZDA_ARRIBA, 255);
-  analogWrite(PIN_VEL_IZDA_ABAJO, 255);
-  analogWrite(PIN_VEL_DCHA_ARRIBA, 255);
-  analogWrite(PIN_VEL_DCHA_ABAJO, 255);
+  analogWrite(PIN_VEL_IZDA, 255);
+  analogWrite(PIN_VEL_DCHA, 255);
   delay(150);
 }
 
 /** Mueve el coche al 40% de la capacidad de las pilas */
 void Robot::lento(){ 
-  analogWrite(PIN_VEL_IZDA_ARRIBA, 100);
-  analogWrite(PIN_VEL_IZDA_ABAJO, 100);
-  analogWrite(PIN_VEL_DCHA_ARRIBA, 100);
-  analogWrite(PIN_VEL_DCHA_ABAJO, 100);
+  analogWrite(PIN_VEL_IZDA, 100);
+  analogWrite(PIN_VEL_DCHA, 100);
 }
 
 /** Mueve el coche al 100% de la capacidad de las pilas */
 void Robot::maxVelocidad(){
-  analogWrite(PIN_VEL_IZDA_ARRIBA, 255);
-  analogWrite(PIN_VEL_IZDA_ABAJO, 255);
-  analogWrite(PIN_VEL_DCHA_ARRIBA, 255);
-  analogWrite(PIN_VEL_DCHA_ABAJO, 255);
+  analogWrite(PIN_VEL_IZDA, 255);
+  analogWrite(PIN_VEL_DCHA, 255);
 };
 
 /** Deja de alimentar los motores. Debe arrancarse de nuevo cuando quiera retomar la marcha*/
 void Robot::para(){
-  analogWrite(PIN_VEL_IZDA_ARRIBA, 0);
-  analogWrite(PIN_VEL_IZDA_ABAJO, 0);
-  analogWrite(PIN_VEL_DCHA_ARRIBA, 0);
-  analogWrite(PIN_VEL_DCHA_ABAJO, 0);
+  analogWrite(PIN_VEL_IZDA, 0);
+  analogWrite(PIN_VEL_DCHA, 0);
 }
 
 /** El robot gira hacia la izda parando los motores de la izda*/
 void Robot::giraIzda(){
-  analogWrite(PIN_VEL_IZDA_ARRIBA, 0);
-  analogWrite(PIN_VEL_IZDA_ABAJO, 0);
-  analogWrite(PIN_VEL_DCHA_ARRIBA, 255);
-  analogWrite(PIN_VEL_DCHA_ABAJO, 255);
+  analogWrite(PIN_VEL_IZDA, 255);
+  analogWrite(PIN_VEL_DCHA, 0);
 }
 
 /** El robot gira hacia la dcha parando los motores de la dcha*/
 void Robot::giraDcha(){
-  analogWrite(PIN_VEL_IZDA_ARRIBA, 0);
-  analogWrite(PIN_VEL_IZDA_ABAJO, 0);
-  analogWrite(PIN_VEL_DCHA_ARRIBA, 255);
-  analogWrite(PIN_VEL_DCHA_ABAJO, 255);
+  analogWrite(PIN_VEL_IZDA, 0);
+  analogWrite(PIN_VEL_DCHA, 255);
 }
 
 void Robot::alante(){
-  digitalWrite(PIN_GIRO_IZDA_ARRIBA, LOW);
-  digitalWrite(PIN_GIRO_IZDA_ABAJO, LOW);
-  digitalWrite(PIN_GIRO_DCHA_ARRIBA, LOW);
-  digitalWrite(PIN_GIRO_DCHA_ABAJO, LOW);
+  digitalWrite(PIN_IZDA_ALANTE, HIGH);
+  digitalWrite(PIN_IZDA_ATRAS, LOW);
+  digitalWrite(PIN_DCHA_ALANTE, HIGH);
+  digitalWrite(PIN_DCHA_ATRAS, LOW);
 }
 
 void Robot::atras(){
-  digitalWrite(PIN_GIRO_IZDA_ARRIBA, HIGH);
-  digitalWrite(PIN_GIRO_IZDA_ABAJO, HIGH);
-  digitalWrite(PIN_GIRO_DCHA_ARRIBA, HIGH);
-  digitalWrite(PIN_GIRO_DCHA_ABAJO, HIGH);
+  digitalWrite(PIN_IZDA_ALANTE, LOW);
+  digitalWrite(PIN_IZDA_ATRAS, HIGH);
+  digitalWrite(PIN_DCHA_ALANTE, LOW);
+  digitalWrite(PIN_DCHA_ATRAS, HIGH);
 }
 
 /** El robot pivota hacia la izda cambiando la direccion de giro de los motores de la izda*/
 void Robot::rotaIzda(){
-  digitalWrite(PIN_GIRO_IZDA_ARRIBA, HIGH);
-  digitalWrite(PIN_GIRO_IZDA_ABAJO, HIGH);
-  digitalWrite(PIN_GIRO_DCHA_ARRIBA, LOW);
-  digitalWrite(PIN_GIRO_DCHA_ABAJO, LOW);
+  digitalWrite(PIN_IZDA_ALANTE, LOW);
+  digitalWrite(PIN_IZDA_ATRAS, HIGH);
+  digitalWrite(PIN_DCHA_ALANTE, HIGH);
+  digitalWrite(PIN_DCHA_ATRAS, LOW);
 }
 
 /** El robot pivota hacia la dcha cambiando la direccion de giro de los motores de la dcha*/
 void Robot::rotaDcha(){
-  digitalWrite(PIN_GIRO_IZDA_ARRIBA, LOW);
-  digitalWrite(PIN_GIRO_IZDA_ABAJO, LOW);
-  digitalWrite(PIN_GIRO_DCHA_ARRIBA, HIGH);
-  digitalWrite(PIN_GIRO_DCHA_ABAJO, HIGH);
+  digitalWrite(PIN_IZDA_ALANTE, HIGH);
+  digitalWrite(PIN_IZDA_ATRAS, LOW);
+  digitalWrite(PIN_DCHA_ALANTE, LOW);
+  digitalWrite(PIN_DCHA_ATRAS, HIGH);
 }
 
 
 
 
 /** OBJETOS YA DISEÑADOS */
-Robot arduino(12, 13, 10, 11);
+Robot arduino(9, 12, 9, 13, 10, 11); //El pin 9 no está siendo usado, 
+//y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
