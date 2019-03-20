@@ -182,7 +182,7 @@ bool Robot::readSiguelineasIzda(){
     //error
   }else{
     bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_IZDA);
-    return !lectura;
+    return lectura;
   }
 }
 
@@ -191,7 +191,7 @@ bool Robot::readSiguelineasCentro(){
     //error
   }else{
     bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_CENTRO);
-    return !lectura;
+    return lectura;
   }
 }
 
@@ -200,7 +200,7 @@ bool Robot::readSiguelineasDcha(){
     //error
   }else{
     bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_DCHA);
-    return !lectura;
+    return lectura;
   }
 }
 

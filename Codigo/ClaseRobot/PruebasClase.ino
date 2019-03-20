@@ -11,11 +11,11 @@ void loopPruebaSensores();
 
 
 void setup(){
-  setupPruebaRotacion();
+  setupPruebaSensores();
 }
 
 void loop(){
-  loopPruebaRotacion();
+  loopPruebaSensores();
 }
 
 
@@ -47,7 +47,6 @@ void loopPruebaMotores(){
 
 
 void setupPruebaRotacion(){
-  robotActual.setTodosSiguelineas(A0, A2, A4);
 }
 
 void loopPruebaRotacion(){
@@ -55,11 +54,47 @@ void loopPruebaRotacion(){
   delay(2000);
   robotActual.giraIzda();
   delay(2000);
-  
-  /*
-  robotActual.rotaDcha();
-  delay(1000);
-  robotActual.rotaIzda();
-  delay(5000);
-  */
 }
+
+
+bool yendoDcha, yendoCentro, yendoIzda;
+
+void setupPruebaSensores(){
+  robotActual.setTodosSiguelineas(A0, A2, A4);
+  robotActual.alante();
+  yendoDcha = false;
+  yendoCentro = false;
+  yendoIzda = false;
+}
+
+
+void loopPruebaSensores(){
+  if(!robotActual.readSiguelineasCentro()){
+    yendoDcha = false;
+    yendoIzda = false;
+    if(!yendoCentro){
+      robotActual.alante();
+      yendoCentro = true;
+    }
+  }else if(robotActual.readSiguelineasDcha()){
+    yendoCentro = false;
+    yendoIzda = false;
+    if(!yendoDcha){
+      robotActual.rotaDcha();
+      yendoDcha = true;
+    }
+  }else if(robotActual.readSiguelineasIzda()){
+    yendoCentro = false;
+    yendoDcha = false;
+    if(!yendoIzda){
+      robotActual.rotaIzda();
+      yendoIzda = true;
+    }
+  }else{
+    yendoCentro = false;
+    yendoDcha = false;
+    yendoIzda = false;
+    robotActual.para();
+  }
+}
+
