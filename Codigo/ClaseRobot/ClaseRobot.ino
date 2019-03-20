@@ -11,6 +11,7 @@ class Robot{
     void arranca();
     void para();
     void lento();
+    void velGiro();
     void maxVelocidad();
     void giraIzda();
     void giraDcha();
@@ -31,7 +32,9 @@ class Robot{
     bool readSiguelineasDcha();
 
   protected: //Solo la clase y sus hijos pueden ver estos elementos
-    int VELOCIDAD_LENTA = 130;
+    int const VELOCIDAD_LENTA = 100;
+    int const VELOCIDAD_GIRO = 150;
+    int const MAX_VELOCIDAD = 255;
     
     int PIN_IZDA_ALANTE;
     int PIN_IZDA_ATRAS;
@@ -66,8 +69,8 @@ Robot::Robot(int pinIzdaAlante, int pinIzdaAtras, int pinDchaAlante, int pinDcha
 
 /** Se aplica mucha tensión durante un corto periodo de tiempo para que los motores empiecen a funcionar*/
 void Robot::arranca(){
-  analogWrite(PIN_VEL_IZDA, 255);
-  analogWrite(PIN_VEL_DCHA, 255);
+  analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
+  analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
   delay(150);
 }
 
@@ -77,10 +80,16 @@ void Robot::lento(){
   analogWrite(PIN_VEL_DCHA, VELOCIDAD_LENTA);
 }
 
+/** Velocidad a la que el coche es capaz de girar */
+void Robot::velGiro(){
+  analogWrite(PIN_VEL_IZDA, VELOCIDAD_GIRO);
+  analogWrite(PIN_VEL_DCHA, VELOCIDAD_GIRO);
+}
+
 /** Mueve el coche al 100% de la capacidad de las pilas */
 void Robot::maxVelocidad(){
-  analogWrite(PIN_VEL_IZDA, 255);
-  analogWrite(PIN_VEL_DCHA, 255);
+  analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
+  analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
 }
 
 /** Deja de alimentar los motores. Debe arrancarse de nuevo cuando quiera retomar la marcha */
@@ -91,14 +100,14 @@ void Robot::para(){
 
 /** El robot gira hacia la izda parando los motores de la izda */
 void Robot::giraIzda(){
-  analogWrite(PIN_VEL_IZDA, 255);
+  analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
   analogWrite(PIN_VEL_DCHA, 0);
 }
 
 /** El robot gira hacia la dcha parando los motores de la dcha */
 void Robot::giraDcha(){
   analogWrite(PIN_VEL_IZDA, 0);
-  analogWrite(PIN_VEL_DCHA, 255);
+  analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
 }
 
 /** El robot hace que los motores giren hacia alante del robot */
@@ -107,6 +116,8 @@ void Robot::alante(){
   digitalWrite(PIN_IZDA_ATRAS, LOW);
   digitalWrite(PIN_DCHA_ALANTE, HIGH);
   digitalWrite(PIN_DCHA_ATRAS, LOW);
+  this->arranca();
+  this->lento();
 }
 
 /** El robot hace que los motores giren hacia atras del robot */
@@ -115,6 +126,8 @@ void Robot::atras(){
   digitalWrite(PIN_IZDA_ATRAS, HIGH);
   digitalWrite(PIN_DCHA_ALANTE, LOW);
   digitalWrite(PIN_DCHA_ATRAS, HIGH);
+  this->arranca();
+  this->lento();
 }
 
 /** El robot pivota hacia la izda cambiando la direccion de giro de los motores de la izda */
@@ -123,6 +136,8 @@ void Robot::rotaIzda(){
   digitalWrite(PIN_IZDA_ATRAS, LOW);
   digitalWrite(PIN_DCHA_ALANTE, LOW);
   digitalWrite(PIN_DCHA_ATRAS, HIGH);
+  this->arranca();
+  this->velGiro();
 }
 
 /** El robot pivota hacia la dcha cambiando la direccion de giro de los motores de la dcha */
@@ -131,6 +146,8 @@ void Robot::rotaDcha(){
   digitalWrite(PIN_IZDA_ATRAS, HIGH);
   digitalWrite(PIN_DCHA_ALANTE, HIGH);
   digitalWrite(PIN_DCHA_ATRAS, LOW);
+  this->arranca();
+  this->velGiro();
 }
 
 
@@ -154,9 +171,9 @@ void Robot::setSiguelineasDcha(int siguelineasDcha){
 
 
 void Robot::setTodosSiguelineas(int izda, int centro, int dcha){
-  setSiguelineasIzda(izda);
-  setSiguelineasCentro(centro);
-  setSiguelineasDcha(dcha);
+  this->setSiguelineasIzda(izda);
+  this->setSiguelineasCentro(centro);
+  this->setSiguelineasDcha(dcha);
 }
 
 

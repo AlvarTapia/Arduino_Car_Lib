@@ -1,19 +1,21 @@
-Robot robotActual = elegoo;
+Robot robotActual = arduino;
 
 
 void setupPruebaMotores();
 void loopPruebaMotores();
+void setupPruebaRotacion();
+void loopPruebaRotacion();
 void setupPruebaSensores();
 void loopPruebaSensores();
 
 
 
 void setup(){
-  setupPruebaSensores();
+  setupPruebaRotacion();
 }
 
 void loop(){
-  loopPruebaSensores();
+  loopPruebaRotacion();
 }
 
 
@@ -44,15 +46,20 @@ void loopPruebaMotores(){
 }
 
 
-void setupPruebaSensores(){
+void setupPruebaRotacion(){
   robotActual.setTodosSiguelineas(A0, A2, A4);
-  robotActual.arranca();
-  robotActual.lento();
 }
 
-void loopPruebaSensores(){
+void loopPruebaRotacion(){
+  robotActual.alante();
+  delay(2000);
+  robotActual.giraIzda();
+  delay(2000);
+  
+  /*
   robotActual.rotaDcha();
   delay(1000);
   robotActual.rotaIzda();
   delay(5000);
+  */
 }
