@@ -33,7 +33,7 @@ class Robot{
 
   protected: //Solo la clase y sus hijos pueden ver estos elementos
     int const VELOCIDAD_LENTA = 100;
-    int const VELOCIDAD_GIRO = 150;
+    int const VELOCIDAD_GIRO = 175;
     int const MAX_VELOCIDAD = 255;
     
     int PIN_IZDA_ALANTE;
@@ -71,7 +71,7 @@ Robot::Robot(int pinIzdaAlante, int pinIzdaAtras, int pinDchaAlante, int pinDcha
 void Robot::arranca(){
   analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
   analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
-  delay(150);
+  delay(100);
 }
 
 /** Mueve el coche al 40% de la capacidad de las pilas */

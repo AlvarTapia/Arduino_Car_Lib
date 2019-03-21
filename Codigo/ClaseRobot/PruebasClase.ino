@@ -70,31 +70,19 @@ void setupPruebaSensores(){
 
 void loopPruebaSensores(){
   if(!robotActual.readSiguelineasCentro()){
-    yendoDcha = false;
-    yendoIzda = false;
     if(!yendoCentro){
       robotActual.alante();
       yendoCentro = true;
     }
   }else if(robotActual.readSiguelineasDcha()){
     yendoCentro = false;
-    yendoIzda = false;
-    if(!yendoDcha){
-      robotActual.rotaDcha();
-      yendoDcha = true;
-    }
+    robotActual.rotaDcha();
   }else if(robotActual.readSiguelineasIzda()){
     yendoCentro = false;
-    yendoDcha = false;
-    if(!yendoIzda){
-      robotActual.rotaIzda();
-      yendoIzda = true;
-    }
+    robotActual.rotaIzda();
   }else{
     yendoCentro = false;
-    yendoDcha = false;
-    yendoIzda = false;
-    robotActual.para();
+    robotActual.atras();
   }
 }
 
