@@ -1,4 +1,4 @@
-Robot robotActual = arduino;
+Robot robotActual = elegoo;
 
 
 void setupPruebaMotores();
@@ -57,31 +57,24 @@ void loopPruebaRotacion(){
 }
 
 
-bool yendoDcha, yendoCentro, yendoIzda;
+//bool yendoDcha, yendoCentro, yendoIzda;
 
 void setupPruebaSensores(){
-  robotActual.setTodosSiguelineas(A0, A2, A4);
+  //robotActual.setTodosSiguelineas(A0, A2, A4); //ARDUINO
+  robotActual.setTodosSiguelineas(A0, A2, A4); //ELEGOO
+  
   robotActual.alante();
-  yendoDcha = false;
-  yendoCentro = false;
-  yendoIzda = false;
 }
 
 
 void loopPruebaSensores(){
-  if(!robotActual.readSiguelineasCentro()){
-    if(!yendoCentro){
-      robotActual.alante();
-      yendoCentro = true;
-    }
+  if(robotActual.readSiguelineasCentro()){
+    robotActual.alante();
   }else if(robotActual.readSiguelineasDcha()){
-    yendoCentro = false;
     robotActual.rotaDcha();
   }else if(robotActual.readSiguelineasIzda()){
-    yendoCentro = false;
     robotActual.rotaIzda();
   }else{
-    yendoCentro = false;
     robotActual.atras();
   }
 }
