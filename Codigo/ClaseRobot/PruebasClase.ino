@@ -11,11 +11,13 @@ void loopPruebaSensores();
 
 
 void setup(){
-  setupPruebaSensores();
+  //setupPruebaSensores();
+  setupPruebaMotores();
 }
 
 void loop(){
-  loopPruebaSensores();
+  //loopPruebaSensores();
+  loopPruebaMotores();
 }
 
 
@@ -23,7 +25,6 @@ void loop(){
 
 
 void setupPruebaMotores(){
-  robotActual.arranca();
 }
 
 void loopPruebaMotores(){
@@ -36,7 +37,6 @@ void loopPruebaMotores(){
   delay(1000);
   
   robotActual.atras();
-  robotActual.arranca();
   robotActual.maxVelocidad();//No pivota bien en "lento"
   delay(500);
   robotActual.rotaIzda();

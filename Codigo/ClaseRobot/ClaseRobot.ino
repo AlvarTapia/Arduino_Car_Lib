@@ -6,6 +6,7 @@ class Robot {
     int const VELOCIDAD_LENTA = 100;
     int const VELOCIDAD_GIRO = 175;
     int const MAX_VELOCIDAD = 255;
+    bool NECESITA_ARRANCAR;
 
     int PIN_IZDA_ALANTE;
     int PIN_IZDA_ATRAS;
@@ -22,8 +23,13 @@ class Robot {
 
   public:
     //Constructores
-    /** Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores */
-    Robot(int pinIzdaAlante, int pinIzdaAtras, int pinDchaAlante, int pinDchaAtras, int pinVelIzda, int pinVelDcha) {
+    /** 
+     * Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores 
+     * 4 primeros argumentos, pines de control de direccion de los motores
+     * 2 siguientes, pines de control de velocidad de los motores
+     * ultimo, si es necesario arrancar el coche para cambiar de direccion
+     */
+    Robot(int pinIzdaAlante, int pinIzdaAtras, int pinDchaAlante, int pinDchaAtras, int pinVelIzda, int pinVelDcha, bool necesitaArrancar) {
       PIN_IZDA_ALANTE = pinIzdaAlante;
       pinMode(PIN_IZDA_ALANTE, OUTPUT);
       PIN_IZDA_ATRAS = pinIzdaAtras;
@@ -38,6 +44,8 @@ class Robot {
       pinMode(PIN_VEL_IZDA, OUTPUT);
       PIN_VEL_DCHA = pinVelDcha;
       pinMode(PIN_VEL_DCHA, OUTPUT);
+
+      NECESITA_ARRANCAR = necesitaArrancar;
     }
     //Destructores
 
@@ -94,7 +102,9 @@ class Robot {
         digitalWrite(PIN_IZDA_ATRAS, LOW);
         digitalWrite(PIN_DCHA_ALANTE, HIGH);
         digitalWrite(PIN_DCHA_ATRAS, LOW);
-        this->arranca();
+        if(NECESITA_ARRANCAR){
+          this->arranca();
+        }
         dirActual = dirAlante;
       }
       this->lento();
@@ -107,7 +117,9 @@ class Robot {
         digitalWrite(PIN_IZDA_ATRAS, HIGH);
         digitalWrite(PIN_DCHA_ALANTE, LOW);
         digitalWrite(PIN_DCHA_ATRAS, HIGH);
-        this->arranca();
+        if(NECESITA_ARRANCAR){
+          this->arranca();
+        }
         dirActual = dirAtras;
       }
       this->lento();
@@ -120,7 +132,9 @@ class Robot {
         digitalWrite(PIN_IZDA_ATRAS, LOW);
         digitalWrite(PIN_DCHA_ALANTE, LOW);
         digitalWrite(PIN_DCHA_ATRAS, HIGH);
-        this->arranca();
+        if(NECESITA_ARRANCAR){
+          this->arranca();
+        }
         dirActual = dirRotaIzda;
       }
       this->velGiro();
@@ -133,7 +147,9 @@ class Robot {
         digitalWrite(PIN_IZDA_ATRAS, HIGH);
         digitalWrite(PIN_DCHA_ALANTE, HIGH);
         digitalWrite(PIN_DCHA_ATRAS, LOW);
-        this->arranca();
+        if(NECESITA_ARRANCAR){
+          this->arranca();
+        }
         dirActual = dirRotaDcha;
       }
       this->velGiro();
@@ -198,7 +214,7 @@ class Robot {
 
 
 /** OBJETOS YA DISEÑADOS */
-Robot arduino(9, 12, 9, 13, 10, 11); //El pin 9 no está siendo usado,
+Robot arduino(9, 12, 9, 13, 10, 11, true); //El pin 9 no está siendo usado,
 //y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
 
-Robot elegoo(6, 7, 9, 8, 5, 11);
+Robot elegoo(6, 7, 9, 8, 5, 11, false);
