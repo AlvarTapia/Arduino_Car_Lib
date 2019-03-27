@@ -1,3 +1,4 @@
+#include "robot.h"
 Robot robotActual = arduino;//elegoo;
 
 
@@ -11,13 +12,13 @@ void loopPruebaSensores();
 
 
 void setup(){
-  setupPruebaSensores();
-  //setupPruebaMotores();
+  //setupPruebaSensores();
+  setupPruebaMotores();
 }
 
 void loop(){
-  loopPruebaSensores();
-  //loopPruebaMotores();
+  //loopPruebaSensores();
+  loopPruebaMotores();
 }
 
 
@@ -29,7 +30,6 @@ void setupPruebaMotores(){
 
 void loopPruebaMotores(){
   robotActual.alante();
-  robotActual.lento();
   delay(2000);
   robotActual.giraIzda();
   delay(1000);
@@ -37,11 +37,12 @@ void loopPruebaMotores(){
   delay(1000);
   
   robotActual.atras();
-  robotActual.maxVelocidad();//No pivota bien en "lento"
   delay(500);
   robotActual.rotaIzda();
   delay(1000);
   robotActual.rotaDcha();
+  delay(1000);
+  robotActual.para();
   delay(1000);
 }
 
@@ -60,21 +61,19 @@ void loopPruebaRotacion(){
 //bool yendoDcha, yendoCentro, yendoIzda;
 
 void setupPruebaSensores(){
-  robotActual.siguelineas = Siguelineas(A0, A2, A4);
-  //robotActual.setTodosSiguelineas(A0, A2, A4); //ARDUINO
-  //robotActual.setTodosSiguelineas(10, 4, 2); //ELEGOO
+  //robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
+  robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
 }
 
 
 void loopPruebaSensores(){
-  if(robotActual.siguelineas.readCentro()){
+  if(robotActual.SIGUELINEAS.readCentro()){
     robotActual.alante();
-  }else if(robotActual.siguelineas.readDcha()){
+  }else if(robotActual.SIGUELINEAS.readDcha()){
     robotActual.rotaDcha();
-  }else if(robotActual.siguelineas.readIzda()){
+  }else if(robotActual.SIGUELINEAS.readIzda()){
     robotActual.rotaIzda();
   }else{
     robotActual.atras();
   }
 }
-

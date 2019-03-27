@@ -1,14 +1,18 @@
 #include "siguelineas.h"
+#include "infrarrojos.h"
 
 class Robot {
   private:
+    /** Estados del robot */
     enum Direccion {dirNull = -1, dirAlante, dirAtras, dirGiroDcha, dirGiroIzda, dirRotaDcha, dirRotaIzda};
     Direccion dirActual = dirNull;
+
   protected: //Solo la clase y sus hijos pueden ver estos elementos
-    byte const VELOCIDAD_LENTA = 100;
-    byte const VELOCIDAD_GIRO = 175;
-    byte const MAX_VELOCIDAD = 255;
+    static byte const VELOCIDAD_LENTA = 100;
+    static byte const VELOCIDAD_GIRO = 175;
+    static byte const MAX_VELOCIDAD = 255;
     bool NECESITA_ARRANCAR;
+    static byte const TIEMPO_ARRANQUE = 50;
 
     byte PIN_IZDA_ALANTE;
     byte PIN_IZDA_ATRAS;
@@ -19,17 +23,17 @@ class Robot {
     byte PIN_VEL_DCHA;
 
   public:
+    /** Variables modulos. Se acceden directamente. Para utilizarlas, necesitan ser intercambiadas por pines validos */
     //Modulo siguelineas
-    /** No tiene gets ni sets. Inicializar directamente. Leer Siguelineas.ino para conocer las funciones de esta clase */
-    Siguelineas siguelineas;
-    
+    Siguelineas SIGUELINEAS = Siguelineas(255, 255, 255);
+
     //Constructores
-    /** 
-     * Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores 
-     * 4 primeros argumentos, pines de control de direccion de los motores
-     * 2 siguientes, pines de control de velocidad de los motores
-     * ultimo, si es necesario arrancar el coche para cambiar de direccion
-     */
+    /**
+       Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores
+       4 primeros argumentos, pines de control de direccion de los motores
+       2 siguientes, pines de control de velocidad de los motores
+       ultimo, si es necesario arrancar el robot para cambiar de direccion
+    */
     Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras, byte pinVelIzda, byte pinVelDcha, bool necesitaArrancar) {
       PIN_IZDA_ALANTE = pinIzdaAlante;
       pinMode(PIN_IZDA_ALANTE, OUTPUT);
@@ -58,105 +62,107 @@ class Robot {
     void arranca() {
       analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
       analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
-      delay(100);
+      delay(TIEMPO_ARRANQUE);
+    }
+    
+    /** Declara la velocidad del robot */
+    void setVelocidad(byte velocidad) {
+      analogWrite(PIN_VEL_IZDA, velocidad);
+      analogWrite(PIN_VEL_DCHA, velocidad);
     }
 
-    /** Mueve el coche al 40% de la capacidad de las pilas */
+    /** Deja de alimentar los motores */
+    void para(){
+      this->setVelocidad(0);
+    }
+
+    /** Mueve el robot al 40% de la capacidad de las pilas */
     void lento() {
-      analogWrite(PIN_VEL_IZDA, VELOCIDAD_LENTA);
-      analogWrite(PIN_VEL_DCHA, VELOCIDAD_LENTA);
+      this->setVelocidad(VELOCIDAD_LENTA);
     }
-    /** Velocidad a la que el coche es capaz de girar */
+    
+    /** Velocidad moderada, el robot es capaz de girar */
     void velGiro() {
-      analogWrite(PIN_VEL_IZDA, VELOCIDAD_GIRO);
-      analogWrite(PIN_VEL_DCHA, VELOCIDAD_GIRO);
+      this->setVelocidad(VELOCIDAD_GIRO);
     }
 
-    /** Mueve el coche al 100% de la capacidad de las pilas */
+    /** Mueve el robot al 100% de la capacidad de las pilas */
     void maxVelocidad() {
-      analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
-      analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
-    }
-
-    /** Deja de alimentar los motores. Debe arrancarse de nuevo cuando quiera retomar la marcha */
-    void para() {
-      analogWrite(PIN_VEL_IZDA, 0);
-      analogWrite(PIN_VEL_DCHA, 0);
+      this->setVelocidad(MAX_VELOCIDAD);
     }
 
     /** El robot gira hacia la izda parando los motores de la izda */
-    void giraIzda() {
-      analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
+    void giraIzda(byte velocidad = MAX_VELOCIDAD) {
+      analogWrite(PIN_VEL_IZDA, velocidad);
       analogWrite(PIN_VEL_DCHA, 0);
     }
 
     /** El robot gira hacia la dcha parando los motores de la dcha */
-    void giraDcha() {
+    void giraDcha(byte velocidad = MAX_VELOCIDAD) {
       analogWrite(PIN_VEL_IZDA, 0);
-      analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
+      analogWrite(PIN_VEL_DCHA, velocidad);
     }
 
     /** El robot hace que los motores giren hacia alante del robot */
-    void alante() {
+    void alante(byte velocidad = VELOCIDAD_LENTA) {
       if (dirActual != dirAlante) {
         digitalWrite(PIN_IZDA_ALANTE, HIGH);
         digitalWrite(PIN_IZDA_ATRAS, LOW);
         digitalWrite(PIN_DCHA_ALANTE, HIGH);
         digitalWrite(PIN_DCHA_ATRAS, LOW);
-        if(NECESITA_ARRANCAR){
+        if (NECESITA_ARRANCAR) {
           this->arranca();
         }
         dirActual = dirAlante;
       }
-      this->lento();
+      this->setVelocidad(velocidad);
     }
 
     /** El robot hace que los motores giren hacia atras del robot */
-    void atras() {
+    void atras(byte velocidad = VELOCIDAD_LENTA) {
       if (dirActual != dirAtras) {
         digitalWrite(PIN_IZDA_ALANTE, LOW);
         digitalWrite(PIN_IZDA_ATRAS, HIGH);
         digitalWrite(PIN_DCHA_ALANTE, LOW);
         digitalWrite(PIN_DCHA_ATRAS, HIGH);
-        if(NECESITA_ARRANCAR){
+        if (NECESITA_ARRANCAR) {
           this->arranca();
         }
         dirActual = dirAtras;
       }
-      this->lento();
+      this->setVelocidad(velocidad);
     }
 
     /** El robot pivota hacia la izda cambiando la direccion de giro de los motores de la izda */
-    void rotaIzda() {
+    void rotaIzda(byte velocidad = VELOCIDAD_GIRO) {
       if (dirActual != dirRotaIzda) {
         digitalWrite(PIN_IZDA_ALANTE, HIGH);
         digitalWrite(PIN_IZDA_ATRAS, LOW);
         digitalWrite(PIN_DCHA_ALANTE, LOW);
         digitalWrite(PIN_DCHA_ATRAS, HIGH);
-        if(NECESITA_ARRANCAR){
+        if (NECESITA_ARRANCAR) {
           this->arranca();
         }
         dirActual = dirRotaIzda;
       }
-      this->velGiro();
+      this->setVelocidad(velocidad);
     }
 
     /** El robot pivota hacia la dcha cambiando la direccion de giro de los motores de la dcha */
-    void rotaDcha() {
+    void rotaDcha(byte velocidad = VELOCIDAD_GIRO) {
       if (dirActual != dirRotaDcha) {
         digitalWrite(PIN_IZDA_ALANTE, LOW);
         digitalWrite(PIN_IZDA_ATRAS, HIGH);
         digitalWrite(PIN_DCHA_ALANTE, HIGH);
         digitalWrite(PIN_DCHA_ATRAS, LOW);
-        if(NECESITA_ARRANCAR){
+        if (NECESITA_ARRANCAR) {
           this->arranca();
         }
         dirActual = dirRotaDcha;
       }
-      this->velGiro();
-    }    
+      this->setVelocidad(velocidad);
+    }
 };
-
 
 
 /** OBJETOS YA DISEÑADOS */
