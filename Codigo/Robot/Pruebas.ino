@@ -60,17 +60,18 @@ void loopPruebaRotacion(){
 //bool yendoDcha, yendoCentro, yendoIzda;
 
 void setupPruebaSensores(){
-  robotActual.setTodosSiguelineas(A0, A2, A4); //ARDUINO
+  robotActual.siguelineas = Siguelineas(A0, A2, A4);
+  //robotActual.setTodosSiguelineas(A0, A2, A4); //ARDUINO
   //robotActual.setTodosSiguelineas(10, 4, 2); //ELEGOO
 }
 
 
 void loopPruebaSensores(){
-  if(robotActual.readSiguelineasCentro()){
+  if(robotActual.siguelineas.readCentro()){
     robotActual.alante();
-  }else if(robotActual.readSiguelineasDcha()){
+  }else if(robotActual.siguelineas.readDcha()){
     robotActual.rotaDcha();
-  }else if(robotActual.readSiguelineasIzda()){
+  }else if(robotActual.siguelineas.readIzda()){
     robotActual.rotaIzda();
   }else{
     robotActual.atras();

@@ -1,27 +1,28 @@
+#include "siguelineas.h"
+
 class Robot {
   private:
     enum Direccion {dirNull = -1, dirAlante, dirAtras, dirGiroDcha, dirGiroIzda, dirRotaDcha, dirRotaIzda};
     Direccion dirActual = dirNull;
   protected: //Solo la clase y sus hijos pueden ver estos elementos
-    int const VELOCIDAD_LENTA = 100;
-    int const VELOCIDAD_GIRO = 175;
-    int const MAX_VELOCIDAD = 255;
+    byte const VELOCIDAD_LENTA = 100;
+    byte const VELOCIDAD_GIRO = 175;
+    byte const MAX_VELOCIDAD = 255;
     bool NECESITA_ARRANCAR;
 
-    int PIN_IZDA_ALANTE;
-    int PIN_IZDA_ATRAS;
-    int PIN_DCHA_ALANTE;
-    int PIN_DCHA_ATRAS;
+    byte PIN_IZDA_ALANTE;
+    byte PIN_IZDA_ATRAS;
+    byte PIN_DCHA_ALANTE;
+    byte PIN_DCHA_ATRAS;
 
-    int PIN_VEL_IZDA;
-    int PIN_VEL_DCHA;
-
-    int PIN_SIGUELINEAS_IZDA = -1;
-    int PIN_SIGUELINEAS_CENTRO = -1;
-    int PIN_SIGUELINEAS_DCHA = -1;
-
+    byte PIN_VEL_IZDA;
+    byte PIN_VEL_DCHA;
 
   public:
+    //Modulo siguelineas
+    /** No tiene gets ni sets. Inicializar directamente. Leer Siguelineas.ino para conocer las funciones de esta clase */
+    Siguelineas siguelineas;
+    
     //Constructores
     /** 
      * Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores 
@@ -29,7 +30,7 @@ class Robot {
      * 2 siguientes, pines de control de velocidad de los motores
      * ultimo, si es necesario arrancar el coche para cambiar de direccion
      */
-    Robot(int pinIzdaAlante, int pinIzdaAtras, int pinDchaAlante, int pinDchaAtras, int pinVelIzda, int pinVelDcha, bool necesitaArrancar) {
+    Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras, byte pinVelIzda, byte pinVelDcha, bool necesitaArrancar) {
       PIN_IZDA_ALANTE = pinIzdaAlante;
       pinMode(PIN_IZDA_ALANTE, OUTPUT);
       PIN_IZDA_ATRAS = pinIzdaAtras;
@@ -53,7 +54,7 @@ class Robot {
     //Funciones del robot
     //Motores
     //Relacionado con velocidad
-    /** Se aplica mucha tensión durante un corto periodo de tiempo para que los motores empiecen a funcionar */
+    /** Se aplica mucha tension durante un corto periodo de tiempo para que los motores empiecen a funcionar */
     void arranca() {
       analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
       analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
@@ -153,68 +154,13 @@ class Robot {
         dirActual = dirRotaDcha;
       }
       this->velGiro();
-    }
-
-
-    //Sensores siguelineas
-    /** Establece el pin del sensor infrarrojo izquierdo */
-    void setSiguelineasIzda(int siguelineasIzda) {
-      PIN_SIGUELINEAS_IZDA = siguelineasIzda;
-      pinMode(PIN_SIGUELINEAS_IZDA, INPUT);
-    }
-
-    /** Establece el pin del sensor infrarrojo central */
-    void setSiguelineasCentro(int siguelineasCentro) {
-      PIN_SIGUELINEAS_CENTRO = siguelineasCentro;
-      pinMode(PIN_SIGUELINEAS_CENTRO, INPUT);
-    }
-
-    /** Establece el pin del sensor infrarrojo derecho */
-    void setSiguelineasDcha(int siguelineasDcha) {
-      PIN_SIGUELINEAS_DCHA = siguelineasDcha;
-      pinMode(PIN_SIGUELINEAS_DCHA, INPUT);
-    }
-
-
-    void setTodosSiguelineas(int izda, int centro, int dcha) {
-      this->setSiguelineasIzda(izda);
-      this->setSiguelineasCentro(centro);
-      this->setSiguelineasDcha(dcha);
-    }
-
-
-    bool readSiguelineasIzda() {
-      if (PIN_SIGUELINEAS_IZDA < 0) {
-        //error
-      } else {
-        bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_IZDA);
-        return lectura;
-      }
-    }
-
-    bool readSiguelineasCentro() {
-      if (PIN_SIGUELINEAS_CENTRO < 0) {
-        //error
-      } else {
-        bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_CENTRO);
-        return lectura;
-      }
-    }
-
-    bool readSiguelineasDcha() {
-      if (PIN_SIGUELINEAS_DCHA < 0) {
-        //error
-      } else {
-        bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_DCHA);
-        return lectura;
-      }
-    }
+    }    
 };
 
 
 
 /** OBJETOS YA DISEÑADOS */
-Robot arduino(9, 12, 9, 13, 10, 11, true); //El pin 9 no está siendo usado,
+Robot arduino(9, 12, 9, 13, 10, 11, true); //El pin 9 no esta siendo usado,
 //y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
 
 Robot elegoo(6, 7, 9, 8, 5, 11, false);
