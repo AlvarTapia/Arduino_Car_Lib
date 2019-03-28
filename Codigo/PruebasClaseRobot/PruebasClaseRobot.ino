@@ -4,21 +4,26 @@ Robot robotActual = arduino;//elegoo;
 
 void setupPruebaMotores();
 void loopPruebaMotores();
+
 void setupPruebaRotacion();
 void loopPruebaRotacion();
+
 void setupPruebaSensores();
 void loopPruebaSensores();
+
+void setupMorse();
 
 
 
 void setup(){
   //setupPruebaSensores();
-  setupPruebaMotores();
+  //setupPruebaMotores();
+  setupMorse();
 }
 
 void loop(){
   //loopPruebaSensores();
-  loopPruebaMotores();
+  //loopPruebaMotores();
 }
 
 
@@ -57,12 +62,17 @@ void loopPruebaRotacion(){
   delay(2000);
 }
 
+void setupMorse(){
+  robotActual.MORSE = Morse(4, 's');
+  robotActual.MORSE.sos();
+}
+
 
 //bool yendoDcha, yendoCentro, yendoIzda;
 
 void setupPruebaSensores(){
-  //robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
-  robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
+  robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
+  //robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
 }
 
 

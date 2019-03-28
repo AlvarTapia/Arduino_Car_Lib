@@ -1,5 +1,8 @@
 #include "siguelineas.h"
-#include "infrarrojos.h"
+//#include "infrarrojos.h"
+#include "morse.h"
+
+#include "Arduino.h"
 
 class Robot {
   private:
@@ -23,9 +26,16 @@ class Robot {
     byte PIN_VEL_DCHA;
 
   public:
-    /** Variables modulos. Se acceden directamente. Para utilizarlas, necesitan ser intercambiadas por pines validos */
+    /** 
+     *  Variables modulos. Se acceden directamente. 
+     *  Para utilizarlas, los objetos deben ser inicializados con pines validos.
+    */
     //Modulo siguelineas
     Siguelineas SIGUELINEAS = Siguelineas(255, 255, 255);
+    //Modulo mando infrarrojo
+    // TODO Infrarrojos INFRARROJOS = Infrarrojos(255);
+    //Modulo morse
+    Morse MORSE = Morse(255, 'x');
 
     //Constructores
     /**
@@ -72,7 +82,7 @@ class Robot {
     }
 
     /** Deja de alimentar los motores */
-    void para(){
+    void para(){ 
       this->setVelocidad(0);
     }
 
@@ -91,6 +101,7 @@ class Robot {
       this->setVelocidad(MAX_VELOCIDAD);
     }
 
+    //TODO Los giros son inestables en coches Arduino
     /** El robot gira hacia la izda parando los motores de la izda */
     void giraIzda(byte velocidad = MAX_VELOCIDAD) {
       analogWrite(PIN_VEL_IZDA, velocidad);

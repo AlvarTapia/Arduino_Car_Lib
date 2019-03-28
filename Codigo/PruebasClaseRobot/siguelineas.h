@@ -5,9 +5,9 @@
 
 class Siguelineas {
   protected:
-    byte PIN_SIGUELINEAS_IZDA = -1;
-    byte PIN_SIGUELINEAS_CENTRO = -1;
-    byte PIN_SIGUELINEAS_DCHA = -1;
+    byte PIN_SIGUELINEAS_IZDA = 255;
+    byte PIN_SIGUELINEAS_CENTRO = 255;
+    byte PIN_SIGUELINEAS_DCHA = 255;
 
   public:
     //Constructores    
@@ -42,7 +42,7 @@ class Siguelineas {
     //Reads
     /** Devuelve true si hay una linea debajo del sensor izquierdo */
     bool readIzda() {
-      if (PIN_SIGUELINEAS_IZDA > 200) { //Error
+      if (PIN_SIGUELINEAS_IZDA == 255) { //Error
         return false;
       } else {
         bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_IZDA);
@@ -52,7 +52,7 @@ class Siguelineas {
 
     /** Devuelve true si hay una linea debajo del sensor central */
     bool readCentro() {
-      if (PIN_SIGUELINEAS_CENTRO > 200) { //Error
+      if (PIN_SIGUELINEAS_CENTRO == 255) { //Error
         return false;
       } else {
         bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_CENTRO);
@@ -62,7 +62,7 @@ class Siguelineas {
 
     /** Devuelve true si hay una linea debajo del sensor derecho */
     bool readDcha() {
-      if (PIN_SIGUELINEAS_DCHA > 200) { //Error
+      if (PIN_SIGUELINEAS_DCHA == 255) { //Error
         return false;
       } else {
         bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_DCHA);
