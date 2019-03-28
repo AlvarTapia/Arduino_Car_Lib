@@ -4,21 +4,25 @@
 #include "Arduino.h"
 
 class Morse{
+  #define DEFAULT_SIREN_FREC 15000
+  #define DASH_DELAY 300
+  #define DOT_DELAY 100
+  #define INBETWEEN_DELAY 100
+  
   private:
-    byte PIN_MORSE;
-    char OUTPUT_DEVICE;
-    unsigned int SIREN_FREC = 15000;
-
-    static int const DASH_DELAY = 300;
-    static int const DOT_DELAY = 100;
-    static int const INBETWEEN_DELAY = 100;
+    byte PIN_MORSE = 255;
+    char OUTPUT_DEVICE = 'x';
+    
+    unsigned int SIREN_FREC = DEFAULT_SIREN_FREC;
   public:
-    Morse(){  }
-    Morse(byte pinMorse, char outputDevice){
+    //Constructor
+    Morse(byte pinMorse, char outputDevice, int sirenFrec = DEFAULT_SIREN_FREC){
       PIN_MORSE = pinMorse;
 
       pinMode(PIN_MORSE, OUTPUT);
       OUTPUT_DEVICE = outputDevice;
+
+      SIREN_FREC = sirenFrec;
     }
 
     void dash(){

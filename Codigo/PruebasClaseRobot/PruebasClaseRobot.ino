@@ -16,13 +16,13 @@ void setupMorse();
 
 
 void setup(){
-  //setupPruebaSensores();
+  setupPruebaSensores();
   //setupPruebaMotores();
-  setupMorse();
+  //setupMorse();
 }
 
 void loop(){
-  //loopPruebaSensores();
+  loopPruebaSensores();
   //loopPruebaMotores();
 }
 
@@ -62,10 +62,12 @@ void loopPruebaRotacion(){
   delay(2000);
 }
 
+
 void setupMorse(){
   robotActual.MORSE = Morse(4, 's');
   robotActual.MORSE.sos();
 }
+
 
 
 //bool yendoDcha, yendoCentro, yendoIzda;

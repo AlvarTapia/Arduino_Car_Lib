@@ -1,21 +1,25 @@
+#ifndef robot_h
+#define robot_h
+
 #include "siguelineas.h"
-//#include "infrarrojos.h"
+#include "infrarrojos.h"
 #include "morse.h"
 
 #include "Arduino.h"
 
 class Robot {
+  #define VELOCIDAD_LENTA 100
+  #define VELOCIDAD_GIRO 175
+  #define MAX_VELOCIDAD 255
+  #define TIEMPO_ARRANQUE 50
+  
   private:
     /** Estados del robot */
     enum Direccion {dirNull = -1, dirAlante, dirAtras, dirGiroDcha, dirGiroIzda, dirRotaDcha, dirRotaIzda};
     Direccion dirActual = dirNull;
 
   protected: //Solo la clase y sus hijos pueden ver estos elementos
-    static byte const VELOCIDAD_LENTA = 100;
-    static byte const VELOCIDAD_GIRO = 175;
-    static byte const MAX_VELOCIDAD = 255;
     bool NECESITA_ARRANCAR;
-    static byte const TIEMPO_ARRANQUE = 50;
 
     byte PIN_IZDA_ALANTE;
     byte PIN_IZDA_ATRAS;
@@ -33,7 +37,7 @@ class Robot {
     //Modulo siguelineas
     Siguelineas SIGUELINEAS = Siguelineas(255, 255, 255);
     //Modulo mando infrarrojo
-    // TODO Infrarrojos INFRARROJOS = Infrarrojos(255);
+    Infrarrojos INFRARROJOS = Infrarrojos(255);
     //Modulo morse
     Morse MORSE = Morse(255, 'x');
 
@@ -181,3 +185,5 @@ Robot arduino(9, 12, 9, 13, 10, 11, true); //El pin 9 no esta siendo usado,
 //y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
 
 Robot elegoo(6, 7, 9, 8, 5, 11, false);
+
+#endif
