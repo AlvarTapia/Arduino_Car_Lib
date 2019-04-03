@@ -9,9 +9,8 @@
 
 class Robot {
   #define VELOCIDAD_LENTA 100
-  #define VELOCIDAD_GIRO 175
+  #define VELOCIDAD_GIRO 200
   #define MAX_VELOCIDAD 255
-  #define TIEMPO_ARRANQUE 50
   
   private:
     /** Estados del robot */
@@ -19,7 +18,7 @@ class Robot {
     Direccion dirActual = dirNull;
 
   protected: //Solo la clase y sus hijos pueden ver estos elementos
-    bool NECESITA_ARRANCAR;
+    byte TIEMPO_ARRANQUE;
 
     byte PIN_IZDA_ALANTE;
     byte PIN_IZDA_ATRAS;
@@ -48,7 +47,7 @@ class Robot {
        2 siguientes, pines de control de velocidad de los motores
        ultimo, si es necesario arrancar el robot para cambiar de direccion
     */
-    Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras, byte pinVelIzda, byte pinVelDcha, bool necesitaArrancar) {
+    Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras, byte pinVelIzda, byte pinVelDcha, byte tiempoArranque) {
       PIN_IZDA_ALANTE = pinIzdaAlante;
       pinMode(PIN_IZDA_ALANTE, OUTPUT);
       PIN_IZDA_ATRAS = pinIzdaAtras;
@@ -64,7 +63,7 @@ class Robot {
       PIN_VEL_DCHA = pinVelDcha;
       pinMode(PIN_VEL_DCHA, OUTPUT);
 
-      NECESITA_ARRANCAR = necesitaArrancar;
+      TIEMPO_ARRANQUE = tiempoArranque;
     }
     //Destructores
 
@@ -125,9 +124,7 @@ class Robot {
         digitalWrite(PIN_IZDA_ATRAS, LOW);
         digitalWrite(PIN_DCHA_ALANTE, HIGH);
         digitalWrite(PIN_DCHA_ATRAS, LOW);
-        if (NECESITA_ARRANCAR) {
-          this->arranca();
-        }
+        this->arranca();
         dirActual = dirAlante;
       }
       this->setVelocidad(velocidad);
@@ -140,9 +137,7 @@ class Robot {
         digitalWrite(PIN_IZDA_ATRAS, HIGH);
         digitalWrite(PIN_DCHA_ALANTE, LOW);
         digitalWrite(PIN_DCHA_ATRAS, HIGH);
-        if (NECESITA_ARRANCAR) {
-          this->arranca();
-        }
+        this->arranca();
         dirActual = dirAtras;
       }
       this->setVelocidad(velocidad);
@@ -155,9 +150,7 @@ class Robot {
         digitalWrite(PIN_IZDA_ATRAS, LOW);
         digitalWrite(PIN_DCHA_ALANTE, LOW);
         digitalWrite(PIN_DCHA_ATRAS, HIGH);
-        if (NECESITA_ARRANCAR) {
-          this->arranca();
-        }
+        this->arranca();
         dirActual = dirRotaIzda;
       }
       this->setVelocidad(velocidad);
@@ -170,9 +163,7 @@ class Robot {
         digitalWrite(PIN_IZDA_ATRAS, HIGH);
         digitalWrite(PIN_DCHA_ALANTE, HIGH);
         digitalWrite(PIN_DCHA_ATRAS, LOW);
-        if (NECESITA_ARRANCAR) {
-          this->arranca();
-        }
+        this->arranca();
         dirActual = dirRotaDcha;
       }
       this->setVelocidad(velocidad);
@@ -181,9 +172,9 @@ class Robot {
 
 
 /** OBJETOS YA DISEÑADOS */
-Robot arduino(9, 12, 9, 13, 10, 11, true); //El pin 9 no esta siendo usado,
+Robot arduino(9, 12, 9, 13, 10, 11, 60); //El pin 9 no esta siendo usado,
 //y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
 
-Robot elegoo(6, 7, 9, 8, 5, 11, false);
+Robot elegoo(6, 7, 9, 8, 5, 11, 0);
 
 #endif

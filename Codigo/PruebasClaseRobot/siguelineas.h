@@ -45,8 +45,7 @@ class Siguelineas {
       if (PIN_SIGUELINEAS_IZDA == 255) { //Error
         return false;
       } else {
-        bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_IZDA);
-        return lectura;
+        return digitalRead(PIN_SIGUELINEAS_IZDA);
       }
     }
 
@@ -55,8 +54,7 @@ class Siguelineas {
       if (PIN_SIGUELINEAS_CENTRO == 255) { //Error
         return false;
       } else {
-        bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_CENTRO);
-        return lectura;
+        return digitalRead(PIN_SIGUELINEAS_CENTRO);
       }
     }
 
@@ -65,8 +63,7 @@ class Siguelineas {
       if (PIN_SIGUELINEAS_DCHA == 255) { //Error
         return false;
       } else {
-        bool lectura =  (bool) digitalRead(PIN_SIGUELINEAS_DCHA);
-        return lectura;
+        return digitalRead(PIN_SIGUELINEAS_DCHA);
       }
     }
 };
