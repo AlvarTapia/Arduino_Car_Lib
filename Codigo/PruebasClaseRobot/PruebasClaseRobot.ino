@@ -1,5 +1,5 @@
 #include "robot.h"
-Robot robotActual = arduino;//elegoo;
+Robot robotActual = elegoo;//arduino;
 
 
 void setupPruebaMotores();
@@ -17,17 +17,14 @@ void setupInterseccion();
 void loopInterseccion();
 
 
-
 void setup(){
+  Serial.begin(9600); //Bluetooth
   setupInterseccion();
 }
 
 void loop(){
   loopInterseccion();
-  //robotActual.rotaDcha(255);
 }
-
-
 
 
 
@@ -74,8 +71,8 @@ void setupMorse(){
 //bool yendoDcha, yendoCentro, yendoIzda;
 
 void setupPruebaSensores(){
-  robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
-  //robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
+  //robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
+  robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
 }
 
 
@@ -93,8 +90,8 @@ void loopPruebaSensores(){
 
 
 void setupInterseccion(){
-  robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
-  //robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
+  //robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
+  robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
 }
 
 void loopInterseccion(){
@@ -102,29 +99,35 @@ void loopInterseccion(){
   bool centro = robotActual.SIGUELINEAS.readCentro();
   bool dcha = robotActual.SIGUELINEAS.readDcha();
 
-  if(izda && centro && !dcha){
-     //Pasate el desvio
-    robotActual.alante();
-    while(robotActual.SIGUELINEAS.readIzda()){};
-    //Ahora rota hacia el desvio
+  if(izda && centro && dcha){
+    Serial.println("Desvio");
+    robotActual.para();
+    delay(500);
+    //Rota hasta que solo vea negro el sensor de la dcha
     robotActual.rotaIzda();
-    //Espera no encontrar lineas negras
-    while(robotActual.SIGUELINEAS.readIzda() || robotActual.SIGUELINEAS.readCentro() || robotActual.SIGUELINEAS.readDcha()) {};
-    //Hasta que no encuentres negro solo a la derecha, sigue girando
+    Serial.println("Esperando solo dcha");
     while(robotActual.SIGUELINEAS.readIzda() || robotActual.SIGUELINEAS.readCentro() || !robotActual.SIGUELINEAS.readDcha()) {};
-    //Sigue adelante mientras leas blanco a la izquierda
+    //Alante hasta que solo vea negro el sensor de la izda
     robotActual.alante();
-    while(!robotActual.SIGUELINEAS.readIzda()) {};
-    //Acaba de enderezar hasta que no haya negro a la izquierda
+    Serial.println("Esperando solo izda");
+    while(!robotActual.SIGUELINEAS.readIzda() || robotActual.SIGUELINEAS.readCentro() || robotActual.SIGUELINEAS.readDcha()) {};
+    //Rota a la izda hasta que vea negro el sensor del centro
     robotActual.rotaIzda();
-    while(robotActual.SIGUELINEAS.readIzda()) {};
+    Serial.println("Esperando centro");
+    while(!robotActual.SIGUELINEAS.readCentro()) {};
+    //Ya enderezado, continua con el programa
+    Serial.println("FIN DESVIO");
   }else if(izda){
+    //Serial.println("Giro izda");
     robotActual.rotaIzda();
   }else if(dcha){
+    //Serial.println("Giro dcha");
     robotActual.rotaDcha();
   }else if(centro){
+    //Serial.println("Todo recto");
     robotActual.alante();
   }else{
+    //Serial.println("Quieto");
     robotActual.para();
   }
 }

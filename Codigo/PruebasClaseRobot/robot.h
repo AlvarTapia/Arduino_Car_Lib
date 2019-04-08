@@ -4,6 +4,7 @@
 #include "siguelineas.h"
 #include "infrarrojos.h"
 #include "morse.h"
+#include "bluetooth.h"
 
 #include "Arduino.h"
 
@@ -71,6 +72,11 @@ class Robot {
     //Funciones del robot
     //Motores
     //Relacionado con velocidad
+    /** Permite modificar el tiempo que va a estar arrancando el robot */
+    void setTiempoArranque(byte tiempoArranque){
+      TIEMPO_ARRANQUE = tiempoArranque;
+    }
+    
     /** Se aplica mucha tension durante un corto periodo de tiempo para que los motores empiecen a funcionar */
     void arranca() {
       analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
@@ -107,14 +113,20 @@ class Robot {
     //TODO Los giros son inestables en coches Arduino
     /** El robot gira hacia la izda parando los motores de la izda */
     void giraIzda(byte velocidad = MAX_VELOCIDAD) {
-      analogWrite(PIN_VEL_IZDA, velocidad);
-      analogWrite(PIN_VEL_DCHA, 0);
+      if(dirActual != dirGiroIzda){
+        analogWrite(PIN_VEL_IZDA, velocidad);
+        analogWrite(PIN_VEL_DCHA, 0);
+        dirActual = dirGiroIzda;
+      }
     }
 
     /** El robot gira hacia la dcha parando los motores de la dcha */
     void giraDcha(byte velocidad = MAX_VELOCIDAD) {
-      analogWrite(PIN_VEL_IZDA, 0);
-      analogWrite(PIN_VEL_DCHA, velocidad);
+      if(dirActual != dirGiroDcha){
+        analogWrite(PIN_VEL_IZDA, 0);
+        analogWrite(PIN_VEL_DCHA, velocidad);
+        dirActual = dirGiroDcha;
+      }
     }
 
     /** El robot hace que los motores giren hacia alante del robot */
