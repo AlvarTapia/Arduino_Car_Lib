@@ -40,6 +40,8 @@ class Robot {
     Infrarrojos INFRARROJOS = Infrarrojos(255);
     //Modulo morse
     Morse MORSE = Morse(255, 'x');
+    //Modulo bluetooth
+    Bluetooth BLUETOOTH = Bluetooth();//Queremos trabajar a 9600 baudios
 
     //Constructores
     /**
@@ -48,7 +50,7 @@ class Robot {
        2 siguientes, pines de control de velocidad de los motores
        ultimo, si es necesario arrancar el robot para cambiar de direccion
     */
-    Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras, byte pinVelIzda, byte pinVelDcha, byte tiempoArranque) {
+    Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras, byte pinVelIzda, byte pinVelDcha,  byte tiempoArranque) {
       PIN_IZDA_ALANTE = pinIzdaAlante;
       pinMode(PIN_IZDA_ALANTE, OUTPUT);
       PIN_IZDA_ATRAS = pinIzdaAtras;

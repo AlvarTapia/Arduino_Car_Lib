@@ -1,64 +1,32 @@
-int LED=13;
-volatile int state = LOW;
-char getstr;
-int in1=6;
-int in2=7;
-int in3=8;
-int in4=9;
-int ENA=5;
-int ENB=11;
-int ABS=200;
-void _mForward()
-{ 
-  analogWrite(ENA,ABS);
-  analogWrite(ENB,ABS);
-  digitalWrite(in1,HIGH);//digital output
-  digitalWrite(in2,LOW);
-  digitalWrite(in3,LOW);
-  digitalWrite(in4,HIGH);
-  Serial.println("Forward");
-}
-void _mBack()
-{
-  analogWrite(ENA,ABS);
-  analogWrite(ENB,ABS);
-  digitalWrite(in1,LOW);
-  digitalWrite(in2,HIGH);
-  digitalWrite(in3,HIGH);
-  digitalWrite(in4,LOW);
-  Serial.println("Back");
-}
-void _mleft()
-{
-  analogWrite(ENA,ABS);
-  analogWrite(ENB,ABS);
-  digitalWrite(in1,HIGH);
-  digitalWrite(in2,LOW);
-  digitalWrite(in3,HIGH);
-  digitalWrite(in4,LOW); 
-  Serial.println("go left!");
-}
-void _mright()
-{
-  analogWrite(ENA,ABS);
-  analogWrite(ENB,ABS);
-  digitalWrite(in1,LOW);
-  digitalWrite(in2,HIGH);
-  digitalWrite(in3,LOW);
-  digitalWrite(in4,HIGH);
-  Serial.println("go right!");
-}
-void _mStop()
-{
-  digitalWrite(ENA,LOW);
-  digitalWrite(ENB,LOW);
-  Serial.println("Stop!");
-}
-void stateChange()
-{
-  state = !state;
-  digitalWrite(LED, state);  
-}
+#ifndef bluetooth_h
+#define bluetooth_h
+
+#include "Arduino.h"
+
+
+class Bluetooth{
+  #define BAUDIOS_DEFECTO 9600
+  private:
+    int BAUDIOS;
+
+  public:
+    //Constructores
+    Bluetooth(int baudios = BAUDIOS_DEFECTO){
+      BAUDIOS = baudios;
+      Serial.begin(BAUDIOS);
+      while(!Serial){ }; //Espera a que el Serial este activo
+    }
+    //Destructor
+    
+
+    void sincronizaYEmpieza(){
+      Serial.println("Buscando input");
+      while(Serial.available() <= 0) {Serial.println("Checkeando available");};
+    }
+
+    
+};
+#endif
 
 /*
 void setup()

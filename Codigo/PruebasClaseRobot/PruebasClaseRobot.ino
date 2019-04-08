@@ -71,8 +71,10 @@ void setupMorse(){
 //bool yendoDcha, yendoCentro, yendoIzda;
 
 void setupPruebaSensores(){
-  //robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
+  /*
+  robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
   robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
+  */
 }
 
 
@@ -92,6 +94,7 @@ void loopPruebaSensores(){
 void setupInterseccion(){
   //robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
   robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
+  robotActual.BLUETOOTH.sincronizaYEmpieza();
 }
 
 void loopInterseccion(){
@@ -100,34 +103,32 @@ void loopInterseccion(){
   bool dcha = robotActual.SIGUELINEAS.readDcha();
 
   if(izda && centro && dcha){
-    Serial.println("Desvio");
-    robotActual.para();
-    delay(500);
-    //Rota hasta que solo vea negro el sensor de la dcha
+    Serial.println("DESVIO");
+    //Ahora ve todos los sensores con negro
+    //Primera cinta
+    //Espera hasta que a la dcha dejes de ver negro
+    while(robotActual.SIGUELINEAS.readDcha()) {};
+    //Ahora empieza a rotar
     robotActual.rotaIzda();
-    Serial.println("Esperando solo dcha");
-    while(robotActual.SIGUELINEAS.readIzda() || robotActual.SIGUELINEAS.readCentro() || !robotActual.SIGUELINEAS.readDcha()) {};
-    //Alante hasta que solo vea negro el sensor de la izda
-    robotActual.alante();
-    Serial.println("Esperando solo izda");
-    while(!robotActual.SIGUELINEAS.readIzda() || robotActual.SIGUELINEAS.readCentro() || robotActual.SIGUELINEAS.readDcha()) {};
-    //Rota a la izda hasta que vea negro el sensor del centro
-    robotActual.rotaIzda();
-    Serial.println("Esperando centro");
-    while(!robotActual.SIGUELINEAS.readCentro()) {};
-    //Ya enderezado, continua con el programa
+    //Espera hasta que a la dcha dejes de ver blanco
+    while(!robotActual.SIGUELINEAS.readDcha()) {};
+    Serial.println("Pasa primera cinta");
+    //Segunda cinta
+    //Espera hasta que a la dcha dejes de ver negro
+    while(robotActual.SIGUELINEAS.readDcha()) {};
+    //Espera hasta que a la dcha dejes de ver blanco
+    while(!robotActual.SIGUELINEAS.readDcha()) {};
+    Serial.println("Pasa segunda cinta");
+    //Queremos seguir esta cinta
+    //Por lo tanto, el giro esta completo. Control normal
     Serial.println("FIN DESVIO");
   }else if(izda){
-    //Serial.println("Giro izda");
     robotActual.rotaIzda();
   }else if(dcha){
-    //Serial.println("Giro dcha");
     robotActual.rotaDcha();
   }else if(centro){
-    //Serial.println("Todo recto");
     robotActual.alante();
   }else{
-    //Serial.println("Quieto");
     robotActual.para();
   }
 }
