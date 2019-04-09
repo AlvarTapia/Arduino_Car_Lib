@@ -11,17 +11,20 @@ class Bluetooth{
 
   public:
     //Constructores
-    Bluetooth(int baudios = BAUDIOS_DEFECTO){
+    Bluetooth(){ };
+    
+    Bluetooth(int baudios){
       BAUDIOS = baudios;
       Serial.begin(BAUDIOS);
-      while(!Serial){ }; //Espera a que el Serial este activo
+      //while(!Serial){ }; //Espera a que el Serial este activo
+      //Ya se activo el Serial, puede continuar
     }
     //Destructor
     
 
     void sincronizaYEmpieza(){
       Serial.println("Buscando input");
-      while(Serial.available() <= 0) {Serial.println("Checkeando available");};
+      while(!Serial.available()) {Serial.println("Checkeando available");};
     }
 
     
