@@ -186,7 +186,7 @@ class Robot {
 
 
 /** OBJETOS YA DISEÑADOS */
-Robot arduino(9, 12, 9, 13, 10, 11, 60); //El pin 9 no esta siendo usado,
+Robot arduino(9, 12, 9, 13, 10, 11, 80); //El pin 9 no esta siendo usado,
 //y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
 
 Robot elegoo(6, 7, 9, 8, 5, 11, 0);

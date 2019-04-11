@@ -15,46 +15,23 @@ void loopInterseccion(){
     //Ahora ve todos los sensores con negro
     //Pasa esta cinta
     robotActual.alante();
-    //Primera cinta
     //Espera hasta que a la izda dejes de ver negro
-    Serial.println("Dcha lee negro");
-    while(robotActual.SIGUELINEAS.readDcha()) {
+    Serial.println("Izda lee negro");
+    while(robotActual.SIGUELINEAS.readIzda()) {
       Serial.println(robotActual.SIGUELINEAS.readIzda() ? "1" : "0");
       Serial.println(robotActual.SIGUELINEAS.readCentro() ? "1" : "0");
       Serial.println(robotActual.SIGUELINEAS.readDcha() ? "1" : "0");
       Serial.println(".");
-      Serial.flush();
     };
     //Ahora empieza a rotar
     robotActual.rotaIzda();
     //Espera hasta que a la izda dejes de ver blanco
-    Serial.println("Dcha lee blanco");
-    while(!robotActual.SIGUELINEAS.readDcha()) {
+    Serial.println("Izda lee blanco");
+    while(!robotActual.SIGUELINEAS.readIzda()) {
       Serial.println(robotActual.SIGUELINEAS.readIzda() ? "1" : "0");
       Serial.println(robotActual.SIGUELINEAS.readCentro() ? "1" : "0");
       Serial.println(robotActual.SIGUELINEAS.readDcha() ? "1" : "0");
       Serial.println(".");
-      Serial.flush();
-    };
-    Serial.println("Pasa primera cinta");
-    //Segunda cinta
-    //Espera hasta que a la dcha dejes de ver negro
-    Serial.println("Dcha lee negro");
-    while(robotActual.SIGUELINEAS.readDcha()) {
-      Serial.println(robotActual.SIGUELINEAS.readIzda() ? "1" : "0");
-      Serial.println(robotActual.SIGUELINEAS.readCentro() ? "1" : "0");
-      Serial.println(robotActual.SIGUELINEAS.readDcha() ? "1" : "0");
-      Serial.println(".");
-      Serial.flush();
-    };
-    //Espera hasta que a la dcha dejes de ver blanco
-    Serial.println("Dcha lee blanco");
-    while(!robotActual.SIGUELINEAS.readDcha()) {
-      Serial.println(robotActual.SIGUELINEAS.readIzda() ? "1" : "0");
-      Serial.println(robotActual.SIGUELINEAS.readCentro() ? "1" : "0");
-      Serial.println(robotActual.SIGUELINEAS.readDcha() ? "1" : "0");
-      Serial.println(".");
-      Serial.flush();
     };
     //Queremos seguir esta cinta
     //Por lo tanto, el giro esta completo. Control normal
