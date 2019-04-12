@@ -17,7 +17,8 @@ void setupInterseccion();
 void loopInterseccion();
 
 
-void setup(){ 
+void setup(){
+  robotActual.inicializa();
   setupInterseccion();
 }
 

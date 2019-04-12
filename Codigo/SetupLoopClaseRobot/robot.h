@@ -41,7 +41,7 @@ class Robot {
     //Modulo morse
     Morse MORSE = Morse(255, 'x');
     //Modulo bluetooth
-    Bluetooth BLUETOOTH = Bluetooth();//Queremos trabajar a 9600 baudios
+    Bluetooth BLUETOOTH = Bluetooth();//Queremos trabajar a 9600 baudios, y con 'x' como caracter de arranque
 
     //Constructores
     /**
@@ -52,19 +52,13 @@ class Robot {
     */
     Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras, byte pinVelIzda, byte pinVelDcha,  byte tiempoArranque) {
       PIN_IZDA_ALANTE = pinIzdaAlante;
-      pinMode(PIN_IZDA_ALANTE, OUTPUT);
       PIN_IZDA_ATRAS = pinIzdaAtras;
-      pinMode(PIN_IZDA_ATRAS, OUTPUT);
 
       PIN_DCHA_ALANTE = pinDchaAlante;
-      pinMode(PIN_DCHA_ALANTE, OUTPUT);
       PIN_DCHA_ATRAS = pinDchaAtras;
-      pinMode(PIN_DCHA_ATRAS, OUTPUT);
 
       PIN_VEL_IZDA = pinVelIzda;
-      pinMode(PIN_VEL_IZDA, OUTPUT);
       PIN_VEL_DCHA = pinVelDcha;
-      pinMode(PIN_VEL_DCHA, OUTPUT);
 
       TIEMPO_ARRANQUE = tiempoArranque;
     }
@@ -73,7 +67,20 @@ class Robot {
 
     //Funciones del robot
     //Motores
-    //Relacionado con velocidad
+    //Inicializar
+    /** Inicializa los pines para que el robot funcione correctamente */
+    void inicializa(){ 	
+      pinMode(PIN_IZDA_ALANTE, OUTPUT);
+      pinMode(PIN_IZDA_ATRAS, OUTPUT);
+      pinMode(PIN_DCHA_ALANTE, OUTPUT);
+      pinMode(PIN_DCHA_ATRAS, OUTPUT);
+      
+      pinMode(PIN_VEL_IZDA, OUTPUT);
+      pinMode(PIN_VEL_DCHA, OUTPUT);
+    }
+    
+    
+    //Velocidad del robot
     /** Permite modificar el tiempo que va a estar arrancando el robot */
     void setTiempoArranque(byte tiempoArranque){
       TIEMPO_ARRANQUE = tiempoArranque;
@@ -112,7 +119,7 @@ class Robot {
       this->setVelocidad(MAX_VELOCIDAD);
     }
 
-    //TODO Los giros son inestables en coches Arduino
+
     /** El robot gira hacia la izda parando los motores de la izda */
     void giraIzda(byte velocidad = MAX_VELOCIDAD) {
       if(dirActual != dirGiroIzda){
@@ -130,8 +137,10 @@ class Robot {
         dirActual = dirGiroDcha;
       }
     }
-
-    /** El robot hace que los motores giren hacia alante del robot */
+    
+    
+    //Direccion del robot
+    /** Los motores giran de manera que el robot va hacia alante */
     void alante(byte velocidad = VELOCIDAD_LENTA) {
       if (dirActual != dirAlante) {
         digitalWrite(PIN_IZDA_ALANTE, HIGH);
@@ -144,7 +153,7 @@ class Robot {
       this->setVelocidad(velocidad);
     }
 
-    /** El robot hace que los motores giren hacia atras del robot */
+    /** Los motores giran de manera que el robot va hacia atras */
     void atras(byte velocidad = VELOCIDAD_LENTA) {
       if (dirActual != dirAtras) {
         digitalWrite(PIN_IZDA_ALANTE, LOW);
@@ -157,7 +166,7 @@ class Robot {
       this->setVelocidad(velocidad);
     }
 
-    /** El robot pivota hacia la izda cambiando la direccion de giro de los motores de la izda */
+    /** El robot pivota hacia la izda retrocediendo con la izda y avanzando con la dcha */
     void rotaIzda(byte velocidad = VELOCIDAD_GIRO) {
       if (dirActual != dirRotaIzda) {
         digitalWrite(PIN_IZDA_ALANTE, HIGH);
@@ -170,7 +179,7 @@ class Robot {
       this->setVelocidad(velocidad);
     }
 
-    /** El robot pivota hacia la dcha cambiando la direccion de giro de los motores de la dcha */
+    /** El robot pivota hacia la izda retrocediendo con la dcha y avanzando con la izda */
     void rotaDcha(byte velocidad = VELOCIDAD_GIRO) {
       if (dirActual != dirRotaDcha) {
         digitalWrite(PIN_IZDA_ALANTE, LOW);

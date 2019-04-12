@@ -8,26 +8,30 @@ class Bluetooth{
   #define BAUDIOS_DEFECTO 9600
   private:
     int BAUDIOS;
+    char START_CHAR;
 
   public:
-    //Constructores
-    Bluetooth(){ };
-    
-    Bluetooth(int baudios){
+    //Constructor    
+    Bluetooth(int baudios = BAUDIOS_DEFECTO, char startChar = 'x'){
       BAUDIOS = baudios;
-      Serial.begin(BAUDIOS);
+      START_CHAR = startChar;
+      
       //while(!Serial){ }; //Espera a que el Serial este activo
       //Ya se activo el Serial, puede continuar
     }
     //Destructor
     
 
-    void sincronizaYEmpieza(){
-      Serial.println("Buscando input");
-      while(!Serial.available()) {Serial.println("Checkeando available");};
+    /** Una vez este inicializado el modulo de Bluetooth, tenemos que sincronizarlo con la aplicacion */
+    void sincroniza(){
+      Serial.begin(BAUDIOS);
+      char xtart = START_CHAR;
+      while(xtart!='x'){
+        if(Serial.available()){
+          xtart = Serial.read();
+        }
+      }
     }
-
-    
 };
 #endif
 

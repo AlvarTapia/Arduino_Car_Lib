@@ -33,7 +33,7 @@ class Infrarrojos{
 
   private:
     byte PIN_INFRARROJOS = 255;
-    IRrecv irrecv = IRrecv(255);
+    IRrecv irrecv = IRrecv(PIN_INFRARROJOS);
     
   public:
     //Constructores
