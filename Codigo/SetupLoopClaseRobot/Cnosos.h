@@ -84,25 +84,31 @@ class Cnosos {
         centro = SENSOR_CENTRO;
         dcha = SENSOR_DCHA;
         if (izda && centro && dcha) {
-          //Cinta atravesada
-          bit = 1;
-          sigo = false;
+          Serial.println("Todos activados");
+          if(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA){
+            // cinta atravesada confirmada
+            bit = 1;
+            sigo = false;
+          }
         } else if (!izda && !centro && !dcha) {
-          // hueco
-          bit = 0;
-          sigo = false;
+          Serial.println("Ninguno activado");
+          if(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA){
+            // hueco confirmado
+            bit = 0;
+            sigo = false;
+          }
         } 
         //No hay ni hueco ni cinta atravesada todavia. Avanza normalmente.
-        else if (izda) {
+        else if (centro) {
+          robot.alante();
+        } else if (izda) {
           robot.rotaIzda();
         } else if (dcha) {
           robot.rotaDcha();
-        } else if (centro) {
-          robot.alante();
         }
       }
       
-      // Bit identificado. Avanzamos hasta dejarlo atrás.
+      // Bit identificado. Avanzamos hasta dejarlo atras.
       robot.alante();
       if (bit){
         while (SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA);
@@ -123,6 +129,7 @@ class Cnosos {
       }
       */
       robot.para();
+      Serial.println("Bit leido");
       delay(TIEMPO_PENSAR);
       return bit;
     }
@@ -137,8 +144,11 @@ class Cnosos {
 
     /** Necesita modulo Morse para funcionar */
     void luce_numero(byte n) {
-      for (byte i = 0; i < n; i++)
+      for (byte i = 0; i < n; i++){
         robot.MORSE.point();
+      }
+      Serial.print("Numero: ");
+      Serial.println(n);
     }
 
     void error() {

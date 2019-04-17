@@ -1,5 +1,5 @@
 #include "robot.h"
-Robot robotActual = arduino;//elegoo;
+Robot robotActual = elegoo;//arduino;
 
 void setupPruebaMotores();
 void loopPruebaMotores();
