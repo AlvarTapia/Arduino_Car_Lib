@@ -120,22 +120,25 @@ class Robot {
     }
 
 
-    /** El robot gira hacia la izda parando los motores de la izda */
-    void giraIzda(byte velocidad = MAX_VELOCIDAD) {
+    /** El robot para los motores de la izda */
+    void giraIzda(byte velocidad = VELOCIDAD_GIRO) {
       if(dirActual != dirGiroIzda){
-        analogWrite(PIN_VEL_IZDA, velocidad);
-        analogWrite(PIN_VEL_DCHA, 0);
+        this->arranca();
         dirActual = dirGiroIzda;
       }
+      analogWrite(PIN_VEL_IZDA, velocidad);
+      analogWrite(PIN_VEL_DCHA, 0);
+        
     }
 
-    /** El robot gira hacia la dcha parando los motores de la dcha */
-    void giraDcha(byte velocidad = MAX_VELOCIDAD) {
+    /** El robot para los motores de la dcha */
+    void giraDcha(byte velocidad = VELOCIDAD_GIRO) {
       if(dirActual != dirGiroDcha){
-        analogWrite(PIN_VEL_IZDA, 0);
-        analogWrite(PIN_VEL_DCHA, velocidad);
+        this->arranca();
         dirActual = dirGiroDcha;
       }
+      analogWrite(PIN_VEL_IZDA, 0);
+      analogWrite(PIN_VEL_DCHA, velocidad);  
     }
     
     

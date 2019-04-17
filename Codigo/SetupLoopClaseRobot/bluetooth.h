@@ -25,12 +25,14 @@ class Bluetooth{
     /** Una vez este inicializado el modulo de Bluetooth, tenemos que sincronizarlo con la aplicacion */
     void sincroniza(){
       Serial.begin(BAUDIOS);
-      char xtart = START_CHAR;
-      while(xtart!='x'){
-        if(Serial.available()){
+      char xtart = 0;
+      while(xtart != START_CHAR){
+        if( Serial.available() ){
           xtart = Serial.read();
+          Serial.println("Caracter leido");
         }
       }
+      Serial.println("Sincronizados!");
     }
 };
 #endif

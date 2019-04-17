@@ -24,22 +24,26 @@ void loopInterseccion(){
       Serial.println(".");
     };
     //Ahora empieza a rotar
-    robotActual.rotaIzda();
+    robotActual.giraIzda();
     //Espera hasta que a la izda dejes de ver blanco
     Serial.println("Izda lee blanco");
+    long i = 0;
     while(!robotActual.SIGUELINEAS.readIzda()) {
-      Serial.println(robotActual.SIGUELINEAS.readIzda() ? "1" : "0");
-      Serial.println(robotActual.SIGUELINEAS.readCentro() ? "1" : "0");
-      Serial.println(robotActual.SIGUELINEAS.readDcha() ? "1" : "0");
-      Serial.println(".");
+      //Reduce los mensajes para no saturar la aplicacion
+      if(i % 100){
+        Serial.println(robotActual.SIGUELINEAS.readIzda() ? "1" : "0");
+        Serial.println(robotActual.SIGUELINEAS.readCentro() ? "1" : "0");
+        Serial.println(robotActual.SIGUELINEAS.readDcha() ? "1" : "0");
+        Serial.println(".");
+      }
     };
     //Queremos seguir esta cinta
     //Por lo tanto, el giro esta completo. Control normal
     Serial.println("FIN DESVIO");
   }else if(izda){
-    robotActual.rotaIzda();
+    robotActual.giraIzda();
   }else if(dcha){
-    robotActual.rotaDcha();
+    robotActual.giraDcha();
   }else if(centro){
     robotActual.alante();
   }else{
