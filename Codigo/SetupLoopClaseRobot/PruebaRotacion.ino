@@ -1,4 +1,5 @@
 void setupPruebaRotacion(){
+  robotActual.inicializa();
 }
 
 void loopPruebaRotacion(){

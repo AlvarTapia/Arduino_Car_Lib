@@ -35,13 +35,13 @@ class Robot {
      *  Para utilizarlas, los objetos deben ser inicializados con pines validos.
     */
     //Modulo siguelineas
-    Siguelineas SIGUELINEAS = Siguelineas(255, 255, 255);
+    Siguelineas SIGUELINEAS;
     //Modulo mando infrarrojo
-    Infrarrojos INFRARROJOS = Infrarrojos(255);
+    Infrarrojos INFRARROJOS;
     //Modulo morse
-    Morse MORSE = Morse(255, 'x');
+    Morse MORSE;
     //Modulo bluetooth
-    Bluetooth BLUETOOTH = Bluetooth();//Queremos trabajar a 9600 baudios, y con 'x' como caracter de arranque
+    Bluetooth BLUETOOTH;//Queremos trabajar a 9600 baudios, y con 'x' como caracter de arranque
 
     //Constructores
     /**
@@ -62,6 +62,8 @@ class Robot {
 
       TIEMPO_ARRANQUE = tiempoArranque;
     }
+    //Constructor por defecto
+    Robot(){ }
     //Destructores
 
 
@@ -102,6 +104,7 @@ class Robot {
     /** Deja de alimentar los motores */
     void para(){ 
       this->setVelocidad(0);
+      dirActual = dirNull;
     }
 
     /** Mueve el robot al 40% de la capacidad de las pilas */
@@ -198,7 +201,7 @@ class Robot {
 
 
 /** OBJETOS YA DISEÑADOS */
-Robot arduino(9, 12, 9, 13, 10, 11, 80); //El pin 9 no esta siendo usado,
+Robot arduino(255, 12, 255, 13, 10, 11, 80); //El pin 255 no se puede usar,
 //y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
 
 Robot elegoo(6, 7, 9, 8, 5, 11, 0);

@@ -33,7 +33,7 @@ class Infrarrojos{
 
   private:
     byte PIN_INFRARROJOS = 255;
-    IRrecv irrecv = IRrecv(PIN_INFRARROJOS);
+    IRrecv irrecv = IRrecv(255);
     
   public:
     //Constructores
@@ -41,10 +41,17 @@ class Infrarrojos{
       PIN_INFRARROJOS = pinInfrarrojos;
       
       irrecv = IRrecv(PIN_INFRARROJOS);
-      pinMode(PIN_INFRARROJOS, INPUT);
+    }
+    //Constructor por defecto
+    Infrarrojos(){
+      Infrarrojos(255);
     }
     //Destructor
 
+
+    void inicializa(){
+      pinMode(PIN_INFRARROJOS, INPUT);
+    }
 
     byte esperaMando(){
       decode_results results;

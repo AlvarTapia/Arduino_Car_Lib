@@ -1,4 +1,3 @@
-
 #include "robot.h"
 Robot robotActual = arduino;//elegoo;
 
@@ -16,12 +15,14 @@ void setupMorse();
 void setupInterseccion();
 void loopInterseccion();
 
+void setupCnosos();
+void loopCnosos();
+
 
 void setup(){
-  robotActual.inicializa();
-  setupInterseccion();
+  setupCnosos();
 }
 
 void loop(){
-  loopInterseccion();  
+  loopCnosos();  
 }

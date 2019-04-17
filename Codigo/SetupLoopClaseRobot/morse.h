@@ -15,16 +15,23 @@ class Morse{
     
     unsigned int SIREN_FREC = DEFAULT_SIREN_FREC;
   public:
-    //Constructor
+    //Constructores
     Morse(byte pinMorse, char outputDevice, int sirenFrec = DEFAULT_SIREN_FREC){
       PIN_MORSE = pinMorse;
-
-      pinMode(PIN_MORSE, OUTPUT);
       OUTPUT_DEVICE = outputDevice;
-
       SIREN_FREC = sirenFrec;
     }
+    //Constructor por defecto
+    Morse(){
+      Morse(255, 'x');
+    }
+    
+    //Destructor
 
+    void inicializa(){
+      pinMode(PIN_MORSE, OUTPUT);
+    }
+    
     void dash(){
       switch(OUTPUT_DEVICE){
         case 's':

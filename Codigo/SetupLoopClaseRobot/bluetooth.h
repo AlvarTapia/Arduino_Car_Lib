@@ -20,11 +20,14 @@ class Bluetooth{
       //Ya se activo el Serial, puede continuar
     }
     //Destructor
-    
 
-    /** Una vez este inicializado el modulo de Bluetooth, tenemos que sincronizarlo con la aplicacion */
-    void sincroniza(){
+    /** Inicializa el modulo Bluetooth para que pueda enviar datos */
+    void inicializa(){
       Serial.begin(BAUDIOS);
+    }
+    
+    /** Una vez este inicializado el modulo Bluetooth, tenemos que sincronizarlo con la aplicacion para que la Arduino reciba datos */
+    void sincroniza(){
       char xtart = 0;
       while(xtart != START_CHAR){
         if( Serial.available() ){

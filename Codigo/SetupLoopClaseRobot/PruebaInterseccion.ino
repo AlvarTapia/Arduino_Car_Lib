@@ -1,8 +1,9 @@
-
 void setupInterseccion(){
+  robotActual.inicializa();
   robotActual.SIGUELINEAS = Siguelineas(A0, A2, A4); //ARDUINO
   //robotActual.SIGUELINEAS = Siguelineas(10, 4, 2); //ELEGOO
-  robotActual.BLUETOOTH.sincroniza();
+  robotActual.SIGUELINEAS.inicializa();
+  robotActual.BLUETOOTH.inicializa();
 }
 
 void loopInterseccion(){

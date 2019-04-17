@@ -12,29 +12,20 @@ class Siguelineas {
   public:
     //Constructores    
     Siguelineas(byte izda, byte centro, byte dcha) {
-      this->setIzda(izda);
-      this->setCentro(centro);
-      this->setDcha(dcha);
+      PIN_SIGUELINEAS_IZDA = izda;
+      PIN_SIGUELINEAS_CENTRO = centro;
+      PIN_SIGUELINEAS_DCHA = dcha;
+    }
+    //Constructor por defecto
+    Siguelineas(){
+      Siguelineas(255, 255, 255);
     }
     //Destructor
     
 
-    //Sets
-    /** Establece el pin del sensor siguelineas izquierdo */
-    void setIzda(byte siguelineasIzda) {
-      PIN_SIGUELINEAS_IZDA = siguelineasIzda;
+    void inicializa(){
       pinMode(PIN_SIGUELINEAS_IZDA, INPUT);
-    }
-
-    /** Establece el pin del sensor siguelineas central */
-    void setCentro(byte siguelineasCentro) {
-      PIN_SIGUELINEAS_CENTRO = siguelineasCentro;
       pinMode(PIN_SIGUELINEAS_CENTRO, INPUT);
-    }
-
-    /** Establece el pin del sensor siguelineas derecho */
-    void setDcha(byte siguelineasDcha) {
-      PIN_SIGUELINEAS_DCHA = siguelineasDcha;
       pinMode(PIN_SIGUELINEAS_DCHA, INPUT);
     }
 

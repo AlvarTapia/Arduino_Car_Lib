@@ -1,4 +1,6 @@
-void setupPruebaMotores() { };
+void setupPruebaMotores() {
+  robotActual.inicializa();
+};
 
 void loopPruebaMotores(){
   robotActual.alante();
