@@ -1,7 +1,7 @@
 #ifndef cnosos_h
 #define cnosos_h
 
-#include "robot.h"
+#include "robot.cpp"
 
 class Cnosos {
   #define SENSOR_IZDA robot.SIGUELINEAS.readIzda()
@@ -97,7 +97,7 @@ class Cnosos {
             bit = 0;
             sigo = false;
           }
-        } 
+        }
         //No hay ni hueco ni cinta atravesada todavia. Avanza normalmente.
         else if (centro) {
           robot.alante();
@@ -107,7 +107,7 @@ class Cnosos {
           robot.rotaDcha();
         }
       }
-      
+
       // Bit identificado. Avanzamos hasta dejarlo atras.
       robot.alante();
       if (bit){
