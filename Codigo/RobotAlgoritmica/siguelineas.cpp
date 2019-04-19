@@ -3,13 +3,6 @@
 
 #include "siguelineas.h"
 
-class Siguelineas {
-  protected:
-    byte PIN_SIGUELINEAS_IZDA = 255;
-    byte PIN_SIGUELINEAS_CENTRO = 255;
-    byte PIN_SIGUELINEAS_DCHA = 255;
-
-  public:
     //Constructores
     Siguelineas(byte izda, byte centro, byte dcha) {
       PIN_SIGUELINEAS_IZDA = izda;
@@ -57,5 +50,4 @@ class Siguelineas {
         return digitalRead(PIN_SIGUELINEAS_DCHA);
       }
     }
-};
 #endif

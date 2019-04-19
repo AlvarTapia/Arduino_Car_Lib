@@ -3,44 +3,32 @@
 
 #include "morse.h"
 
-class Morse{
-  #define DEFAULT_SIREN_FREC 15000
-  #define DASH_DELAY 300
-  #define DOT_DELAY 100
-  #define INBETWEEN_DELAY 100
-  
-  private:
-    byte PIN_MORSE = 255;
-    char OUTPUT_DEVICE = 'x';
-    
-    unsigned int SIREN_FREC = DEFAULT_SIREN_FREC;
-  public:
-    //Constructores
-    Morse(byte pinMorse, char outputDevice, int sirenFrec = DEFAULT_SIREN_FREC){
+//Constructores
+Morse::Morse(byte pinMorse, char outputDevice, int sirenFrec = DEFAULT_SIREN_FREC){
       PIN_MORSE = pinMorse;
-      OUTPUT_DEVICE = outputDevice;
+      DISPOSITIVO = outputDevice;
       SIREN_FREC = sirenFrec;
     }
     //Constructor por defecto
     Morse(){
       Morse(255, 'x');
     }
-    
+
     //Destructor
 
     void inicializa(){
       pinMode(PIN_MORSE, OUTPUT);
     }
-    
+
     void dash(){
-      switch(OUTPUT_DEVICE){
+      switch(DISPOSITIVO){
         case 's':
           tone(PIN_MORSE, SIREN_FREC);
         case 'l':
           digitalWrite(PIN_MORSE, HIGH);
       }
       delay(DASH_DELAY);
-      switch(OUTPUT_DEVICE){
+      switch(DISPOSITIVO){
         case 's':
           noTone(PIN_MORSE);
         case 'l':
@@ -50,14 +38,14 @@ class Morse{
     }
 
     void point(){
-      switch(OUTPUT_DEVICE){
+      switch(DISPOSITIVO){
         case 's':
           tone(PIN_MORSE, SIREN_FREC);
         case 'l':
           digitalWrite(PIN_MORSE, HIGH);
       }
       delay(DOT_DELAY);
-      switch(OUTPUT_DEVICE){
+      switch(DISPOSITIVO){
         case 's':
           noTone(PIN_MORSE);
         case 'l':

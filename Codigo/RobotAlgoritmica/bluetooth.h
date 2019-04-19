@@ -10,13 +10,15 @@
 class Bluetooth{
   #define BAUDIOS_DEFECTO 9600
   private:
+    //Señales por segundo a la que se establece la comunicacion.
     int BAUDIOS;
+    //Caracter de sincronizacion.
     char START_CHAR;
 
   public:
     //Constructor
     /**
-     * Constructor del controlador del modulo Bluetooth.
+     * Constructor del controlador.
      * 1. Baudios.
      *    Señales por segundo de la comunicacion.
      *    Por defecto, Bluetooth se comunica a 9600 baudios.
@@ -45,6 +47,18 @@ class Bluetooth{
      * con otros dispositivos.
      */
     void finaliza();
+
+    /**
+     * La Arduino envia un String a otro dispositivo
+     * (sin retorno de carro).
+     */
+    void envia(String);
+
+    /**
+     * La Arduino envia un String a otro dispositivo
+     * e introduce un retorno de carro al final.
+     */
+    void enviaLinea(String);
 
     /**
      * La Arduino esperara al caracter de

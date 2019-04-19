@@ -2,50 +2,8 @@
 #define robot_cpp
 
 #include "robot.h"
-
-class Robot {
-  #define VELOCIDAD_LENTA 100
-  #define VELOCIDAD_GIRO 200
-  #define MAX_VELOCIDAD 255
-
-  private:
-    /** Estados del robot */
-    enum Direccion {dirNull = -1, dirAlante, dirAtras, dirGiroDcha, dirGiroIzda, dirRotaDcha, dirRotaIzda};
-    Direccion dirActual = dirNull;
-
-  protected: //Solo la clase y sus hijos pueden ver estos elementos
-    byte TIEMPO_ARRANQUE;
-
-    byte PIN_IZDA_ALANTE;
-    byte PIN_IZDA_ATRAS;
-    byte PIN_DCHA_ALANTE;
-    byte PIN_DCHA_ATRAS;
-
-    byte PIN_VEL_IZDA;
-    byte PIN_VEL_DCHA;
-
-  public:
-    /**
-     *  Variables modulos. Se acceden directamente.
-     *  Para utilizarlas, los objetos deben ser inicializados con pines validos.
-    */
-    //Modulo siguelineas
-    Siguelineas SIGUELINEAS;
-    //Modulo mando infrarrojo
-    Infrarrojos INFRARROJOS;
-    //Modulo morse
-    Morse MORSE;
-    //Modulo bluetooth
-    Bluetooth BLUETOOTH;//Queremos trabajar a 9600 baudios, y con 'x' como caracter de arranque
-
     //Constructores
-    /**
-       Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores
-       4 primeros argumentos, pines de control de direccion de los motores
-       2 siguientes, pines de control de velocidad de los motores
-       ultimo, si es necesario arrancar el robot para cambiar de direccion
-    */
-    Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras, byte pinVelIzda, byte pinVelDcha,  byte tiempoArranque) {
+Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras, byte pinVelIzda, byte pinVelDcha,  byte tiempoArranque) {
       PIN_IZDA_ALANTE = pinIzdaAlante;
       PIN_IZDA_ATRAS = pinIzdaAtras;
 
@@ -192,13 +150,4 @@ class Robot {
       }
       this->setVelocidad(velocidad);
     }
-};
-
-
-/** OBJETOS YA DISEÑADOS */
-Robot arduino(255, 12, 255, 13, 10, 11, 80); //El pin 255 no se puede usar,
-//y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
-
-Robot elegoo(6, 7, 9, 8, 5, 11, 0);
-
 #endif
