@@ -1,3 +1,14 @@
+/*
+----------------------------------------------------------------
+  Bluetooth.h
+  Clase controlador del modulo Bluetooth.
+  Permite que la Arduino pueda enviar y recibir mensajes.
+  
+  Adaptado por Alvar Tapia, Abril 2019.
+  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
+----------------------------------------------------------------
+*/
+
 #ifndef robot_h
 #define robot_h
 
@@ -8,9 +19,7 @@
 
 #include "Arduino.h"
 
-/**
- *
- */
+
 class Robot {
   //
   #define VELOCIDAD_LENTA 100
@@ -120,4 +129,5 @@ const Robot arduino(255, 12, 255, 13, 10, 11, 80); //El pin 255 no se puede usar
 //y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
 
 const Robot elegoo(6, 7, 9, 8, 5, 11, 0);
+
 #endif

@@ -1,3 +1,14 @@
+/*
+----------------------------------------------------------------
+  Bluetooth.h
+  Clase controlador del modulo Bluetooth.
+  Permite que la Arduino pueda enviar y recibir mensajes.
+  
+  Adaptado por Alvar Tapia, Abril 2019.
+  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
+----------------------------------------------------------------
+*/
+
 #ifndef infrarrojos_h
 #define infrarrojos_h
 

@@ -1,3 +1,4 @@
+
 #ifndef morse_cpp
 #define morse_cpp
 
@@ -60,4 +61,5 @@ void Morse::sos() {
   this->punto(); this->punto(); this->punto();
   delay(1000);
 }
+
 #endif

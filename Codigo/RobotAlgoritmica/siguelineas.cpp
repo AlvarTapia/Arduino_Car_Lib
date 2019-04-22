@@ -1,3 +1,4 @@
+
 #ifndef siguelineas_cpp
 #define siguelineas_cpp
 
@@ -46,4 +47,5 @@ bool Siguelineas::readDcha() {
     return digitalRead(PIN_SIGUELINEAS_DCHA);
   }
 }
+
 #endif

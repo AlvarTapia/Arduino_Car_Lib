@@ -1,11 +1,11 @@
-//#import "bluetooth.h"
-//#import "infrarrojos.h"
-//#import "morse.h"
-//#import "siguelineas.h"
+//#include "bluetooth.h"
+//#include "infrarrojos.h"
+//#include "morse.h"
+//#include "siguelineas.h"
 
-#import "robot.h"
+#include "robot.h"
 
-//#import "Cnosos.h"
+//#include "Cnosos.h"
 
 
 void setup(){

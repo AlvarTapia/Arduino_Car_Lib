@@ -1,12 +1,20 @@
+/*
+----------------------------------------------------------------
+  Bluetooth.h
+  Clase controlador del modulo Bluetooth.
+  Permite que la Arduino pueda enviar y recibir mensajes.
+  
+  Adaptado por Alvar Tapia, Abril 2019.
+  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
+----------------------------------------------------------------
+*/
+
 #ifndef bluetooth_h
 #define bluetooth_h
 
 #include "Arduino.h"
 
-/**
- * Clase controlador del modulo Bluetooth.
- * Permite que la Arduino pueda enviar y recibir mensajes.
- */
+
 class Bluetooth{
   #define BAUDIOS_DEFECTO 9600
   private:
@@ -67,4 +75,5 @@ class Bluetooth{
      */
     void sincroniza();
 };
+
 #endif

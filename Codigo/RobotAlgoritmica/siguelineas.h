@@ -1,3 +1,14 @@
+/*
+----------------------------------------------------------------
+  Bluetooth.h
+  Clase controlador del modulo Bluetooth.
+  Permite que la Arduino pueda enviar y recibir mensajes.
+  
+  Adaptado por Alvar Tapia, Abril 2019.
+  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
+----------------------------------------------------------------
+*/
+
 #ifndef siguelineas_h
 #define siguelineas_h
 
@@ -35,4 +46,5 @@ class Siguelineas {
     /** Devuelve true si hay una linea debajo del sensor derecho */
     bool readDcha();
 };
+
 #endif

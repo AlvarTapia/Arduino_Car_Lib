@@ -1,9 +1,20 @@
+/*
+----------------------------------------------------------------
+  Cnosos.cpp
+  Libreria que lee, reconoce y navega grafos con robots Arduino.
+  
+  Adaptado por Alvar Tapia, Abril 2019.
+  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
+----------------------------------------------------------------
+*/
+
 #ifndef cnosos_cpp
 #define cnosos_cpp
 
 #include "Cnosos.h"
 
-Cnosos::Cnosos(Robot r, byte bits = 3) {
+//Constructor
+Cnosos::Cnosos(Robot r, byte bits) {
   robot = r;
   BITS = bits;
 }
@@ -11,60 +22,6 @@ Cnosos::Cnosos(Robot r, byte bits = 3) {
 
 
 //Funciones
-byte Cnosos::lee_numero() {
-  byte x = 0;
-  for (byte i = 0; i < BITS; i++) {
-    x = x << 1;
-    x += this->siguiente();
-  }
-  return x;
-}
-
-byte lee_nodo_A(Cnosos* cn, byte &etiq) {
-  byte aux = 0;  // caminos contados desde la entrada
-  do aux++; while (cn->siguiente());
-  etiq = cn->lee_numero();
-  return aux;
-}
-
-void lee_nodo_B(Cnosos* cn, byte aux, byte &grado, byte &entrada,
-                        byte etiq) {
-  grado = 0;
-  while (cn->siguiente()) grado++;
-  entrada = cn->calcula_entrada(aux, grado);
-  if (etiq != cn->lee_numero()) cn->error();
-}
-
-void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
-  byte aux = lee_nodo_A(this, etiq);
-  lee_nodo_B(this, aux, grado, entrada, etiq);
-}
-
-byte Cnosos::calcula_entrada(byte aux, byte grado) {
-  return grado - aux + 1;
-}
-
-
-
-void Cnosos::sal_aqui() {
-  sal_izq();
-  if (this->siguiente()) sal_izq();
-  else error();
-}
-
-void Cnosos::sal(byte i, byte grado, byte pos) {
-  while (pos != i) {
-    pos++;
-    if (pos == grado + 1) {
-      if (this->siguiente()) error();
-      lee_numero();
-      pos = 1;
-    }
-    if (!this->siguiente()) error();
-  }
-  sal_aqui();
-}
-
 byte Cnosos::siguiente() {
   robot.alante();
   byte bit;
@@ -126,6 +83,91 @@ byte Cnosos::siguiente() {
   return bit;
 }
 
+byte Cnosos::lee_numero() {
+  byte x = 0;
+  for (byte i = 0; i < BITS; i++) {
+    x = x << 1;
+    if(siguiente() == 1){
+      x++;
+    }
+  }
+  return x;
+}
+
+/*
+ * Recorre el perimetro del nodo, y devuelve el numero de cruces que se encuentre
+ * (tambien reconoce y devuelve por referencia el identificador del nodo actual).
+ * Este metodo no sabe desde que parte del nodo empieza, por lo que 
+ * crucesEncontrados es menor o igual que el grado.
+ */
+byte lee_nodo_A(Cnosos* cn, byte &etiq) {
+  byte crucesEncontrados = 0;  // caminos contados desde la entrada
+  while (cn->siguiente()){
+    crucesEncontrados++;
+  }
+  
+  etiq = cn->lee_numero();
+  
+  return crucesEncontrados;
+}
+
+/*
+ * Despues de lee_nodo_A sabemos que estamos detras del identificador de nodo.
+ * 
+ * Calcula el grado del nodo (numero aristas), y lo devuelve por referencia.
+ * Calcula la arista desde la que ha empezado contando desde despues de la etiqueta
+ *  (Si ha empezado lee_nodo() 2 aristas despues del identificador, entrada = 2).
+ * El identificador leido en lee_nodo_A debe ser el mismo que el leido en lee_nodo_B.
+ */
+void lee_nodo_B(Cnosos* cn, byte crucesEncontrados, byte &grado, byte &entrada,
+                        byte etiq) {
+  grado = 0;
+  while (cn->siguiente()){
+    grado++;
+  }
+  
+  entrada = grado - crucesEncontrados + 1;
+  
+  if (etiq != cn->lee_numero()){
+    cn->error();
+  }
+}
+
+/*
+ * Despues de dos vueltas al nodo, devuelve por referencia 
+ * el identificador del nodo, el grado del nodo,
+ * y cuantos cruces debe saltarse para llegar desde el final del identificador 
+ * al cruce por el que ha empezado a investigar el nodo.
+ */
+void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
+  byte aux = lee_nodo_A(this, etiq);
+  lee_nodo_B(this, aux, grado, entrada, etiq);
+}
+
+/*
+ * 
+ */
+void Cnosos::sal_aqui() {
+  sal_izq();
+  if (this->siguiente()){
+    sal_izq();
+  }
+  else error();
+}
+
+void Cnosos::sal(byte i, byte grado, byte pos) {
+  while (pos != i) {
+    pos++;
+    if (pos == grado + 1) {
+      if (this->siguiente()) error();
+      lee_numero();
+      pos = 1;
+    }
+    if (!this->siguiente()) error();
+  }
+  sal_aqui();
+}
+
 void Cnosos::sal_izq() {
   //TODO
   robot.rotaIzda();
@@ -134,22 +176,23 @@ void Cnosos::sal_izq() {
   robot.para();
 }
 
-/** Necesita modulo Morse para funcionar */
+// Necesita modulo Morse inicializado para que suene/luzca
+// Necesita modulo Bluetooth inicializado para mandar mensajes
 void Cnosos::luce_numero(byte n) {
   for (byte i = 0; i < n; i++) {
-    robot.MORSE.punto();
+    robot.MORSE.raya();
   }
-  Serial.print("Numero: ");
-  Serial.println(n);
+  robot.BLUETOOTH.envia("Numero: ");
+  robot.BLUETOOTH.enviaLinea(String(n));
 }
 
+// Necesita modulo Morse inicializado para que suene/luzca
+// Necesita modulo Bluetooth inicializado para mandar mensajes
 void Cnosos::error() {
-  Serial.println("¡ERROR!");
-  while (true);
-  // while (true) {
-  //   punto();
-  //   raya();
-  // }
+  robot.BLUETOOTH.enviaLinea("¡ERROR!");
+  while (true){
+    robot.MORSE.sos();
+  }
 }
 
 #endif

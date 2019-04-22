@@ -1,3 +1,13 @@
+/*
+----------------------------------------------------------------
+  Cnosos.h
+  Libreria que lee, reconoce y navega grafos con robots Arduino.
+  
+  Adaptado por Alvar Tapia, Abril 2019.
+  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
+----------------------------------------------------------------
+*/
+
 #ifndef cnosos_h
 #define cnosos_h
 
@@ -28,6 +38,11 @@ class Cnosos {
     /**
      *
      */
+    byte siguiente();
+    
+    /**
+     *
+     */
     byte lee_numero();
 
     /**
@@ -49,11 +64,6 @@ class Cnosos {
      *
      */
     void sal(byte, byte, byte);
-
-    /**
-     *
-     */
-    byte siguiente();
 
     /**
      *

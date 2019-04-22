@@ -1,11 +1,20 @@
+/*
+----------------------------------------------------------------
+  Bluetooth.h
+  Clase controlador del modulo Bluetooth.
+  Permite que la Arduino pueda enviar y recibir mensajes.
+  
+  Adaptado por Alvar Tapia, Abril 2019.
+  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
+----------------------------------------------------------------
+*/
+
 #ifndef morse_h
 #define morse_h
 
 #include "Arduino.h"
 
-/**
- *
- */
+
 class Morse{
   //
   #define DEFAULT_FREC_SIRENA 15000
@@ -54,4 +63,5 @@ class Morse{
      */
     void sos();
 };
+
 #endif
