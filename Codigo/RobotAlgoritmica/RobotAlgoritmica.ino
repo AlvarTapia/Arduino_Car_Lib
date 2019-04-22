@@ -1,14 +1,16 @@
-#import "bluetooth.cpp"
-//#import "infrarrojos.cpp"
-//#import "morse.cpp"
-//#import "siguelineas.cpp"
+//#import "bluetooth.h"
+//#import "infrarrojos.h"
+//#import "morse.h"
+//#import "siguelineas.h"
 
-//#import "robot.cpp"
+#import "robot.h"
 
-//#import "Cnosos.cpp"
+//#import "Cnosos.h"
+
 
 void setup(){
-  Bluetooth b = Bluetooth();
+  Robot rActual = elegoo;
+  rActual.SIGUELINEAS.readDcha();
 }
 
 void loop(){ };

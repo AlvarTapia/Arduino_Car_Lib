@@ -1,7 +1,7 @@
 #ifndef cnosos_h
 #define cnosos_h
 
-#include "robot.cpp"
+#include "robot.h"
 
 class Cnosos {
   //

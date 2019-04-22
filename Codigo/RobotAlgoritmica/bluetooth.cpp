@@ -25,11 +25,11 @@ void Bluetooth::finaliza() {
   Serial.end();
 }
 
-void Bluetooth: envia(String s) {
+void Bluetooth::envia(String s) {
   Serial.print(s);
 }
 
-void Bluetooth: enviaLinea(String s) {
+void Bluetooth::enviaLinea(String s) {
   Serial.println(s);
 }
 

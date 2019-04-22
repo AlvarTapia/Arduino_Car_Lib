@@ -6,20 +6,16 @@
 class Siguelineas {
   protected:
     //
-    byte PIN_SIGUELINEAS_IZDA = 255;
-    byte PIN_SIGUELINEAS_CENTRO = 255;
-    byte PIN_SIGUELINEAS_DCHA = 255;
+    byte PIN_SIGUELINEAS_IZDA;
+    byte PIN_SIGUELINEAS_CENTRO;
+    byte PIN_SIGUELINEAS_DCHA;
 
   public:
     //Constructor
     /**
      *
      */
-    Siguelineas(byte, byte, byte) {
-      PIN_SIGUELINEAS_IZDA = izda;
-      PIN_SIGUELINEAS_CENTRO = centro;
-      PIN_SIGUELINEAS_DCHA = dcha;
-    }
+    Siguelineas(byte = 255, byte = 255, byte = 255);
     //Destructor
 
     //Inicializador

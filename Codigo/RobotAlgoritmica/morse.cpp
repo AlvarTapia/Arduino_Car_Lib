@@ -3,64 +3,61 @@
 
 #include "morse.h"
 
-//Constructores
-Morse::Morse(byte pinMorse, char outputDevice, int sirenFrec = DEFAULT_SIREN_FREC){
-      PIN_MORSE = pinMorse;
-      DISPOSITIVO = outputDevice;
-      SIREN_FREC = sirenFrec;
-    }
-    //Constructor por defecto
-    Morse(){
-      Morse(255, 'x');
-    }
+//Constructor
+Morse::Morse(byte pinMorse, char outputDevice, int sirenFrec) {
+  PIN_MORSE = pinMorse;
+  DISPOSITIVO = outputDevice;
+  FREC_SIRENA = sirenFrec;
+}
+//Destructor
 
-    //Destructor
 
-    void inicializa(){
-      pinMode(PIN_MORSE, OUTPUT);
-    }
+//Inicializador
+void Morse::inicializa() {
+  pinMode(PIN_MORSE, OUTPUT);
+}
 
-    void dash(){
-      switch(DISPOSITIVO){
-        case 's':
-          tone(PIN_MORSE, SIREN_FREC);
-        case 'l':
-          digitalWrite(PIN_MORSE, HIGH);
-      }
-      delay(DASH_DELAY);
-      switch(DISPOSITIVO){
-        case 's':
-          noTone(PIN_MORSE);
-        case 'l':
-          digitalWrite(PIN_MORSE, LOW);
-      }
-      delay(INBETWEEN_DELAY);
-    }
+//Funciones
+void Morse::raya() {
+  switch (DISPOSITIVO) {
+    case 's':
+      tone(PIN_MORSE, FREC_SIRENA);
+    case 'l':
+      digitalWrite(PIN_MORSE, HIGH);
+  }
+  delay(TIEMPO_RAYA);
+  switch (DISPOSITIVO) {
+    case 's':
+      noTone(PIN_MORSE);
+    case 'l':
+      digitalWrite(PIN_MORSE, LOW);
+  }
+  delay(TIEMPO_ENTRE_SIMBOLOS);
+}
 
-    void point(){
-      switch(DISPOSITIVO){
-        case 's':
-          tone(PIN_MORSE, SIREN_FREC);
-        case 'l':
-          digitalWrite(PIN_MORSE, HIGH);
-      }
-      delay(DOT_DELAY);
-      switch(DISPOSITIVO){
-        case 's':
-          noTone(PIN_MORSE);
-        case 'l':
-          digitalWrite(PIN_MORSE, LOW);
-      }
-      delay(INBETWEEN_DELAY);
-    }
+void Morse::punto() {
+  switch (DISPOSITIVO) {
+    case 's':
+      tone(PIN_MORSE, FREC_SIRENA);
+    case 'l':
+      digitalWrite(PIN_MORSE, HIGH);
+  }
+  delay(TIEMPO_PUNTO);
+  switch (DISPOSITIVO) {
+    case 's':
+      noTone(PIN_MORSE);
+    case 'l':
+      digitalWrite(PIN_MORSE, LOW);
+  }
+  delay(TIEMPO_ENTRE_SIMBOLOS);
+}
 
-    void sos(){
-      this->point(); this->point(); this->point();
-      delay(INBETWEEN_DELAY);
-      this->dash(); this->dash(); this->dash();
-      delay(INBETWEEN_DELAY);
-      this->point(); this->point(); this->point();
-      delay(1000);
-    }
-};
+void Morse::sos() {
+  this->punto(); this->punto(); this->punto();
+  delay(TIEMPO_ENTRE_SIMBOLOS);
+  this->raya(); this->raya(); this->raya();
+  delay(TIEMPO_ENTRE_SIMBOLOS);
+  this->punto(); this->punto(); this->punto();
+  delay(1000);
+}
 #endif

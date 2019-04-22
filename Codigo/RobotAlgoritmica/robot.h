@@ -1,10 +1,10 @@
 #ifndef robot_h
 #define robot_h
 
-#include "siguelineas.cpp"
-#include "infrarrojos.cpp"
-#include "morse.cpp"
-#include "bluetooth.cpp"
+#include "siguelineas.h"
+#include "infrarrojos.h"
+#include "morse.h"
+#include "bluetooth.h"
 
 #include "Arduino.h"
 
@@ -51,7 +51,7 @@ class Robot {
     //Modulo bluetooth
     Bluetooth BLUETOOTH;//Queremos trabajar a 9600 baudios, y con 'x' como caracter de arranque
 
-    //Constructor
+    //Constructores
     /**
        Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores
        4 primeros argumentos, pines de control de direccion de los motores
@@ -59,6 +59,8 @@ class Robot {
        ultimo, si es necesario arrancar el robot para cambiar de direccion
     */
     Robot(byte, byte, byte, byte, byte, byte, byte);
+    //Constructor por defecto
+    Robot();
     //Destructores
 
 
@@ -71,7 +73,7 @@ class Robot {
 
     //Velocidad del robot
     /** Permite modificar el tiempo que va a estar arrancando el robot */
-    void setTiempoArranque(byte tiempoArranque);
+    void setTiempoArranque(byte);
 
     /** Se aplica mucha tension durante un corto periodo de tiempo para que los motores empiecen a funcionar */
     void arranca();
@@ -114,8 +116,8 @@ class Robot {
 };
 
 /** OBJETOS YA DISEÑADOS */
-Robot arduino(255, 12, 255, 13, 10, 11, 80); //El pin 255 no se puede usar,
+const Robot arduino(255, 12, 255, 13, 10, 11, 80); //El pin 255 no se puede usar,
 //y me permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
 
-Robot elegoo(6, 7, 9, 8, 5, 11, 0);
+const Robot elegoo(6, 7, 9, 8, 5, 11, 0);
 #endif

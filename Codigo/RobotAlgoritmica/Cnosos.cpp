@@ -15,29 +15,29 @@ byte Cnosos::lee_numero() {
   byte x = 0;
   for (byte i = 0; i < BITS; i++) {
     x = x << 1;
-    x += siguiente();
+    x += this->siguiente();
   }
   return x;
 }
 
-void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
-  byte aux = lee_nodo_A(etiq);
-  lee_nodo_B(aux, grado, entrada, etiq);
-}
-
-byte Cnosos::lee_nodo_A(byte &etiq) {
+byte lee_nodo_A(Cnosos* cn, byte &etiq) {
   byte aux = 0;  // caminos contados desde la entrada
-  do aux++; while (siguiente());
-  etiq = lee_numero();
+  do aux++; while (cn->siguiente());
+  etiq = cn->lee_numero();
   return aux;
 }
 
-void Cnosos::lee_nodo_B(byte aux, byte &grado, byte &entrada,
+void lee_nodo_B(Cnosos* cn, byte aux, byte &grado, byte &entrada,
                         byte etiq) {
   grado = 0;
-  while (siguiente()) grado++;
-  entrada = calcula_entrada(aux, grado);
-  if (etiq != lee_numero()) error();
+  while (cn->siguiente()) grado++;
+  entrada = cn->calcula_entrada(aux, grado);
+  if (etiq != cn->lee_numero()) cn->error();
+}
+
+void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
+  byte aux = lee_nodo_A(this, etiq);
+  lee_nodo_B(this, aux, grado, entrada, etiq);
 }
 
 byte Cnosos::calcula_entrada(byte aux, byte grado) {
@@ -48,7 +48,7 @@ byte Cnosos::calcula_entrada(byte aux, byte grado) {
 
 void Cnosos::sal_aqui() {
   sal_izq();
-  if (siguiente()) sal_izq();
+  if (this->siguiente()) sal_izq();
   else error();
 }
 
@@ -56,11 +56,11 @@ void Cnosos::sal(byte i, byte grado, byte pos) {
   while (pos != i) {
     pos++;
     if (pos == grado + 1) {
-      if (siguiente()) error();
+      if (this->siguiente()) error();
       lee_numero();
       pos = 1;
     }
-    if (!siguiente()) error();
+    if (!this->siguiente()) error();
   }
   sal_aqui();
 }
@@ -137,7 +137,7 @@ void Cnosos::sal_izq() {
 /** Necesita modulo Morse para funcionar */
 void Cnosos::luce_numero(byte n) {
   for (byte i = 0; i < n; i++) {
-    robot.MORSE.point();
+    robot.MORSE.punto();
   }
   Serial.print("Numero: ");
   Serial.println(n);

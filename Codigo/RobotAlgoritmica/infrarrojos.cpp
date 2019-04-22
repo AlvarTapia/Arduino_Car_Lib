@@ -9,17 +9,16 @@ Infrarrojos::Infrarrojos(byte pinInfrarrojos) {
 
   irrecv = IRrecv(PIN_INFRARROJOS);
 }
-//Constructor por defecto
-Infrarrojos::Infrarrojos() {
-  Infrarrojos(255);
-}
 //Destructor
 
-void inicializa() {
+
+//Inicializador
+void Infrarrojos::inicializa() {
   pinMode(PIN_INFRARROJOS, INPUT);
 }
 
-byte esperaMando() {
+//Funciones
+byte Infrarrojos::esperaMando() {
   decode_results results;
   unsigned long RED;
   byte aux = 0xFF;

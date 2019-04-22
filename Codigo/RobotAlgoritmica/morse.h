@@ -2,6 +2,7 @@
 #define morse_h
 
 #include "Arduino.h"
+
 /**
  *
  */
@@ -27,7 +28,7 @@ class Morse{
     /**
      *
      */
-    Morse(byte, char, int = DEFAULT_FREC_SIRENA);
+    Morse(byte = 255, char = 'x', int = DEFAULT_FREC_SIRENA);
     //Destructor
 
 
@@ -41,12 +42,12 @@ class Morse{
     /**
      *
      */
-    void dash();
+    void raya();
 
     /**
      *
      */
-    void point();
+    void punto();
 
     /**
      *

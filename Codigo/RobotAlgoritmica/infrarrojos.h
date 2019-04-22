@@ -39,15 +39,20 @@ class Infrarrojos{
   private:
     //Pin al que se conecta el sensor de infrarrojos.
     byte PIN_INFRARROJOS;
+    //Libreria que usaremos para decodificar los infrarrojos.
     IRrecv irrecv = IRrecv(255); //C++ obliga a poner un valor.
     //El pin 255 no existe, pero permite inicializar el objeto.
 
   public:
     //Constructor
     /**
-     *
+     * Constructor del controlador.
+     * 1. Pin input infrarrojos.
+     *    Guarda el pin que se va a utilizar para recibir
+     *    las señales del sensor infrarrojo.
+     *    Si no se introduce ningun valor, se asignara un pin inaccesible.
      */
-    Infrarrojos(byte pinInfrarrojos);
+    Infrarrojos(byte = 255);
     //Destructor
 
 
