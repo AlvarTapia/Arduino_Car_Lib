@@ -1,13 +1,13 @@
-/*
-----------------------------------------------------------------
-  Bluetooth.h
-  Clase controlador del modulo Bluetooth.
-  Permite que la Arduino pueda enviar y recibir mensajes.
-  
-  Adaptado por Alvar Tapia, Abril 2019.
-  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
-----------------------------------------------------------------
-*/
+/**
+ * ----------------------------------------------------------------
+ * infrarrojos.h
+ * Clase controlador del sensor infrarrojos.
+ * Permite que la Arduino reciba señales de un mando a distancia.
+ *
+ * Adaptado por Alvar Tapia, Abril 2019.
+ * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
+ * ----------------------------------------------------------------
+ */
 
 #ifndef infrarrojos_h
 #define infrarrojos_h
@@ -19,7 +19,8 @@
 /*
  * IMPORTANTE
  * La libreria RobotIRremote.h puede causar conflictos.
- * Esta ubicada en C:/Program Files (x86)/Arduino/libraries/RobotIRremote.
+ * Esta ubicada en C:/Program Files (x86)/Arduino/libraries/RobotIRremote en Windows,
+ * y en TODO en Linux
  *
  * En primer lugar, RobotIRremoteTools.h y IRremoteTools.cpp no se van a usar.
  * Si causan problemas, borrar esos archivos es una solucion.
@@ -30,12 +31,8 @@
  * Eso deberia permitir la compilacion.
  */
 
-/**
- * Clase controlador del sensor infrarrojos.
- * Permite que la Arduino reciba señales de un mando a distancia.
- */
 class Infrarrojos{
-  //Valores que se pueden recibir del mando a distancia.
+  /// Valores que se pueden recibir del mando a distancia.
   #define CERO 16730805
   #define UNO 16738455
   #define DOS 16750695
@@ -48,20 +45,20 @@ class Infrarrojos{
   #define NUEVE 16734885
 
   private:
-    //Pin al que se conecta el sensor de infrarrojos.
+    /// Pin al que se conecta el sensor de infrarrojos.
     byte PIN_INFRARROJOS;
-    //Libreria que usaremos para decodificar los infrarrojos.
+    /// Libreria que usaremos para decodificar los infrarrojos.
     IRrecv irrecv = IRrecv(255); //C++ obliga a poner un valor.
     //El pin 255 no existe, pero permite inicializar el objeto.
 
   public:
     //Constructor
     /**
-     * Constructor del controlador.
-     * 1. Pin input infrarrojos.
+     * Constructor del controlador infrarrojo.
+     * @param Pin input infrarrojos
      *    Guarda el pin que se va a utilizar para recibir
      *    las señales del sensor infrarrojo.
-     *    Si no se introduce ningun valor, se asignara un pin inaccesible.
+     *    Por defecto, se asignara un pin inaccesible.
      */
     Infrarrojos(byte = 255);
     //Destructor
@@ -69,12 +66,15 @@ class Infrarrojos{
 
     //Inicializador
     /**
-     *
+     * Permite al pin establecido en el constructor
+     * recibir la informacion del sensor.
      */
     void inicializa();
 
     /**
-     *
+     * La Arduino no realiza ninguna otra instruccion hasta
+     * que reciba un numero valido del mando infrarrojo.
+     * @return Numero recibido del mando.
      */
     byte esperaMando();
 };

@@ -1,3 +1,12 @@
+/**
+ * ----------------------------------------------------------------
+ * TODO.h
+ * TODO
+ *
+ * Adaptado por Alvar Tapia, Abril 2019.
+ * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
+ * ----------------------------------------------------------------
+ */
 
 #ifndef siguelineas_cpp
 #define siguelineas_cpp

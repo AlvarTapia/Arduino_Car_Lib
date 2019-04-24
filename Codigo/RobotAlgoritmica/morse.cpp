@@ -1,3 +1,14 @@
+/**
+ * ----------------------------------------------------------------
+ * morse.cpp
+ * Libreria que permite que la Arduino pueda enviar señales en Morse.
+ * Necesita de un dispositivo que pueda cambiar notablemente de estado,
+ * como un LED o una sirena.
+ *
+ * Adaptado por Alvar Tapia, Abril 2019.
+ * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
+ * ----------------------------------------------------------------
+ */
 
 #ifndef morse_cpp
 #define morse_cpp
@@ -5,7 +16,7 @@
 #include "morse.h"
 
 //Constructor
-Morse::Morse(byte pinMorse, char outputDevice, int sirenFrec) {
+Morse::Morse(byte pinMorse, char outputDevice, unsigned int sirenFrec) {
   PIN_MORSE = pinMorse;
   DISPOSITIVO = outputDevice;
   FREC_SIRENA = sirenFrec;

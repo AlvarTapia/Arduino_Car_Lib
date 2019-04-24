@@ -1,12 +1,12 @@
-/*
-----------------------------------------------------------------
-  Cnosos.cpp
-  Libreria que lee, reconoce y navega grafos con robots Arduino.
-  
-  Adaptado por Alvar Tapia, Abril 2019.
-  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
-----------------------------------------------------------------
-*/
+/**
+ * ----------------------------------------------------------------
+ * Cnosos.cpp
+ * Libreria que lee, reconoce y navega grafos con robots Arduino.
+ *
+ * Adaptado por Alvar Tapia, Abril 2019.
+ * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
+ * ----------------------------------------------------------------
+ */
 
 #ifndef cnosos_cpp
 #define cnosos_cpp
@@ -97,7 +97,7 @@ byte Cnosos::lee_numero() {
 /*
  * Recorre el perimetro del nodo, y devuelve el numero de cruces que se encuentre
  * (tambien reconoce y devuelve por referencia el identificador del nodo actual).
- * Este metodo no sabe desde que parte del nodo empieza, por lo que 
+ * Este metodo no sabe desde que parte del nodo empieza, por lo que
  * crucesEncontrados es menor o igual que el grado.
  */
 byte lee_nodo_A(Cnosos* cn, byte &etiq) {
@@ -105,15 +105,15 @@ byte lee_nodo_A(Cnosos* cn, byte &etiq) {
   while (cn->siguiente()){
     crucesEncontrados++;
   }
-  
+
   etiq = cn->lee_numero();
-  
+
   return crucesEncontrados;
 }
 
 /*
  * Despues de lee_nodo_A sabemos que estamos detras del identificador de nodo.
- * 
+ *
  * Calcula el grado del nodo (numero aristas), y lo devuelve por referencia.
  * Calcula la arista desde la que ha empezado contando desde despues de la etiqueta
  *  (Si ha empezado lee_nodo() 2 aristas despues del identificador, entrada = 2).
@@ -125,18 +125,18 @@ void lee_nodo_B(Cnosos* cn, byte crucesEncontrados, byte &grado, byte &entrada,
   while (cn->siguiente()){
     grado++;
   }
-  
+
   entrada = grado - crucesEncontrados + 1;
-  
+
   if (etiq != cn->lee_numero()){
     cn->error();
   }
 }
 
 /*
- * Despues de dos vueltas al nodo, devuelve por referencia 
+ * Despues de dos vueltas al nodo, devuelve por referencia
  * el identificador del nodo, el grado del nodo,
- * y cuantos cruces debe saltarse para llegar desde el final del identificador 
+ * y cuantos cruces debe saltarse para llegar desde el final del identificador
  * al cruce por el que ha empezado a investigar el nodo.
  */
 void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
@@ -145,7 +145,7 @@ void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
 }
 
 /*
- * 
+ *
  */
 void Cnosos::sal_aqui() {
   sal_izq();

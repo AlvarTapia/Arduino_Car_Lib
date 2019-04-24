@@ -1,13 +1,13 @@
-/*
-----------------------------------------------------------------
-  Bluetooth.cpp
-  Clase controlador del modulo Bluetooth.
-  Permite que la Arduino pueda enviar y recibir mensajes.
-  
-  Adaptado por Alvar Tapia, Abril 2019.
-  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
-----------------------------------------------------------------
-*/
+/**
+ * ----------------------------------------------------------------
+ * bluetooth.cpp
+ * Clase controlador del modulo Bluetooth.
+ * Permite que la Arduino pueda enviar y recibir mensajes.
+ *
+ * Adaptado por Alvar Tapia, Abril 2019.
+ * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
+ * ----------------------------------------------------------------
+ */
 
 #ifndef bluetooth_cpp
 #define bluetooth_cpp

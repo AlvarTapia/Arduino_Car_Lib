@@ -1,13 +1,12 @@
-/*
-----------------------------------------------------------------
-  Bluetooth.h
-  Clase controlador del modulo Bluetooth.
-  Permite que la Arduino pueda enviar y recibir mensajes.
-  
-  Adaptado por Alvar Tapia, Abril 2019.
-  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
-----------------------------------------------------------------
-*/
+/**
+ * ----------------------------------------------------------------
+ * TODO.h
+ * TODO
+ *
+ * Adaptado por Alvar Tapia, Abril 2019.
+ * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
+ * ----------------------------------------------------------------
+ */
 
 #ifndef robot_h
 #define robot_h
@@ -21,51 +20,51 @@
 
 
 class Robot {
-  //
+  /// TODO
   #define VELOCIDAD_LENTA 100
   #define VELOCIDAD_GIRO 200
   #define MAX_VELOCIDAD 255
 
   private:
-    //
+    /// TODO
     enum Direccion {dirNull = -1, dirAlante, dirAtras, dirGiroDcha, dirGiroIzda, dirRotaDcha, dirRotaIzda};
-    //
+    /// TODO
     Direccion dirActual = dirNull;
 
   protected:
-    //
+    /// TODO
     byte TIEMPO_ARRANQUE;
 
-    //
+    /// TODO
     byte PIN_IZDA_ALANTE;
     byte PIN_IZDA_ATRAS;
     byte PIN_DCHA_ALANTE;
     byte PIN_DCHA_ATRAS;
 
-    //
+    /// TODO
     byte PIN_VEL_IZDA;
     byte PIN_VEL_DCHA;
 
   public:
     /**
      *  Variables modulos. Se acceden directamente.
-     *  Para utilizarlas, los objetos deben ser inicializados con pines validos.
-    */
-    //Modulo siguelineas
+     *  Para utilizar los modulos, los objetos deben establecerse e inicializarse.
+     */
+    /// Modulo siguelineas
     Siguelineas SIGUELINEAS;
-    //Modulo mando infrarrojo
+    /// Modulo mando infrarrojo
     Infrarrojos INFRARROJOS;
-    //Modulo morse
+    /// Modulo morse
     Morse MORSE;
-    //Modulo bluetooth
-    Bluetooth BLUETOOTH;//Queremos trabajar a 9600 baudios, y con 'x' como caracter de arranque
+    /// Modulo bluetooth
+    Bluetooth BLUETOOTH;
 
     //Constructores
     /**
-       Inicializa un robot cuyo driver solo tiene 4 entradas para 8 cables de motores
-       4 primeros argumentos, pines de control de direccion de los motores
-       2 siguientes, pines de control de velocidad de los motores
-       ultimo, si es necesario arrancar el robot para cambiar de direccion
+     * Inicializa un robot cuyo driver tiene 4 entradas para 8 cables de motores.
+     * @param 4 primeros argumentos, pines de control de direccion de los motores.
+     * @param 2 siguientes argumentos, pines de control de velocidad de los motores.
+     * @param tiempo que necesita el robot para arrancar.
     */
     Robot(byte, byte, byte, byte, byte, byte, byte);
     //Constructor por defecto
@@ -76,15 +75,24 @@ class Robot {
     //Funciones del robot
     //Motores
     //Inicializar
-    /** Inicializa los pines para que el robot funcione correctamente */
+    /**
+     * Inicializa los pines para que el robot funcione correctamente.
+     */
     void inicializa();
 
 
     //Velocidad del robot
-    /** Permite modificar el tiempo que va a estar arrancando el robot */
+    /**
+     * Permite modificar el tiempo que va a estar arrancando el robot.
+     * @param Tiempo de arranque
+     *    Tiempo en milisegundos que estara el robot a maxima velocidad.
+     */
     void setTiempoArranque(byte);
 
-    /** Se aplica mucha tension durante un corto periodo de tiempo para que los motores empiecen a funcionar */
+    /**
+     * Se aplica mucha tension durante un corto periodo de tiempo
+     * para que los motores puedan empezar a girar.
+     */
     void arranca();
 
     /** Declara la velocidad del robot */

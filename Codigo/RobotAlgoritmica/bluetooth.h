@@ -1,13 +1,13 @@
-/*
-----------------------------------------------------------------
-  Bluetooth.h
-  Clase controlador del modulo Bluetooth.
-  Permite que la Arduino pueda enviar y recibir mensajes.
-  
-  Adaptado por Alvar Tapia, Abril 2019.
-  Legado de Algorítmica y Complejidad, Universidad de Cantabria.
-----------------------------------------------------------------
-*/
+/**
+ * ----------------------------------------------------------------
+ * bluetooth.h
+ * Clase controlador del modulo Bluetooth.
+ * Permite que la Arduino pueda enviar y recibir mensajes.
+ *
+ * Adaptado por Alvar Tapia, Abril 2019.
+ * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
+ * ----------------------------------------------------------------
+ */
 
 #ifndef bluetooth_h
 #define bluetooth_h
@@ -18,23 +18,24 @@
 class Bluetooth{
   #define BAUDIOS_DEFECTO 9600
   private:
-    //Señales por segundo a la que se establece la comunicacion.
+    /// Señales por segundo a la que se establece la comunicacion.
     int BAUDIOS;
-    //Caracter de sincronizacion.
+    /// Caracter de sincronizacion.
     char START_CHAR;
 
   public:
     //Constructor
     /**
      * Constructor del controlador.
-     * 1. Baudios.
+     * @param Baudios
      *    Señales por segundo de la comunicacion.
      *    Por defecto, Bluetooth se comunica a 9600 baudios.
-     * 2. Caracter de sincronizacion.
+     * @param Caracter de sincronizacion
      *    Si se utiliza el metodo inicializa(), se esperara
      *    este caracter para seguir con el codigo.
+     *    Por defecto, sera el caracter 'x'.
      */
-    Bluetooth(int = BAUDIOS_DEFECTO, char  = 'x');
+    Bluetooth(int = BAUDIOS_DEFECTO, char = 'x');
     //Destructor
     /**
      * Si el objeto se ha inicializado, al eliminarlo
@@ -59,12 +60,14 @@ class Bluetooth{
     /**
      * La Arduino envia un String a otro dispositivo
      * (sin retorno de carro).
+     * @param String con la informacion a enviar.
      */
     void envia(String);
 
     /**
      * La Arduino envia un String a otro dispositivo
      * e introduce un retorno de carro al final.
+     * @param String con la informacion a enviar.
      */
     void enviaLinea(String);
 

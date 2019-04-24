@@ -1,10 +1,20 @@
+/**
+ * ----------------------------------------------------------------
+ * infrarrojos.cpp
+ * Clase controlador del sensor infrarrojos.
+ * Permite que la Arduino reciba señales de un mando a distancia.
+ *
+ * Adaptado por Alvar Tapia, Abril 2019.
+ * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
+ * ----------------------------------------------------------------
+ */
 
 #ifndef infrarrojos_cpp
 #define infrarrojos_cpp
 
 #include "infrarrojos.h"
 
-//Constructores
+//Constructor
 Infrarrojos::Infrarrojos(byte pinInfrarrojos) {
   PIN_INFRARROJOS = pinInfrarrojos;
 
