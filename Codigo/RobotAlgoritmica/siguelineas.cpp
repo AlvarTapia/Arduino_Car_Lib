@@ -1,7 +1,8 @@
 /**
  * ----------------------------------------------------------------
- * TODO.h
- * TODO
+ * siguelineas.cpp
+ * Clase que permite utilizar los sensores siguelineas.
+ * Se espera que se usen tres sensores por objeto.
  *
  * Adaptado por Alvar Tapia, Abril 2019.
  * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
@@ -22,15 +23,14 @@ Siguelineas::Siguelineas(byte izda, byte centro, byte dcha) {
 //Destructor
 
 
+//Inicializador
 void Siguelineas::inicializa() {
   pinMode(PIN_SIGUELINEAS_IZDA, INPUT);
   pinMode(PIN_SIGUELINEAS_CENTRO, INPUT);
   pinMode(PIN_SIGUELINEAS_DCHA, INPUT);
 }
 
-
-//Reads
-/** Devuelve true si hay una linea debajo del sensor izquierdo */
+//Funciones
 bool Siguelineas::readIzda() {
   if (PIN_SIGUELINEAS_IZDA == 255) { //Error
     return false;
@@ -39,7 +39,6 @@ bool Siguelineas::readIzda() {
   }
 }
 
-/** Devuelve true si hay una linea debajo del sensor central */
 bool Siguelineas::readCentro() {
   if (PIN_SIGUELINEAS_CENTRO == 255) { //Error
     return false;
@@ -48,7 +47,6 @@ bool Siguelineas::readCentro() {
   }
 }
 
-/** Devuelve true si hay una linea debajo del sensor derecho */
 bool Siguelineas::readDcha() {
   if (PIN_SIGUELINEAS_DCHA == 255) { //Error
     return false;

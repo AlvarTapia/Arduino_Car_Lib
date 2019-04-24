@@ -1,7 +1,8 @@
 /**
  * ----------------------------------------------------------------
- * TODO.h
- * TODO
+ * robot.cpp
+ * Clase que gestiona los motores de un robot implementado con placas Arduino.
+ * Pueden aplicarse modulos para mejorar la gestion del movimiento del robot.
  *
  * Adaptado por Alvar Tapia, Abril 2019.
  * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
@@ -31,10 +32,7 @@ Robot::Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pin
 //Destructores
 
 
-//Funciones del robot
-//Motores
 //Inicializar
-/** Inicializa los pines para que el robot funcione correctamente */
 void Robot::inicializa() {
   pinMode(PIN_IZDA_ALANTE, OUTPUT);
   pinMode(PIN_IZDA_ATRAS, OUTPUT);
@@ -46,48 +44,41 @@ void Robot::inicializa() {
 }
 
 
-//Velocidad del robot
-/** Permite modificar el tiempo que va a estar arrancando el robot */
+//Funciones del robot
 void Robot::setTiempoArranque(byte tiempoArranque) {
   TIEMPO_ARRANQUE = tiempoArranque;
 }
 
-/** Se aplica mucha tension durante un corto periodo de tiempo para que los motores empiecen a funcionar */
+//Velocidad del robot
 void Robot::arranca() {
   analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
   analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
   delay(TIEMPO_ARRANQUE);
 }
 
-/** Declara la velocidad del robot */
 void Robot::setVelocidad(byte velocidad) {
   analogWrite(PIN_VEL_IZDA, velocidad);
   analogWrite(PIN_VEL_DCHA, velocidad);
 }
 
-/** Deja de alimentar los motores */
 void Robot::para() {
   this->setVelocidad(0);
   dirActual = dirNull;
 }
 
-/** Mueve el robot al 40% de la capacidad de las pilas */
 void Robot::lento() {
   this->setVelocidad(VELOCIDAD_LENTA);
 }
 
-/** Velocidad moderada, el robot es capaz de girar */
 void Robot::velGiro() {
   this->setVelocidad(VELOCIDAD_GIRO);
 }
 
-/** Mueve el robot al 100% de la capacidad de las pilas */
 void Robot::maxVelocidad() {
   this->setVelocidad(MAX_VELOCIDAD);
 }
 
-
-/** El robot para los motores de la izda */
+//Cambios de direccion
 void Robot::giraIzda(byte velocidad) {
   if (dirActual != dirGiroIzda) {
     this->arranca();
@@ -98,7 +89,6 @@ void Robot::giraIzda(byte velocidad) {
 
 }
 
-/** El robot para los motores de la dcha */
 void Robot::giraDcha(byte velocidad) {
   if (dirActual != dirGiroDcha) {
     this->arranca();
@@ -109,8 +99,7 @@ void Robot::giraDcha(byte velocidad) {
 }
 
 
-//Direccion del robot
-/** Los motores giran de manera que el robot va hacia alante */
+//Cambios de direccion de los motores
 void Robot::alante(byte velocidad) {
   if (dirActual != dirAlante) {
     digitalWrite(PIN_IZDA_ALANTE, HIGH);
@@ -123,7 +112,6 @@ void Robot::alante(byte velocidad) {
   this->setVelocidad(velocidad);
 }
 
-/** Los motores giran de manera que el robot va hacia atras */
 void Robot::atras(byte velocidad) {
   if (dirActual != dirAtras) {
     digitalWrite(PIN_IZDA_ALANTE, LOW);
@@ -136,7 +124,6 @@ void Robot::atras(byte velocidad) {
   this->setVelocidad(velocidad);
 }
 
-/** El robot pivota hacia la izda retrocediendo con la izda y avanzando con la dcha */
 void Robot::rotaIzda(byte velocidad) {
   if (dirActual != dirRotaIzda) {
     digitalWrite(PIN_IZDA_ALANTE, HIGH);
@@ -149,7 +136,6 @@ void Robot::rotaIzda(byte velocidad) {
   this->setVelocidad(velocidad);
 }
 
-/** El robot pivota hacia la izda retrocediendo con la dcha y avanzando con la izda */
 void Robot::rotaDcha(byte velocidad) {
   if (dirActual != dirRotaDcha) {
     digitalWrite(PIN_IZDA_ALANTE, LOW);

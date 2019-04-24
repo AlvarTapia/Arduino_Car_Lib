@@ -20,7 +20,7 @@
  * IMPORTANTE
  * La libreria RobotIRremote.h puede causar conflictos.
  * Esta ubicada en C:/Program Files (x86)/Arduino/libraries/RobotIRremote en Windows,
- * y en TODO en Linux
+ * y en /usr/share/arduino/libraries en Linux
  *
  * En primer lugar, RobotIRremoteTools.h y IRremoteTools.cpp no se van a usar.
  * Si causan problemas, borrar esos archivos es una solucion.
