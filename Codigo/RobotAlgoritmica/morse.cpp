@@ -15,11 +15,17 @@
 
 #include "morse.h"
 
-//Constructor
+//Constructores
 Morse::Morse(byte pinMorse, char outputDevice, unsigned int sirenFrec) {
   PIN_MORSE = pinMorse;
   DISPOSITIVO = outputDevice;
   FREC_SIRENA = sirenFrec;
+}
+//Constructor por defecto
+Morse::Morse(){
+  PIN_MORSE = 255;
+  DISPOSITIVO = 'x';
+  FREC_SIRENA = DEFAULT_FREC_SIRENA;
 }
 //Destructor
 

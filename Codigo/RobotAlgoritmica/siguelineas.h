@@ -2,7 +2,7 @@
  * ----------------------------------------------------------------
  * siguelineas.h
  * Clase que permite utilizar los sensores siguelineas.
- * Se espera que se usen tres sensores por objeto.
+ * Se espera que se usen como mucho tres sensores por objeto.
  *
  * Adaptado por Alvar Tapia, Abril 2019.
  * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
@@ -22,20 +22,40 @@ class Siguelineas {
     byte PIN_SIGUELINEAS_DCHA;
 
   public:
-    //Constructor
+    //Constructores
     /**
-     * Establece los pines de los sensores siguelineas.
+     * Establece tres pines para los sensores siguelineas.
      * @param Pin siguelineas izquierdo
      *    Pin conectado al siguelineas izquierdo.
-     *    Por defecto, se asignara un pin inaccesible.
      * @param Pin siguelineas central
      *    Pin conectado al siguelineas central.
-     *    Por defecto, se asignara un pin inaccesible.
      * @param Pin siguelineas derecho
      *    Pin conectado al siguelineas derecho.
-     *    Por defecto, se asignara un pin inaccesible.
      */
-    Siguelineas(byte = 255, byte = 255, byte = 255);
+    Siguelineas(byte, byte, byte);
+    /**
+     * Establece dos pines para los sensores siguelineas.
+     * @param Pin siguelineas izquierdo
+     *    Pin conectado al siguelineas izquierdo.
+     * @param Pin siguelineas derecho
+     *    Pin conectado al siguelineas derecho.
+     */
+    Siguelineas(byte, byte);
+    /**
+     * Establece un pin para el sensor siguelineas.
+     * @param Pin siguelineas central
+     *    Pin conectado al siguelineas central.
+     */
+    Siguelineas(byte);
+    //Constructor por defecto
+    /**
+     * Constructor que no necesita argumentos, y que permite inicializar variables
+     * como las presentes en robot.h.
+     * Las variables se inicializan a valores no recomendables como pines inaccesibles.
+     * IMPORTANTE: Sustituir todas las instancias no inicializadas o inicializadas de esta manera
+     *    para que el modulo funcione como se espera.
+     */
+    Siguelineas();
     //Destructor
 
 

@@ -1,0 +1,3 @@
+Ve a C:\Users\{Usuario}\Documentos\Arduino\libraries, y copia la carpeta RobotAlgoritmica en ese directorio.
+
+Reniciando la IDE de Arduino, debería aparecer en Programa -> Añadir librería la librería RobotAlgoritmica.

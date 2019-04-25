@@ -46,11 +46,9 @@ class Morse{
      *    Guarda el pin que se va a utilizar para enviar las señales.
      *    Debe estar conectado a un dispositivo que cambie notablemente
      *    de estado.
-     *    Por defecto, es un pin inaccesible.
      * @param Tipo dispositivo
      *    'l' = Dispositivo tipo LED.
      *    's' = Dispositivo tipo sirena.
-     *    Por defecto, toma el valor 'x', que no tiene significado en esta clase.
      * @param Frecuencia sirena
      *    Frecuencia a la que va a trabajar la sirena, en hercios.
      *    Si se esta trabajando con LEDs, este campo se puede ignorar.
@@ -58,7 +56,17 @@ class Morse{
      *    Las frecuencias mas bajas se perciben con mas volumen y pueden ser muy molestas.
      *    Por defecto, toma el valor de DEFAULT_FREC_SIRENA.
      */
-    Morse(byte = 255, char = 'x', unsigned int = DEFAULT_FREC_SIRENA);
+    Morse(byte, char, unsigned int = DEFAULT_FREC_SIRENA);
+    //Constructor por defecto
+    /**
+     * Constructor que no necesita argumentos, y que permite inicializar variables
+     * como las presentes en robot.h.
+     * Las variables se inicializan a valores no recomendables como pines inaccesibles
+     * y caracteres que no tiene significado en la clase.
+     * IMPORTANTE: Sustituir todas las instancias no inicializadas o inicializadas de esta manera
+     *    para que el modulo funcione como se espera.
+     */
+    Morse();
     //Destructor
 
 

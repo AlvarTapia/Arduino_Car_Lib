@@ -14,11 +14,21 @@
 
 #include "siguelineas.h"
 
-//Constructor
+//Constructores
 Siguelineas::Siguelineas(byte izda, byte centro, byte dcha) {
   PIN_SIGUELINEAS_IZDA = izda;
   PIN_SIGUELINEAS_CENTRO = centro;
   PIN_SIGUELINEAS_DCHA = dcha;
+}
+Siguelineas::Siguelineas(byte izda, byte dcha){
+  Siguelineas(izda, 255, dcha);
+}
+Siguelineas::Siguelineas(byte centro){
+  Siguelineas(255, centro, 255);
+}
+//Constructor por defecto
+Siguelineas::Siguelineas(){
+  Siguelineas(255, 255, 255);
 }
 //Destructor
 

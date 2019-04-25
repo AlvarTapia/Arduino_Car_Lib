@@ -21,7 +21,7 @@
 
 
 class Robot {
-  /// Velocidades por defecto de los motores del robot. 
+  /// Velocidades por defecto de los motores del robot.
   /// Valores de 0-255, siendo 0 = motores parados, 255 = maxima potencia.
   #define VELOCIDAD_LENTA 100
   #define VELOCIDAD_GIRO 200
@@ -42,7 +42,7 @@ class Robot {
     byte PIN_IZDA_ATRAS;
     byte PIN_DCHA_ALANTE;
     byte PIN_DCHA_ATRAS;
-    /* 
+    /*
      * Para que el robot se mueva, ALANTE != ATRAS.
      * p.ej. ALANTE = HIGH y ATRAS = LOW hace que el motor se mueva hacia delante.
      * Pero ALANTE == ATRAS deja de alimentar los motores, independientemente de que valgan HIGH o LOW.
@@ -82,6 +82,13 @@ class Robot {
      */
     Robot(byte, byte, byte, byte, byte, byte, byte);
     //Constructor por defecto
+    /**
+     * Constructor que no necesita argumentos, y que permite inicializar variables
+     * como las presentes en Cnosos.h.
+     * Las variables se inicializan a valores no recomendables como pines inaccesibles.
+     * IMPORTANTE: Sustituir todas las instancias no inicializadas o inicializadas de esta manera
+     *    para que el modulo funcione como se espera.
+     */
     Robot();
     //Destructores
 
@@ -100,8 +107,8 @@ class Robot {
      *    Tiempo en milisegundos que estara el robot a maxima velocidad. Valores entre 0-255 ms.
      */
     void setTiempoArranque(byte);
-    
-    
+
+
     //Velocidad del robot
     /**
      * Aplica mucha tension durante un periodo de tiempo definido
@@ -109,14 +116,14 @@ class Robot {
      */
     void arranca();
 
-    /** 
+    /**
      * Establece la velocidad actual del robot.
      * @param Velocidad
      *    Velocidad a la que ira el robot. Valores entre 0-255.
      */
     void setVelocidad(byte);
 
-    /** 
+    /**
      * Deja de alimentar los motores y para el robot.
      * Puede no ser inmediato dependiendo de la inercia que lleve.
      */
@@ -147,7 +154,7 @@ class Robot {
      *    Por defecto, se utiliza VELOCIDAD_GIRO.
      */
     void giraIzda(byte = VELOCIDAD_GIRO);
-	
+
 	/**
      * El robot deja de alimentar los motores de la derecha para poder girar a la derecha.
      * Permite girar mientras el robot va marcha atras.
@@ -159,8 +166,8 @@ class Robot {
 
 
     //Cambios de direccion de los motores
-    /** 
-     * Los motores giran de manera que el robot vaya hacia delante. 
+    /**
+     * Los motores giran de manera que el robot vaya hacia delante.
      * @param Velocidad
      *    Se puede indicar la velocidad a la que el robot hace la maniobra.
      *    Por defecto, se utiliza VELOCIDAD_LENTA.
@@ -174,8 +181,8 @@ class Robot {
      */
     void atras(byte = VELOCIDAD_LENTA);
 
-    /** 
-     * El robot pivota hacia la izquierda haciendo 
+    /**
+     * El robot pivota hacia la izquierda haciendo
      * que los motores de la izquierda vayan hacia atras y
      * que los motores de la derecha vayan hacia delante.
      * @param Velocidad
@@ -185,7 +192,7 @@ class Robot {
     void rotaIzda(byte = VELOCIDAD_GIRO);
 
     /**
-     * El robot pivota hacia la derecha haciendo 
+     * El robot pivota hacia la derecha haciendo
      * que los motores de la derecha vayan hacia atras y
      * que los motores de la izquierda vayan hacia delante.
      * @param Velocidad
