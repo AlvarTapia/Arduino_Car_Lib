@@ -18,7 +18,7 @@
 
 class Morse{
   /// Frecuencia por defecto de la sirena, en hercios.
-  #define DEFAULT_FREC_SIRENA 15000
+  #define DEFAULT_FREC_SIRENA 18000
   /// Tiempo que va a estar la señal activa para representar una raya, en ms.
   #define TIEMPO_RAYA 300
   /// Tiempo que va a estar la señal activa para representar un punto, en ms.

@@ -13,10 +13,14 @@
 
 #include "Cnosos.h"
 
-//Constructor
+//Constructores
 Cnosos::Cnosos(Robot r, byte bits) {
   robot = r;
   BITS = bits;
+}
+//Constructor por defecto
+Cnosos::Cnosos(){
+  Cnosos(Robot(), 255);
 }
 //Destructor
 
@@ -33,50 +37,51 @@ byte Cnosos::siguiente() {
     centro = SENSOR_CENTRO;
     dcha = SENSOR_DCHA;
     if (izda && centro && dcha) {
+      //Se confirma que es una cinta atravesada
+      delay(TIEMPO_CONFIRMACION);
       Serial.println("Todos activados");
-      if (SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA) {
-        // cinta atravesada confirmada
-        bit = 1;
-        sigo = false;
+      // cinta atravesada confirmada
+      bit = 1;
+      sigo = false;
+      while(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA) {
+        //Mientras haya cinta atravesada, sigue alante
+        robot.alante();
       }
     } else if (!izda && !centro && !dcha) {
+      //TODO funciona raro, saltos entre sensores entran en esta categoria
       Serial.println("Ninguno activado");
-      if (!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA) {
+      while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA) {
+        //Mientras haya hueco, sigue alante
+        robot.alante(); 
+      }
+      //Si solo se activa el sensor del centro
+      if (!SENSOR_IZDA && SENSOR_CENTRO && !SENSOR_DCHA) {
         // hueco confirmado
         bit = 0;
         sigo = false;
       }
+      //Si se activa otro sensor, descartalo; ha sido un error
     }
-    //No hay ni hueco ni cinta atravesada todavia. Avanza normalmente.
-    else if (centro) {
+    //Avanza normalmente a partir de ahora.
+    if (centro) {
       robot.alante();
     } else if (izda) {
       robot.rotaIzda();
+      Serial.println("Girando izda");
+      //Espera a que se limpie el sensor izquierdo
+      while(SENSOR_IZDA){ }
+      //Mientras haya un hueco, ignoralo
+      while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA){ };
     } else if (dcha) {
       robot.rotaDcha();
+      Serial.println("Girando dcha");
+      //Espera a que se limpie el sensor derecho
+      while(SENSOR_DCHA){ }
+      //Mientras haya un hueco, ignoralo
+      while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA){ };
     }
+    Serial.println("Otro bucle");
   }
-
-  // Bit identificado. Avanzamos hasta dejarlo atras.
-  robot.alante();
-  if (bit) {
-    while (SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA);
-  } else {
-    while (!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA);
-  }
-
-  /*
-    // Bit sobrepasado. Enderezamos si es preciso.
-    while (SENSOR_IZDA || SENSOR_DCHA) {
-    if (SENSOR_IZDA) {
-      robot.rotaIzda();
-      while (SENSOR_IZDA);
-    } else if (SENSOR_DCHA) {
-      robot.rotaDcha();
-      while (SENSOR_DCHA);
-    }
-    }
-  */
   robot.para();
   Serial.println("Bit leido");
   delay(TIEMPO_PENSAR);
@@ -153,8 +158,8 @@ void lee_nodo_B(Cnosos* cn, byte crucesEncontrados, byte id,
  * al cruce por el que el robot ha empezado a investigar el nodo.
  */
 void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
-  byte aux = lee_nodo_A(this, etiq);
-  lee_nodo_B(this, aux, etiq, grado, entrada);
+  byte crucesEncontrados = lee_nodo_A(this, etiq);
+  lee_nodo_B(this, crucesEncontrados, etiq, grado, entrada);
 }
 
 /*
@@ -189,7 +194,7 @@ void Cnosos::sal(byte aristaATomar, byte grado, byte posicionInicial) {
       //Descarta el identificador, no lo necesitamos ahora
       lee_numero();
       //La arista actual es 0 (no nos hemos saltado ninguna)
-      aristaActual = 0;
+      aristaSaltada = 0;
     }else{
       //El robot no esta en zona de identificadores
       //Si encuentra un identificador, error
@@ -197,8 +202,8 @@ void Cnosos::sal(byte aristaATomar, byte grado, byte posicionInicial) {
        this->error();
       }
       //El robot acaba de saltarse un cruce
-      //La arista actual aumenta en 1
-      aristaActual++;
+      //La arista saltada aumenta en 1
+      aristaSaltada++;
     }
   }
 

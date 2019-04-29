@@ -20,6 +20,9 @@ class Cnosos {
   #define SENSOR_CENTRO robot.SIGUELINEAS.readCentro()
   #define SENSOR_DCHA robot.SIGUELINEAS.readDcha()
 
+  /// Se espera un pequeño tiempo para confirmar que se ha leido una marca y no es un fallo del circuito.
+  #define TIEMPO_CONFIRMACION 0
+
   /// Cada vez que tiene que procesar una entrada, el robot "pensara" (se quedara quieto) este numero de milisegundos.
   #define TIEMPO_PENSAR 500
   private:
@@ -28,7 +31,7 @@ class Cnosos {
     /// Numero de bits que usaran los nodos para identificarse.
     byte BITS;
   public:
-    //Constructor
+    //Constructores
     /**
      * Constructor de la libreria Cnosos.
      * No necesita inicializarse, dado que los parametros ya deberian estar inicializados.
@@ -44,6 +47,14 @@ class Cnosos {
      *    Por defecto, se utilizaran 3 marcas para el identificador de cada nodo.
      */
     Cnosos(Robot, byte = 3);
+    //Constructor por defecto
+    /**
+     * Constructor que no necesita argumentos, y que permite inicializar un objeto Cnosos.
+     * Las variables se inicializan a valores no recomendables como pines inaccesibles.
+     * IMPORTANTE: Sustituir todas las instancias no inicializadas o inicializadas de esta manera
+     *    para que el modulo funcione como se espera.
+     */
+    Cnosos();
     //Destructor
 
 

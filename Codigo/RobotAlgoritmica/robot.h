@@ -33,6 +33,7 @@ class Robot {
     /// Direccion actual del robot. Se encuentra parado por defecto.
     Direccion dirActual = dirNull;
 
+  
   protected:
     /// Tiempo que necesita arrancar el robot, en milisegundos.
     byte TIEMPO_ARRANQUE;
@@ -66,7 +67,7 @@ class Robot {
     /// Modulo bluetooth
     Bluetooth BLUETOOTH;
 
-    //Constructores
+    //Constructores    
     /**
      * Inicializa un robot cuyo driver tiene 4 entradas para 8 cables de motores.
      * @param Pin motor izquierdo hacia alante
@@ -91,7 +92,7 @@ class Robot {
      */
     Robot();
     //Destructores
-
+    
 
   	//Inicializar
     /**
@@ -202,7 +203,8 @@ class Robot {
     void rotaDcha(byte = VELOCIDAD_GIRO);
 };
 
-/* OBJETOS YA DISEÑADOS */
+
+/* ROBOTS MODELO */
 /// Configuracion de los robots Arduino
 const Robot arduino(255, 12, 255, 13, 10, 11, 80); //El pin 255 es inaccesible,
 //y permite escribir "digitalWrite"s sin afectar al funcionamiento del robot

@@ -30,7 +30,7 @@ Robot::Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pin
   TIEMPO_ARRANQUE = tiempoArranque;
 }
 Robot::Robot(){
-  Robot(255, 255, 255, 255, 255, 255, 0);
+  Robot(255, 255, 255, 255, 255, 255, 255);
 }
 //Destructores
 
