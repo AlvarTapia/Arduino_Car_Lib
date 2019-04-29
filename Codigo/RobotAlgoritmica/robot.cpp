@@ -14,7 +14,7 @@
 
 #include "robot.h"
 
-//Constructor
+//Constructores
 Robot::Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras,
              byte pinVelIzda, byte pinVelDcha,
              byte tiempoArranque) {
@@ -28,6 +28,9 @@ Robot::Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pin
   PIN_VEL_DCHA = pinVelDcha;
 
   TIEMPO_ARRANQUE = tiempoArranque;
+}
+Robot::Robot(){
+  Robot(255, 255, 255, 255, 255, 255, 0);
 }
 //Destructores
 

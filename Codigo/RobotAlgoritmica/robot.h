@@ -93,7 +93,7 @@ class Robot {
     //Destructores
 
 
-	//Inicializar
+  	//Inicializar
     /**
      * Inicializa los pines para que el robot pueda alimentar los motores.
      */
@@ -145,7 +145,7 @@ class Robot {
     void maxVelocidad();
 
 
-	//Cambios de direccion
+	  //Cambios de direccion
     /**
      * El robot deja de alimentar los motores de la izquierda para poder girar a la izquierda.
      * Permite girar mientras el robot va marcha atras.
@@ -155,7 +155,7 @@ class Robot {
      */
     void giraIzda(byte = VELOCIDAD_GIRO);
 
-	/**
+	  /**
      * El robot deja de alimentar los motores de la derecha para poder girar a la derecha.
      * Permite girar mientras el robot va marcha atras.
      * @param Velocidad

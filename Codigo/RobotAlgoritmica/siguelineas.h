@@ -69,19 +69,19 @@ class Siguelineas {
     //Funciones
     /**
      * Accede al sensor izquierdo y devuelve su lectura.
-     * @return true si hay una linea debajo del sensor izquierdo.
+     * @return TRUE si hay una linea debajo del sensor izquierdo.
      */
     bool readIzda();
 
     /**
      * Accede al sensor central y devuelve su lectura.
-     * @return true si hay una linea debajo del sensor central.
+     * @return TRUE si hay una linea debajo del sensor central.
      */
      bool readCentro();
 
     /**
      * Accede al sensor derecho y devuelve su lectura.
-     * @return true si hay una linea debajo del sensor derecho.
+     * @return TRUE si hay una linea debajo del sensor derecho.
      */
      bool readDcha();
 };
