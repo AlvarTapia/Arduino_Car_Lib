@@ -13,7 +13,7 @@
 
 #include "Cnosos.h"
 
-#define TIEMPO_PARA_LEER_0 2000
+#define TIEMPO_PARA_LEER_0 5000
 
 //Constructores
 Cnosos::Cnosos(Robot r, byte bits) {
@@ -152,16 +152,17 @@ byte Cnosos::siguiente() {
 byte Cnosos::siguiente() {
   byte bit;
   bool sigo = true;
-  bool izda, centro, dcha;
+  bool izda, dcha;
   int i;
   //Avanza hasta encontrar una cinta atravesada
   while (sigo) {
     robot.alante();
-    izda = SENSOR_IZDA;
-    centro = SENSOR_CENTRO;
-    dcha = SENSOR_DCHA;
-    if(izda || dcha){
-      if(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA){
+    //centro = SENSOR_CENTRO;
+    if(SENSOR_IZDA || SENSOR_DCHA){
+      delay(50);
+      izda = SENSOR_IZDA;
+      dcha = SENSOR_DCHA;
+      if(izda && dcha){
         bit = 1;
         sigo = false;
         
@@ -173,14 +174,13 @@ byte Cnosos::siguiente() {
         if(i>TIEMPO_PARA_LEER_0){
           bit = 0;
         }
-      }else if(SENSOR_IZDA && !SENSOR_DCHA){
+      }else if(izda && !dcha){
         robot.rotaIzda();
-        while(!SENSOR_CENTRO);
-      }else if(!SENSOR_IZDA && SENSOR_DCHA){
+      }else if(!izda && dcha){
         robot.rotaDcha();
-        while(!SENSOR_CENTRO);
       }
     }
+    while(!SENSOR_CENTRO);
   }
   robot.para();
   Serial.println("Bit leido");
@@ -320,9 +320,9 @@ void Cnosos::sal(byte aristaATomar, byte grado, byte posicionInicial) {
 void Cnosos::sal_izq() {
   //TODO probar en vivo
   robot.rotaIzda();
+  while(!SENSOR_IZDA){};
+  while(!SENSOR_CENTRO){};
   robot.alante();
-  robot.rotaIzda();
-  robot.para();
 }
 
 // Necesita modulo Morse inicializado para que suene/luzca

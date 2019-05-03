@@ -33,12 +33,11 @@ void setup(){
   cn = Cnosos(robotActual);
   //robotActual.BLUETOOTH.sincroniza();
   //delay(20000);
-  if(cn.siguiente() == 1){
-    cn.sal_aqui();
-    robotActual.para();
-  }
+  
 }
 
 void loop(){
-  
+  if(cn.siguiente() == 1){
+    cn.sal_aqui();
+  }
 }
