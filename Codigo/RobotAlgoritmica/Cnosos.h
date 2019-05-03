@@ -24,7 +24,7 @@ class Cnosos {
   #define TIEMPO_CONFIRMACION 0
 
   /// Cada vez que tiene que procesar una entrada, el robot "pensara" (se quedara quieto) este numero de milisegundos.
-  #define TIEMPO_PENSAR 500
+  #define TIEMPO_PENSAR 200
   private:
     /// Guarda la configuracion del robot que se va a usar en este objeto.
     Robot robot;

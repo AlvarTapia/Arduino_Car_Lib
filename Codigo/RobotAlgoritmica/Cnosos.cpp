@@ -13,6 +13,8 @@
 
 #include "Cnosos.h"
 
+#define TIEMPO_PARA_LEER_0 2000
+
 //Constructores
 Cnosos::Cnosos(Robot r, byte bits) {
   robot = r;
@@ -26,6 +28,60 @@ Cnosos::Cnosos(){
 
 
 //Funciones
+/*
+//Traducido directamente
+byte Cnosos::siguiente(){
+  robot.alante();
+  bool bit;
+  bool sigo = true;
+  byte izda, centro, dcha;
+  while (sigo) {
+    izda = SENSOR_IZDA;
+    centro = SENSOR_CENTRO;
+    dcha = SENSOR_DCHA;
+    if (izda && centro && dcha) {
+      // cinta atravesada
+      bit = true;
+      sigo = false;
+      while (SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA);
+    }else if (!(izda || centro || dcha)) {
+      while(!(SENSOR_IZDA || SENSOR_CENTRO || SENSOR_DCHA)) {}; //Salta el hueco
+      if (!SENSOR_IZDA && SENSOR_CENTRO && !SENSOR_DCHA){
+        // hueco
+        bit = false;
+        sigo = false;
+      }
+    }else if (izda ^ dcha) {
+      if (SENSOR_IZDA) {
+        robot.rotaIzda();
+        while (SENSOR_IZDA && !SENSOR_DCHA) {};
+      } else if (SENSOR_DCHA) {
+        robot.rotaDcha();
+        while (SENSOR_DCHA && !SENSOR_IZDA) {};
+      }
+      robot.alante();
+    }
+  }
+
+  // Bit sobrepasado. Enderezamos si es preciso.
+  while (SENSOR_IZDA || SENSOR_DCHA) {
+    if (SENSOR_IZDA) {
+      robot.rotaIzda();
+      while (SENSOR_IZDA);
+    } else if (SENSOR_DCHA) {
+      robot.rotaDcha();
+      while (SENSOR_DCHA);
+    }
+  }
+  
+  robot.para();
+  delay(TIEMPO_PENSAR);
+  
+  return bit;
+}
+*/
+/*
+//Interpretacion Tapia
 byte Cnosos::siguiente() {
   robot.alante();
   byte bit;
@@ -38,21 +94,25 @@ byte Cnosos::siguiente() {
     dcha = SENSOR_DCHA;
     if (izda && centro && dcha) {
       //Se confirma que es una cinta atravesada
-      delay(TIEMPO_CONFIRMACION);
       Serial.println("Todos activados");
       // cinta atravesada confirmada
       bit = 1;
       sigo = false;
+      //Mientras haya cinta atravesada, sigue alante para evitarla
       while(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA) {
-        //Mientras haya cinta atravesada, sigue alante
         robot.alante();
       }
+      //Si al final del cruce se encuentra con un hueco, rota a la dcha para evitarlo
+      while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA) {
+        robot.rotaDcha();
+      }
+      //Una vez el robot centrado, se continua normalmente
     } else if (!izda && !centro && !dcha) {
-      //TODO funciona raro, saltos entre sensores entran en esta categoria
+      //TODO funciona raro, huecos entre sensores entran en esta categoria
       Serial.println("Ninguno activado");
       while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA) {
         //Mientras haya hueco, sigue alante
-        robot.alante(); 
+        robot.alante();
       }
       //Si solo se activa el sensor del centro
       if (!SENSOR_IZDA && SENSOR_CENTRO && !SENSOR_DCHA) {
@@ -60,12 +120,10 @@ byte Cnosos::siguiente() {
         bit = 0;
         sigo = false;
       }
-      //Si se activa otro sensor, descartalo; ha sido un error
+      //Si se activa otra combinacion de sensores, descartalo; ha sido un error
     }
     //Avanza normalmente a partir de ahora.
-    if (centro) {
-      robot.alante();
-    } else if (izda) {
+    if (izda) {
       robot.rotaIzda();
       Serial.println("Girando izda");
       //Espera a que se limpie el sensor izquierdo
@@ -80,6 +138,7 @@ byte Cnosos::siguiente() {
       //Mientras haya un hueco, ignoralo
       while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA){ };
     }
+    robot.alante();
     Serial.println("Otro bucle");
   }
   robot.para();
@@ -87,6 +146,48 @@ byte Cnosos::siguiente() {
   delay(TIEMPO_PENSAR);
   return bit;
 }
+*/
+
+//Doble atravesado es el nuevo hueco
+byte Cnosos::siguiente() {
+  byte bit;
+  bool sigo = true;
+  bool izda, centro, dcha;
+  int i;
+  //Avanza hasta encontrar una cinta atravesada
+  while (sigo) {
+    robot.alante();
+    izda = SENSOR_IZDA;
+    centro = SENSOR_CENTRO;
+    dcha = SENSOR_DCHA;
+    if(izda || dcha){
+      if(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA){
+        bit = 1;
+        sigo = false;
+        
+        i = 0;
+        while(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA){
+          i++;
+        }
+        //Si se ha pasado el limite, entonces esta cinta atravesada vale 0
+        if(i>TIEMPO_PARA_LEER_0){
+          bit = 0;
+        }
+      }else if(SENSOR_IZDA && !SENSOR_DCHA){
+        robot.rotaIzda();
+        while(!SENSOR_CENTRO);
+      }else if(!SENSOR_IZDA && SENSOR_DCHA){
+        robot.rotaDcha();
+        while(!SENSOR_CENTRO);
+      }
+    }
+  }
+  robot.para();
+  Serial.println("Bit leido");
+  delay(TIEMPO_PENSAR);
+  return bit;
+}
+
 
 byte Cnosos::lee_numero() {
   byte x = 0;
@@ -99,7 +200,7 @@ byte Cnosos::lee_numero() {
     if(siguiente() == 1){
       x++;
     }
-    //Si no encuentra un cruce, como ya se introduce un 0, dejalo como esta
+    //Si no encuentra un cruce, como ya se introduce un 0 al desplazar el numero, dejalo como esta
   }
   return x;
 }
@@ -227,11 +328,12 @@ void Cnosos::sal_izq() {
 // Necesita modulo Morse inicializado para que suene/luzca
 // Necesita modulo Bluetooth inicializado para mandar mensajes
 void Cnosos::luce_numero(byte n) {
+  robot.BLUETOOTH.envia("Numero: ");
+  robot.BLUETOOTH.enviaLinea(String(n));
+  
   for (byte i = 0; i < n; i++) {
     robot.MORSE.raya();
   }
-  robot.BLUETOOTH.envia("Numero: ");
-  robot.BLUETOOTH.enviaLinea(String(n));
 }
 
 // Necesita modulo Morse inicializado para que suene/luzca
