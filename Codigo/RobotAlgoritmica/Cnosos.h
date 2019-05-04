@@ -20,7 +20,7 @@ class Cnosos {
   #define SENSOR_CENTRO robot.SIGUELINEAS.readCentro()
   #define SENSOR_DCHA robot.SIGUELINEAS.readDcha()
 
-  /// Se espera un pequeño tiempo para confirmar que se ha leido una marca y no es un fallo del circuito.
+  /// Se espera este tiempo en milisegundos para confirmar que se ha leido una marca.
   #define TIEMPO_CONFIRMACION 0
 
   /// Cada vez que tiene que procesar una entrada, el robot "pensara" (se quedara quieto) este numero de milisegundos.
@@ -34,12 +34,12 @@ class Cnosos {
     //Constructores
     /**
      * Constructor de la libreria Cnosos.
-     * No necesita inicializarse, dado que los parametros ya deberian estar inicializados.
+     * No necesita un metodo inicializar, dado que se supone que los parametros ya estan inicializados.
      * @param Robot a controlar
      *    Objeto Robot con el que se va a trabajar.
      *    Se espera que el Robot este inicializado, asi como su Siguelineas.
      *    Si se necesita debuggear o que el robot se comunique con el usuario, 
-     *    es necesario inicializar o el modulo Morse o el modulo Bluetooth.
+     *    es necesario inicializar el modulo Morse o el modulo Bluetooth, o ambos.
      * @param Numero bits en las etiquetas
      *    Numero de bits que se usaran para identificar cada nodo del mapa.
      *    Se espera que el tamaño del parametro sea adecuado, dado que si se utiliza el valor maximo (255),
@@ -52,7 +52,7 @@ class Cnosos {
      * Constructor que no necesita argumentos, y que permite inicializar un objeto Cnosos.
      * Las variables se inicializan a valores no recomendables como pines inaccesibles.
      * IMPORTANTE: Sustituir todas las instancias no inicializadas o inicializadas de esta manera
-     *    para que el modulo funcione como se espera.
+     *    para que el objeto funcione correctamente.
      */
     Cnosos();
     //Destructor
@@ -74,7 +74,7 @@ class Cnosos {
 
     /**
      * Recorre dos veces el perimetro del nodo para obtener gran cantidad de datos.
-     * El robot quedara despues del identificador del nodo.
+     * Al terminar el metodo, el robot estara situado despues del identificador del nodo.
      * @param[out] Identificador del nodo
      *    Devuelve el numero que identifica a este nodo.
      * @param[out] Grado del nodo

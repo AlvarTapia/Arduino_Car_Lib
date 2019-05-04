@@ -317,8 +317,8 @@ void Cnosos::sal(byte aristaATomar, byte grado, byte posicionInicial) {
   }
 }
 
+//Es necesario que esta funcion este en la interfaz?
 void Cnosos::sal_izq() {
-  //TODO probar en vivo
   robot.rotaIzda();
   while(!SENSOR_IZDA){};
   while(!SENSOR_CENTRO){};

@@ -28,7 +28,7 @@ Bluetooth::~Bluetooth() {
 //Inicializador
 void Bluetooth::inicializa() {
   Serial.begin(BAUDIOS);
-  while(!Serial){};
+  while(!Serial){}; //Espera mientras no se puedan mandar/recibir mensajes
 }
 
 //Funciones
