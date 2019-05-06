@@ -73,10 +73,10 @@ byte Cnosos::siguiente(){
       while (SENSOR_DCHA);
     }
   }
-  
+
   robot.para();
   delay(TIEMPO_PENSAR);
-  
+
   return bit;
 }
 */
@@ -165,7 +165,7 @@ byte Cnosos::siguiente() {
       if(izda && dcha){
         bit = 1;
         sigo = false;
-        
+
         i = 0;
         while(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA){
           i++;
@@ -282,7 +282,7 @@ void Cnosos::sal(byte aristaATomar, byte grado, byte posicionInicial) {
   //siendo "0" el tramo entre el identificador y la primera arista,
   //y "n" el tramo entre la ultima arista y el identificador.
   byte aristaSaltada = posicionInicial;
-  
+
   //Mientras la arista que el robot se ha saltado no sea la arista anterior a la que se quiere tomar:
   while (aristaSaltada != aristaATomar - 1) {
     //Si la arista actual supera o iguala el grado:
@@ -322,7 +322,6 @@ void Cnosos::sal_izq() {
   robot.rotaIzda();
   while(!SENSOR_IZDA){};
   while(!SENSOR_CENTRO){};
-  robot.alante();
 }
 
 // Necesita modulo Morse inicializado para que suene/luzca
@@ -330,7 +329,7 @@ void Cnosos::sal_izq() {
 void Cnosos::luce_numero(byte n) {
   robot.BLUETOOTH.envia("Numero: ");
   robot.BLUETOOTH.enviaLinea(String(n));
-  
+
   for (byte i = 0; i < n; i++) {
     robot.MORSE.raya();
   }
