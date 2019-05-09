@@ -2,7 +2,7 @@
  * ----------------------------------------------------------------
  * siguelineas.cpp
  * Clase que permite utilizar los sensores siguelineas.
- * Se espera que se usen tres sensores por objeto.
+ * Se espera que se usen como mucho tres sensores por objeto.
  *
  * Adaptado por Alvar Tapia, Abril 2019.
  * Legado por Algorítmica y Complejidad, Universidad de Cantabria.

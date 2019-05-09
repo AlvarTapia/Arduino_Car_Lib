@@ -21,14 +21,16 @@ Bluetooth::Bluetooth(int baudios, char startChar) {
 }
 //Destructor
 Bluetooth::~Bluetooth() {
-  //No funciona como se espera, a Abril 2019 se deja sin implementar
+  //No funciona como se espera.
+  //A Abril 2019 se deja sin implementar.
   //if (Serial) Serial.end();
 }
 
 //Inicializador
 void Bluetooth::inicializa() {
   Serial.begin(BAUDIOS);
-  while(!Serial){}; //Espera mientras no se puedan mandar/recibir mensajes
+  //Espera mientras no se puedan mandar/recibir mensajes
+  while(!Serial){};
 }
 
 //Funciones

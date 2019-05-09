@@ -45,7 +45,8 @@ byte Cnosos::siguiente(){
       sigo = false;
       while (SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA);
     }else if (!(izda || centro || dcha)) {
-      while(!(SENSOR_IZDA || SENSOR_CENTRO || SENSOR_DCHA)) {}; //Salta el hueco
+      //Salta el hueco
+      while(!(SENSOR_IZDA || SENSOR_CENTRO || SENSOR_DCHA)) {};
       if (!SENSOR_IZDA && SENSOR_CENTRO && !SENSOR_DCHA){
         // hueco
         bit = false;
@@ -102,13 +103,15 @@ byte Cnosos::siguiente() {
       while(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA) {
         robot.alante();
       }
-      //Si al final del cruce se encuentra con un hueco, rota a la dcha para evitarlo
+      //Si al final del cruce se encuentra con un hueco,
+      //rota a la dcha para evitarlo
       while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA) {
         robot.rotaDcha();
       }
       //Una vez el robot centrado, se continua normalmente
     } else if (!izda && !centro && !dcha) {
-      //TODO funciona raro, huecos entre sensores entran en esta categoria
+      //TODO funciona raro,
+      //huecos entre sensores entran en esta categoria
       Serial.println("Ninguno activado");
       while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA) {
         //Mientras haya hueco, sigue alante
@@ -120,7 +123,8 @@ byte Cnosos::siguiente() {
         bit = 0;
         sigo = false;
       }
-      //Si se activa otra combinacion de sensores, descartalo; ha sido un error
+      //Si se activa otra combinacion de sensores, descartalo;
+      //ha sido un error
     }
     //Avanza normalmente a partir de ahora.
     if (izda) {
@@ -170,7 +174,8 @@ byte Cnosos::siguiente() {
         while(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA){
           i++;
         }
-        //Si se ha pasado el limite, entonces esta cinta atravesada vale 0
+        //Si se ha pasado el limite,
+        //entonces esta cinta atravesada vale 0
         if(i>TIEMPO_PARA_LEER_0){
           bit = 0;
         }
@@ -200,14 +205,17 @@ byte Cnosos::lee_numero() {
     if(siguiente() == 1){
       x++;
     }
-    //Si no encuentra un cruce, como ya se introduce un 0 al desplazar el numero, dejalo como esta
+    //Si no encuentra un cruce, como ya se introduce un 0
+    //al desplazar el numero, dejalo como esta
   }
   return x;
 }
 
 /*
- * Recorre el perimetro del nodo, y devuelve el numero de cruces que se encuentre
- * (tambien reconoce y devuelve por referencia el identificador del nodo actual).
+ * Recorre el perimetro del nodo,
+ * y devuelve el numero de cruces que se encuentre
+ * (tambien reconoce y devuelve por referencia
+ * el identificador del nodo actual).
  * Este metodo no sabe desde que parte del nodo empieza, por lo que
  * crucesEncontrados es menor o igual que el grado.
  */
@@ -227,12 +235,17 @@ byte lee_nodo_A(Cnosos* cn, byte &id) {
 }
 
 /*
- * Despues de lee_nodo_A sabemos que el robot esta detras del identificador de nodo.
+ * Despues de lee_nodo_A sabemos que el robot
+ * esta detras del identificador de nodo.
  *
- * Calcula el grado del nodo (numero aristas), y lo devuelve por referencia.
- * El identificador leido en lee_nodo_A debe ser el mismo que el leido en lee_nodo_B.
- * Calcula la arista desde la que ha empezado contando desde despues de la etiqueta, con la ayuda de crucesEncontrados.
- *  (Si ha empezado lee_nodo() 2 aristas despues del identificador, entrada = 2).
+ * Calcula el grado del nodo (numero aristas),
+ * y lo devuelve por referencia.
+ * El identificador leido en lee_nodo_A debe ser el mismo
+ * que el leido en lee_nodo_B.
+ * Calcula la arista desde la que ha empezado contando
+ * desde despues de la etiqueta, con la ayuda de crucesEncontrados.
+ *   (Si ha empezado lee_nodo() 2 aristas despues del identificador,
+ *    entrada = 2).
  */
 void lee_nodo_B(Cnosos* cn, byte crucesEncontrados, byte id,
                 byte &grado, byte &entrada) {
@@ -255,8 +268,9 @@ void lee_nodo_B(Cnosos* cn, byte crucesEncontrados, byte id,
 /*
  * Despues de dos vueltas al nodo, devuelve por referencia
  * el identificador del nodo, el grado del nodo,
- * y cuantos cruces debe saltarse el robot para llegar desde el final del identificador
- * al cruce por el que el robot ha empezado a investigar el nodo.
+ * y cuantos cruces debe saltarse el robot
+ * para llegar desde el final del identificador al cruce
+ * por el que el robot ha empezado a investigar el nodo.
  */
 void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
   byte crucesEncontrados = lee_nodo_A(this, etiq);
@@ -275,18 +289,29 @@ void Cnosos::sal_aqui() {
   }
 }
 
-void Cnosos::sal(byte aristaATomar, byte grado, byte posicionInicial) {
-  //Arista saltado representa los cruces que el robot se ha saltado hasta el momento.
-  //Si las aristas estan identificadas en el intervalo {1..n},
-  //el robot puede haberse saltado {0..n} aristas al recorrer el perimetro del nodo,
-  //siendo "0" el tramo entre el identificador y la primera arista,
-  //y "n" el tramo entre la ultima arista y el identificador.
+void Cnosos::sal( byte aristaATomar,
+                  byte grado,
+                  byte posicionInicial) {
+  /*
+   * Arista saltado representa los cruces que el robot
+   * se ha saltado hasta el momento.
+   * Si las aristas estan identificadas en el intervalo {1..n},
+   * el robot puede haberse saltado {0..n} aristas
+   * al recorrer el perimetro del nodo,
+   * siendo "0" el tramo entre el identificador y la primera arista,
+   * y "n" el tramo entre la ultima arista y el identificador.
+   */
   byte aristaSaltada = posicionInicial;
 
-  //Mientras la arista que el robot se ha saltado no sea la arista anterior a la que se quiere tomar:
+  /*
+   * Mientras la arista que el robot se ha saltado
+   * no sea la arista anterior a la que se quiere tomar:
+   */
   while (aristaSaltada != aristaATomar - 1) {
-    //Si la arista actual supera o iguala el grado:
-    //Esta en la zona de identificadores
+    /*
+     * Si la arista actual supera o iguala el grado:
+     * Esta en la zona de identificadores
+     */
     if (aristaSaltada >= grado) {
       //Si no encuentra el identificador, error
       if (this->siguiente() == 1) {
@@ -308,8 +333,11 @@ void Cnosos::sal(byte aristaATomar, byte grado, byte posicionInicial) {
     }
   }
 
-  //Si se ha salido del bucle, es que se quiere tomar el siguiente cruce.
-  //El robot toma el siguiente cruce.
+  /*
+   * Si se ha salido del bucle,
+   * es que se quiere tomar el siguiente cruce.
+   * El robot toma el siguiente cruce.
+   */
   if (this->siguiente() == 1){
     this->sal_aqui();
   }else{

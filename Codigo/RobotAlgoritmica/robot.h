@@ -1,8 +1,10 @@
 /**
  * ----------------------------------------------------------------
  * robot.h
- * Clase que gestiona los motores de un robot implementado con placas Arduino.
- * Pueden aplicarse modulos para mejorar la gestion del movimiento del robot.
+ * Clase que gestiona los motores de un robot implementado
+ * con placas Arduino.
+ * Pueden aplicarse modulos para mejorar la gestion
+ * del movimiento del robot.
  *
  * Adaptado por Alvar Tapia, Abril 2019.
  * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
@@ -28,12 +30,17 @@ class Robot {
   #define MAX_VELOCIDAD 255
 
   private:
-    /// Enumerados que representan la direccion a la que va el robot. Necesario para saber cuando arrancar.
-    enum Direccion {dirNull = -1, dirAlante, dirAtras, dirGiroDcha, dirGiroIzda, dirRotaDcha, dirRotaIzda};
+    /**
+     * Enumerados que representan la direccion a la que va el robot.
+     * Necesario para saber cuando arrancar.
+     */
+    enum Direccion {dirNull = -1, dirAlante, dirAtras,
+                    dirGiroDcha, dirGiroIzda,
+                    dirRotaDcha, dirRotaIzda};
     /// Direccion actual del robot. Se encuentra parado por defecto.
     Direccion dirActual = dirNull;
 
-  
+
   protected:
     /// Tiempo que necesita arrancar el robot, en milisegundos.
     byte TIEMPO_ARRANQUE;
@@ -45,8 +52,10 @@ class Robot {
     byte PIN_DCHA_ATRAS;
     /*
      * Para que el robot se mueva, ALANTE != ATRAS.
-     * p.ej. ALANTE = HIGH y ATRAS = LOW hace que el motor se mueva hacia delante.
-     * Pero ALANTE == ATRAS deja de alimentar los motores, independientemente de que valgan HIGH o LOW.
+     * p.ej. ALANTE = HIGH y ATRAS = LOW hace
+     *    que el motor se mueva hacia delante.
+     * Pero ALANTE == ATRAS deja de alimentar los motores,
+     *    independientemente de que ese valor sea HIGH o LOW.
      */
 
     /// Pines que controlan la velocidad a la que giran los motores.
@@ -55,8 +64,9 @@ class Robot {
 
   public:
     /**
-     *  Variables para modulos. Se acceden de forma directa, tanto para modificar como para usar funciones.
-     *  Para utilizar los modulos, los objetos deben establecerse e inicializarse.
+     * Variables para modulos. Se acceden de forma directa,
+     * tanto para modificarlos como para usar sus funciones.
+     * Para utilizar los modulos, los objetos deben establecerse e inicializarse.
      */
     /// Modulo siguelineas
     Siguelineas SIGUELINEAS;
@@ -67,9 +77,9 @@ class Robot {
     /// Modulo bluetooth
     Bluetooth BLUETOOTH;
 
-    //Constructores    
+    //Constructores
     /**
-     * Inicializa un robot cuyo driver tiene 4 entradas para 8 cables de motores.
+     * Inicializa un robot cuyo driver tiene 4 entradas para los motores.
      * @param Pin motor izquierdo hacia alante
      * @param Pin motor izquierdo hacia atras
      * @param Pin motor derecho hacia alante
@@ -79,20 +89,23 @@ class Robot {
      * @param Pin de velocidad del motor derecho
      *    Pines de control de velocidad de los motores.
      * @param Tiempo de arranque
-     *    Tiempo que necesita el robot para arrancar, en milisegundos. Valores entre 0-255 ms.
+     *    Tiempo que necesita el robot para arrancar, en milisegundos.
+     *    Valores entre 0-255 ms.
      */
     Robot(byte, byte, byte, byte, byte, byte, byte);
     //Constructor por defecto
     /**
-     * Constructor que no necesita argumentos, y que permite inicializar variables
-     * como las presentes en Cnosos.h.
-     * Las variables se inicializan a valores no recomendables como pines inaccesibles.
-     * IMPORTANTE: Sustituir todas las instancias no inicializadas o inicializadas de esta manera
-     *    para que el modulo funcione como se espera.
+     * Constructor que no necesita argumentos,
+     * y que permite inicializar variables como las presentes en Cnosos.h.
+     * Las variables se inicializan a valores no recomendables
+     * como pines inaccesibles.
+     * IMPORTANTE: Sustituir todas las instancias no inicializadas
+     *    o inicializadas de esta manera para que el robot
+     *    funcione como se espera.
      */
     Robot();
     //Destructores
-    
+
 
   	//Inicializar
     /**
@@ -105,7 +118,8 @@ class Robot {
     /**
      * Permite modificar el tiempo que va a estar arrancando el robot.
      * @param Tiempo de arranque
-     *    Tiempo en milisegundos que estara el robot a maxima velocidad. Valores entre 0-255 ms.
+     *    Tiempo en milisegundos que estara el robot a maxima velocidad.
+     *    Valores entre 0-255 ms.
      */
     void setTiempoArranque(byte);
 
@@ -120,7 +134,8 @@ class Robot {
     /**
      * Establece la velocidad actual del robot.
      * @param Velocidad
-     *    Velocidad a la que ira el robot. Valores entre 0-255.
+     *    Velocidad a la que ira el robot.
+     *    Valores entre 0-255.
      */
     void setVelocidad(byte);
 
@@ -136,7 +151,8 @@ class Robot {
     void lento();
 
     /**
-     * Establece una velocidad moderada, en la que el robot es siempre capaz de girar.
+     * Establece una velocidad moderada,
+     * en la que el robot es siempre capaz de girar.
      */
     void velGiro();
 
@@ -148,7 +164,8 @@ class Robot {
 
 	  //Cambios de direccion
     /**
-     * El robot deja de alimentar los motores de la izquierda para poder girar a la izquierda.
+     * El robot deja de alimentar los motores de la izquierda
+     * para poder girar a la izquierda.
      * Permite girar mientras el robot va marcha atras.
      * @param Velocidad
      *    Se puede indicar la velocidad a la que el robot hace la maniobra.
@@ -157,7 +174,8 @@ class Robot {
     void giraIzda(byte = VELOCIDAD_GIRO);
 
 	  /**
-     * El robot deja de alimentar los motores de la derecha para poder girar a la derecha.
+     * El robot deja de alimentar los motores de la derecha
+     * para poder girar a la derecha.
      * Permite girar mientras el robot va marcha atras.
      * @param Velocidad
      *    Se puede indicar la velocidad a la que el robot hace la maniobra.
@@ -204,10 +222,16 @@ class Robot {
 };
 
 
-/* ROBOTS MODELO */
+/**
+ * ROBOTS MODELO
+ * Para poder trabajar con ellos es necesario utilizarlos
+ * desde una variable, dado que estos objetos son constantes,
+ * y si se intenta realizar una funcion con ellos saltaran errores.
+ */
 /// Configuracion de los robots Arduino
-const Robot arduino(255, 12, 255, 13, 10, 11, 80); //El pin 255 es inaccesible,
-//y permite escribir "digitalWrite"s sin afectar al funcionamiento del robot
+const Robot arduino(255, 12, 255, 13, 10, 11, 80);
+// El pin 255 es inaccesible, y permite escribir "digitalWrite"s
+// sin afectar al funcionamiento del robot
 
 /// Configuracion de los robots Elegoo
 const Robot elegoo(6, 7, 9, 8, 5, 11, 0);

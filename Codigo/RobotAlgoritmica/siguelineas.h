@@ -49,11 +49,13 @@ class Siguelineas {
     Siguelineas(byte);
     //Constructor por defecto
     /**
-     * Constructor que no necesita argumentos, y que permite inicializar variables
-     * como las presentes en robot.h.
-     * Las variables se inicializan a valores no recomendables como pines inaccesibles.
-     * IMPORTANTE: Sustituir todas las instancias no inicializadas o inicializadas de esta manera
-     *    para que el modulo funcione como se espera.
+     * Constructor que no necesita argumentos,
+     * y que permite inicializar variables como las presentes en robot.h.
+     * Las variables se inicializan a valores no recomendables
+     * como pines inaccesibles.
+     * IMPORTANTE: Sustituir todas las instancias no inicializadas
+     *    o inicializadas de esta manera para que el modulo
+     *    funcione como se espera.
      */
     Siguelineas();
     //Destructor

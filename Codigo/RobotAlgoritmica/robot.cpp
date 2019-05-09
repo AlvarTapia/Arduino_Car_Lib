@@ -1,8 +1,10 @@
 /**
  * ----------------------------------------------------------------
  * robot.cpp
- * Clase que gestiona los motores de un robot implementado con placas Arduino.
- * Pueden aplicarse modulos para mejorar la gestion del movimiento del robot.
+ * Clase que gestiona los motores de un robot implementado
+ * con placas Arduino.
+ * Pueden aplicarse modulos para mejorar la gestion
+ * del movimiento del robot.
  *
  * Adaptado por Alvar Tapia, Abril 2019.
  * Legado por Algorítmica y Complejidad, Universidad de Cantabria.
@@ -15,7 +17,8 @@
 #include "robot.h"
 
 //Constructores
-Robot::Robot(byte pinIzdaAlante, byte pinIzdaAtras, byte pinDchaAlante, byte pinDchaAtras,
+Robot::Robot(byte pinIzdaAlante, byte pinIzdaAtras,
+             byte pinDchaAlante, byte pinDchaAtras,
              byte pinVelIzda, byte pinVelDcha,
              byte tiempoArranque) {
   PIN_IZDA_ALANTE = pinIzdaAlante;
