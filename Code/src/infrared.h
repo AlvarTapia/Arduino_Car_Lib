@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * infrarrojos.h
+ * infrared.h
  * Clase controlador del sensor infrarrojos.
  * Permite que la Arduino reciba señales de un mando a distancia.
  *
@@ -9,8 +9,8 @@
  * ----------------------------------------------------------------
  */
 
-#ifndef infrarrojos_h
-#define infrarrojos_h
+#ifndef infrared_h
+#define infrared_h
 
 #include <RobotIRremote.h>
 

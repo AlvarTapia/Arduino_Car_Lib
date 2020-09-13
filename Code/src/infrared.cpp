@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * infrarrojos.cpp
+ * infrared.cpp
  * Clase controlador del sensor infrarrojos.
  * Permite que la Arduino reciba señales de un mando a distancia.
  *
@@ -9,8 +9,8 @@
  * ----------------------------------------------------------------
  */
 
-#ifndef infrarrojos_cpp
-#define infrarrojos_cpp
+#ifndef infrared_cpp
+#define infrared_cpp
 
 #include "infrarrojos.h"
 
