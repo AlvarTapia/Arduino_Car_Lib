@@ -12,24 +12,24 @@
 #ifndef infrared_cpp
 #define infrared_cpp
 
-#include "infrarrojos.h"
+#include "infrared.h"
 
 //Constructor
-Infrarrojos::Infrarrojos(byte pinInfrarrojos) {
-  PIN_INFRARROJOS = pinInfrarrojos;
+Infrared::Infrared(byte infraredPin) {
+  INFRARED_PIN = infraredPin;
 
-  irrecv = IRrecv(PIN_INFRARROJOS);
+  irrecv = IRrecv(INFRARED_PIN);
 }
 //Destructor
 
 
 //Inicializador
-void Infrarrojos::inicializa() {
-  pinMode(PIN_INFRARROJOS, INPUT);
+void Infrared::inicializa() {
+  pinMode(INFRARED_PIN, INPUT);
 }
 
 //Funciones
-byte Infrarrojos::esperaMando() {
+byte Infrared::esperaMando() {
   decode_results results;
   unsigned long RED;
   byte aux = 0xFF;
@@ -37,39 +37,7 @@ byte Infrarrojos::esperaMando() {
     if (irrecv.decode(&results)) {
       irrecv.resume();
       RED = results.value;
-      switch (RED) {
-        case CERO:
-          aux = 0;
-          break;
-        case UNO:
-          aux = 1;
-          break;
-        case DOS:
-          aux = 2;
-          break;
-        case TRES:
-          aux = 3;
-          break;
-        case CUATRO:
-          aux = 4;
-          break;
-        case CINCO:
-          aux = 5;
-          break;
-        case SEIS:
-          aux = 6;
-          break;
-        case SIETE:
-          aux = 7;
-          break;
-        case OCHO:
-          aux = 8;
-          break;
-        case NUEVE:
-          aux = 9;
-          break;
-      }
-    }
+      
   }
   return aux;
 }

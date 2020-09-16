@@ -31,8 +31,9 @@
  * Eso deberia permitir la compilacion.
  */
 
-class Infrarrojos{
+class Infrared{
   /// Valores que se pueden recibir del mando a distancia.
+  #define NO_READ 0xFF
   #define CERO 16730805
   #define UNO 16738455
   #define DOS 16750695
@@ -46,10 +47,98 @@ class Infrarrojos{
 
   private:
     /// Pin al que se conecta el sensor de infrarrojos.
-    byte PIN_INFRARROJOS;
+    byte INFRARED_PIN;
     /// Libreria que usaremos para decodificar los infrarrojos.
     IRrecv irrecv = IRrecv(255); //C++ obliga a poner un valor.
     //El pin 255 no existe, pero permite inicializar el objeto.
+
+    int NUM_DIGITS = 10
+    int codeToDigit[NUM_DIGITS] =
+      [ CERO, UNO, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, OCHO, NUEVE ];
+
+
+    byte redToDigit(unsigned long redCode){
+      return redToDigitArray(redCode);
+    }
+
+
+    byte redToDigitArray(unsigned long redCode){
+      for(int i=0; i<NUM_DIGITS; i++){
+        if( codeToDigit[i] == redCode ){
+          return i;
+        }
+      }
+      return NO_READ;
+    }
+
+    /** DEPRECATED */
+    byte redToDigitSwitch(unsigned long redCode){
+      digit = NO_READ;
+      switch (redCode) {
+        case CERO:
+          digit = 0;
+          break;
+        case UNO:
+          digit = 1;
+          break;
+        case DOS:
+          digit = 2;
+          break;
+        case TRES:
+          digit = 3;
+          break;
+        case CUATRO:
+          digit = 4;
+          break;
+        case CINCO:
+          digit = 5;
+          break;
+        case SEIS:
+          digit = 6;
+          break;
+        case SIETE:
+          digit = 7;
+          break;
+        case OCHO:
+          digit = 8;
+          break;
+        case NUEVE:
+          digit = 9;
+          break;
+      }
+      return digit;
+    }
+    
+    /** DEPRECATED */
+    byte redToDigitSwitchNoBreaks(unsigned long redCode){
+      digit = 0;
+      switch (redCode) {
+        case NUEVE:
+          digit++;
+        case OCHO:
+          digit++;
+        case SIETE:
+          digit++;
+        case SEIS:
+          digit++;
+        case CINCO:
+          digit++;
+        case CUATRO:
+          digit++;
+        case TRES:
+          digit++;
+        case DOS:
+          digit++;
+        case UNO:
+          digit++;
+        case CERO:
+          break;
+        default:
+          digit = 0xFF;
+          break;
+      }
+      return digit;
+    }
 
   public:
     //Constructor
