@@ -13,6 +13,8 @@
 #define infrared_h
 
 #include <RobotIRremote.h>
+#include <RobotIRremoteInt.h>
+#include <RobotIRremoteTools.h>
 
 #include "Arduino.h"
 
@@ -33,18 +35,23 @@
 
 class Infrared{
   /// Valores que se pueden recibir del mando a distancia.
-  #define NO_READ 0xFF
-  #define CERO 16730805
-  #define UNO 16738455
-  #define DOS 16750695
-  #define TRES 16756815
-  #define CUATRO 16724175
-  #define CINCO 16718055
-  #define SEIS 16743045
-  #define SIETE 16716015
-  #define OCHO 16726215
-  #define NUEVE 16734885
-
+  static const byte NO_RED_READ = (-1);
+  static const unsigned long RED_ZERO = 16730805;
+  static const unsigned long RED_ONE = 16738455;
+  static const unsigned long RED_TWO = 16750695;
+  static const unsigned long RED_THREE = 16756815;
+  static const unsigned long RED_FOUR = 16724175;
+  static const unsigned long RED_FIVE = 16718055;
+  static const unsigned long RED_SIX = 16743045;
+  static const unsigned long RED_SEVEN = 16716015;
+  static const unsigned long RED_EIGHT = 16726215;
+  static const unsigned long RED_NINE = 16734885;
+  
+  static const int NUM_RED_DIGITS = 10;
+  
+  static const unsigned long codeToDigit[NUM_RED_DIGITS] = 
+    {RED_ZERO, RED_ONE, RED_TWO, RED_THREE, RED_FOUR, RED_FIVE, RED_SIX, RED_SEVEN, RED_EIGHT, RED_NINE};
+  
   private:
     /// Pin al que se conecta el sensor de infrarrojos.
     byte INFRARED_PIN;
@@ -52,86 +59,77 @@ class Infrared{
     IRrecv irrecv = IRrecv(255); //C++ obliga a poner un valor.
     //El pin 255 no existe, pero permite inicializar el objeto.
 
-    int NUM_DIGITS = 10
-    int codeToDigit[NUM_DIGITS] =
-      [ CERO, UNO, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, OCHO, NUEVE ];
-
-
-    byte redToDigit(unsigned long redCode){
-      return redToDigitArray(redCode);
-    }
-
 
     byte redToDigitArray(unsigned long redCode){
-      for(int i=0; i<NUM_DIGITS; i++){
+      for(int i=0; i<NUM_RED_DIGITS; i++){
         if( codeToDigit[i] == redCode ){
           return i;
         }
       }
-      return NO_READ;
+      return NO_RED_READ;
     }
 
     /** DEPRECATED */
     byte redToDigitSwitch(unsigned long redCode){
-      digit = NO_READ;
+      byte digit = NO_RED_READ;
       switch (redCode) {
-        case CERO:
+        case RED_ZERO:
           digit = 0;
           break;
-        case UNO:
+        case RED_ONE:
           digit = 1;
           break;
-        case DOS:
+        case RED_TWO:
           digit = 2;
           break;
-        case TRES:
+        case RED_THREE:
           digit = 3;
           break;
-        case CUATRO:
+        case RED_FOUR:
           digit = 4;
           break;
-        case CINCO:
+        case RED_FIVE:
           digit = 5;
           break;
-        case SEIS:
+        case RED_SIX:
           digit = 6;
           break;
-        case SIETE:
+        case RED_SEVEN:
           digit = 7;
           break;
-        case OCHO:
+        case RED_EIGHT:
           digit = 8;
           break;
-        case NUEVE:
+        case RED_NINE:
           digit = 9;
           break;
       }
       return digit;
     }
-    
+
     /** DEPRECATED */
     byte redToDigitSwitchNoBreaks(unsigned long redCode){
-      digit = 0;
+      byte digit = 0;
       switch (redCode) {
-        case NUEVE:
+        case RED_NINE:
           digit++;
-        case OCHO:
+        case RED_EIGHT:
           digit++;
-        case SIETE:
+        case RED_SEVEN:
           digit++;
-        case SEIS:
+        case RED_SIX:
           digit++;
-        case CINCO:
+        case RED_FIVE:
           digit++;
-        case CUATRO:
+        case RED_FOUR:
           digit++;
-        case TRES:
+        case RED_THREE:
           digit++;
-        case DOS:
+        case RED_TWO:
           digit++;
-        case UNO:
+        case RED_ONE:
           digit++;
-        case CERO:
+        case RED_ZERO:
           break;
         default:
           digit = 0xFF;
@@ -149,7 +147,7 @@ class Infrared{
      *    las señales del sensor infrarrojo.
      *    Por defecto, se asignara un pin inaccesible.
      */
-    Infrarrojos(byte = 255);
+    Infrared(byte = 255);
     //Destructor
 
 
@@ -158,14 +156,18 @@ class Infrared{
      * Permite al pin establecido en el constructor
      * recibir la informacion del sensor.
      */
-    void inicializa();
+    void init();
 
     /**
      * La Arduino no realiza ninguna otra instruccion hasta
      * que reciba un numero valido del mando infrarrojo.
      * @return Numero recibido del mando.
      */
-    byte esperaMando();
+    byte waitForRedSignal();
+
+    byte redToDigit(unsigned long redCode){
+      return redToDigitArray(redCode);
+    }
 };
 
 #endif

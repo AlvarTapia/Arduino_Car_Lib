@@ -24,20 +24,21 @@ Infrared::Infrared(byte infraredPin) {
 
 
 //Inicializador
-void Infrared::inicializa() {
+void Infrared::init() {
   pinMode(INFRARED_PIN, INPUT);
 }
 
 //Funciones
-byte Infrared::esperaMando() {
+byte Infrared::waitForRedSignal() {
   decode_results results;
-  unsigned long RED;
-  byte aux = 0xFF;
-  while (aux == 0xFF) {
+  unsigned long redCode;
+  byte aux = NO_RED_READ;
+  while (aux == NO_RED_READ) {
     if (irrecv.decode(&results)) {
       irrecv.resume();
-      RED = results.value;
-      
+      redCode = results.value;
+      aux = redToDigit(redCode);
+    }
   }
   return aux;
 }
