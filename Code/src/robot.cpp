@@ -17,21 +17,23 @@
 #include "robot.h"
 
 //Constructores
-Robot::Robot(byte pinIzdaAlante, byte pinIzdaAtras,
-             byte pinDchaAlante, byte pinDchaAtras,
-             byte pinVelIzda, byte pinVelDcha,
-             byte tiempoArranque) {
-  PIN_IZDA_ALANTE = pinIzdaAlante;
-  PIN_IZDA_ATRAS = pinIzdaAtras;
+Robot::Robot(byte frontLeftPin, byte backLeftPin,
+             byte frontRightPin, byte backRightPin,
+             byte leftVelPin, byte rightVelPin,
+             byte startUpTime) {
 
-  PIN_DCHA_ALANTE = pinDchaAlante;
-  PIN_DCHA_ATRAS = pinDchaAtras;
+  FRONT_LEFT_PIN = frontLeftPin;
+  BACK_LEFT_PIN = backLeftPin;
 
-  PIN_VEL_IZDA = pinVelIzda;
-  PIN_VEL_DCHA = pinVelDcha;
+  FRONT_RIGHT_PIN = frontRightPin;
+  BACK_RIGHT_PIN = backRightPin;
 
-  TIEMPO_ARRANQUE = tiempoArranque;
+  LEFT_VEL_PIN = leftVelPin;
+  RIGHT_VEL_PIN = rightVelPin;
+
+  START_UP_TIME = startUpTime;
 }
+
 Robot::Robot(){
   Robot(255, 255, 255, 255, 255, 255, 255);
 }
@@ -39,119 +41,119 @@ Robot::Robot(){
 
 
 //Inicializar
-void Robot::inicializa() {
-  pinMode(PIN_IZDA_ALANTE, OUTPUT);
-  pinMode(PIN_IZDA_ATRAS, OUTPUT);
-  pinMode(PIN_DCHA_ALANTE, OUTPUT);
-  pinMode(PIN_DCHA_ATRAS, OUTPUT);
+void Robot::init() {
+  pinMode(FRONT_LEFT_PIN, OUTPUT);
+  pinMode(BACK_LEFT_PIN, OUTPUT);
+  pinMode(FRONT_RIGHT_PIN, OUTPUT);
+  pinMode(BACK_RIGHT_PIN, OUTPUT);
 
-  pinMode(PIN_VEL_IZDA, OUTPUT);
-  pinMode(PIN_VEL_DCHA, OUTPUT);
+  pinMode(LEFT_VEL_PIN, OUTPUT);
+  pinMode(RIGHT_VEL_PIN, OUTPUT);
 }
 
 
 //Funciones del robot
-void Robot::setTiempoArranque(byte tiempoArranque) {
-  TIEMPO_ARRANQUE = tiempoArranque;
+void Robot::setStartUpTime(byte startUpTime) {
+  START_UP_TIME = startUpTime;
 }
 
 //Velocidad del robot
-void Robot::arranca() {
-  analogWrite(PIN_VEL_IZDA, MAX_VELOCIDAD);
-  analogWrite(PIN_VEL_DCHA, MAX_VELOCIDAD);
-  delay(TIEMPO_ARRANQUE);
+void Robot::startUp() {
+  analogWrite(LEFT_VEL_PIN, MAX_VEL);
+  analogWrite(RIGHT_VEL_PIN, MAX_VEL);
+  delay(START_UP_TIME);
 }
 
-void Robot::setVelocidad(byte velocidad) {
-  analogWrite(PIN_VEL_IZDA, velocidad);
-  analogWrite(PIN_VEL_DCHA, velocidad);
+void Robot::setVelocity(byte velocity) {
+  analogWrite(LEFT_VEL_PIN, velocity);
+  analogWrite(RIGHT_VEL_PIN, velocity);
 }
 
-void Robot::para() {
-  this->setVelocidad(0);
-  dirActual = dirNull;
+void Robot::stop() {
+  this->setVelocity(0);
+  currentMotion = nullMotion;
 }
 
 void Robot::lento() {
-  this->setVelocidad(VELOCIDAD_LENTA);
+  this->setVelocity(SLOW_VEL);
 }
 
 void Robot::velGiro() {
-  this->setVelocidad(VELOCIDAD_GIRO);
+  this->setVelocity(TURN_VEL);
 }
 
 void Robot::maxVelocidad() {
-  this->setVelocidad(MAX_VELOCIDAD);
+  this->setVelocity(MAX_VEL);
 }
 
 //Cambios de direccion
-void Robot::giraIzda(byte velocidad) {
-  if (dirActual != dirGiroIzda) {
-    this->arranca();
-    dirActual = dirGiroIzda;
+void Robot::giraIzda(byte velocity) {
+  if (currentMotion != turnLeftMotion) {
+    this->startUp();
+    currentMotion = turnLeftMotion;
   }
-  analogWrite(PIN_VEL_IZDA, velocidad);
-  analogWrite(PIN_VEL_DCHA, 0);
+  analogWrite(LEFT_VEL_PIN, velocity);
+  analogWrite(RIGHT_VEL_PIN, 0);
 
 }
 
-void Robot::giraDcha(byte velocidad) {
-  if (dirActual != dirGiroDcha) {
-    this->arranca();
-    dirActual = dirGiroDcha;
+void Robot::giraDcha(byte velocity) {
+  if (currentMotion != turnRightMotion) {
+    this->startUp();
+    currentMotion = turnRightMotion;
   }
-  analogWrite(PIN_VEL_IZDA, 0);
-  analogWrite(PIN_VEL_DCHA, velocidad);
+  analogWrite(LEFT_VEL_PIN, 0);
+  analogWrite(RIGHT_VEL_PIN, velocity);
 }
 
 
 //Cambios de direccion de los motores
-void Robot::alante(byte velocidad) {
-  if (dirActual != dirAlante) {
-    digitalWrite(PIN_IZDA_ALANTE, HIGH);
-    digitalWrite(PIN_IZDA_ATRAS, LOW);
-    digitalWrite(PIN_DCHA_ALANTE, HIGH);
-    digitalWrite(PIN_DCHA_ATRAS, LOW);
-    this->arranca();
-    dirActual = dirAlante;
+void Robot::alante(byte velocity) {
+  if (currentMotion != forwardMotion) {
+    digitalWrite(FRONT_LEFT_PIN, HIGH);
+    digitalWrite(BACK_LEFT_PIN, LOW);
+    digitalWrite(FRONT_RIGHT_PIN, HIGH);
+    digitalWrite(BACK_RIGHT_PIN, LOW);
+    this->startUp();
+    currentMotion = forwardMotion;
   }
-  this->setVelocidad(velocidad);
+  this->setVelocity(velocity);
 }
 
-void Robot::atras(byte velocidad) {
-  if (dirActual != dirAtras) {
-    digitalWrite(PIN_IZDA_ALANTE, LOW);
-    digitalWrite(PIN_IZDA_ATRAS, HIGH);
-    digitalWrite(PIN_DCHA_ALANTE, LOW);
-    digitalWrite(PIN_DCHA_ATRAS, HIGH);
-    this->arranca();
-    dirActual = dirAtras;
+void Robot::atras(byte velocity) {
+  if (currentMotion != backwardsMotion) {
+    digitalWrite(FRONT_LEFT_PIN, LOW);
+    digitalWrite(BACK_LEFT_PIN, HIGH);
+    digitalWrite(FRONT_RIGHT_PIN, LOW);
+    digitalWrite(BACK_RIGHT_PIN, HIGH);
+    this->startUp();
+    currentMotion = backwardsMotion;
   }
-  this->setVelocidad(velocidad);
+  this->setVelocity(velocity);
 }
 
-void Robot::rotaIzda(byte velocidad) {
-  if (dirActual != dirRotaIzda) {
-    digitalWrite(PIN_IZDA_ALANTE, HIGH);
-    digitalWrite(PIN_IZDA_ATRAS, LOW);
-    digitalWrite(PIN_DCHA_ALANTE, LOW);
-    digitalWrite(PIN_DCHA_ATRAS, HIGH);
-    this->arranca();
-    dirActual = dirRotaIzda;
+void Robot::rotaIzda(byte velocity) {
+  if (currentMotion != leftRotMotion) {
+    digitalWrite(FRONT_LEFT_PIN, HIGH);
+    digitalWrite(BACK_LEFT_PIN, LOW);
+    digitalWrite(FRONT_RIGHT_PIN, LOW);
+    digitalWrite(BACK_RIGHT_PIN, HIGH);
+    this->startUp();
+    currentMotion = leftRotMotion;
   }
-  this->setVelocidad(velocidad);
+  this->setVelocity(velocity);
 }
 
-void Robot::rotaDcha(byte velocidad) {
-  if (dirActual != dirRotaDcha) {
-    digitalWrite(PIN_IZDA_ALANTE, LOW);
-    digitalWrite(PIN_IZDA_ATRAS, HIGH);
-    digitalWrite(PIN_DCHA_ALANTE, HIGH);
-    digitalWrite(PIN_DCHA_ATRAS, LOW);
-    this->arranca();
-    dirActual = dirRotaDcha;
+void Robot::rotaDcha(byte velocity) {
+  if (currentMotion != rightRotMotion) {
+    digitalWrite(FRONT_LEFT_PIN, LOW);
+    digitalWrite(BACK_LEFT_PIN, HIGH);
+    digitalWrite(FRONT_RIGHT_PIN, HIGH);
+    digitalWrite(BACK_RIGHT_PIN, LOW);
+    this->startUp();
+    currentMotion = rightRotMotion;
   }
-  this->setVelocidad(velocidad);
+  this->setVelocity(velocity);
 }
 
 #endif
