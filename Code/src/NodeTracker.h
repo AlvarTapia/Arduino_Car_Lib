@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * Cnosos.h
+ * NodeTracker.h
  * Libreria que lee, reconoce y navega grafos con robots Arduino.
  *
  * Adaptado por Alvar Tapia, Abril 2019.
@@ -8,12 +8,12 @@
  * ----------------------------------------------------------------
  */
 
-#ifndef cnosos_h
-#define cnosos_h
+#ifndef nodetracker_h
+#define nodetracker_h
 
 #include "robot.h"
 
-class Cnosos {
+class NodeTracker {
   /// Redefiniciones de metodos que se usaran a lo largo de la clase.
   // Reducen y hacen mas intuitivo el codigo.
   #define SENSOR_IZDA robot.SIGUELINEAS.readIzda()
@@ -38,7 +38,7 @@ class Cnosos {
   public:
     //Constructores
     /**
-     * Constructor de la libreria Cnosos.
+     * Constructor de la libreria NodeTracker.
      * No necesita un metodo inicializar,
      * dado que se supone que los parametros ya estan inicializados.
      * @param Robot a controlar
@@ -57,18 +57,18 @@ class Cnosos {
      *    Por defecto, se utilizaran 3 marcas
      *    para el identificador de cada nodo.
      */
-    Cnosos(Robot, byte = 3);
+    NodeTracker(Robot, byte = 3);
     //Constructor por defecto
     /**
      * Constructor que no necesita argumentos,
-     * y que permite inicializar un objeto Cnosos.
+     * y que permite inicializar un objeto NodeTracker.
      * Las variables se inicializan a valores no recomendables
      * como pines inaccesibles.
      * IMPORTANTE: Sustituir todas las instancias no inicializadas o
      *    inicializadas de esta manera para que el objeto
      *    funcione correctamente.
      */
-    Cnosos();
+    NodeTracker();
     //Destructor
 
 

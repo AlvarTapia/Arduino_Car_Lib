@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * Cnosos.cpp
+ * NodeTracker.cpp
  * Libreria que lee, reconoce y navega grafos con robots Arduino.
  *
  * Adaptado por Alvar Tapia, Abril 2019.
@@ -8,21 +8,21 @@
  * ----------------------------------------------------------------
  */
 
-#ifndef cnosos_cpp
-#define cnosos_cpp
+#ifndef nodetracker_cpp
+#define nodetracker_cpp
 
-#include "Cnosos.h"
+#include "NodeTracker.h"
 
 #define TIEMPO_PARA_LEER_0 5000
 
 //Constructores
-Cnosos::Cnosos(Robot r, byte bits) {
+NodeTracker::NodeTracker(Robot r, byte bits) {
   robot = r;
   BITS = bits;
 }
 //Constructor por defecto
-Cnosos::Cnosos(){
-  Cnosos(Robot(), 255);
+NodeTracker::NodeTracker(){
+  NodeTracker(Robot(), 255);
 }
 //Destructor
 
@@ -30,7 +30,7 @@ Cnosos::Cnosos(){
 //Funciones
 /*
 //Traducido directamente
-byte Cnosos::siguiente(){
+byte NodeTracker::siguiente(){
   robot.alante();
   bool bit;
   bool sigo = true;
@@ -83,7 +83,7 @@ byte Cnosos::siguiente(){
 */
 /*
 //Interpretacion Tapia
-byte Cnosos::siguiente() {
+byte NodeTracker::siguiente() {
   robot.alante();
   byte bit;
   bool sigo = true;
@@ -153,7 +153,7 @@ byte Cnosos::siguiente() {
 */
 
 //Doble atravesado es el nuevo hueco
-byte Cnosos::siguiente() {
+byte NodeTracker::siguiente() {
   byte bit;
   bool sigo = true;
   bool izda, dcha;
@@ -194,7 +194,7 @@ byte Cnosos::siguiente() {
 }
 
 
-byte Cnosos::lee_numero() {
+byte NodeTracker::lee_numero() {
   byte x = 0;
   for (byte i = 0; i < BITS; i++) {
     //Desplaza el numero a la izquierda.
@@ -219,7 +219,7 @@ byte Cnosos::lee_numero() {
  * Este metodo no sabe desde que parte del nodo empieza, por lo que
  * crucesEncontrados es menor o igual que el grado.
  */
-byte lee_nodo_A(Cnosos* cn, byte &id) {
+byte lee_nodo_A(NodeTracker* cn, byte &id) {
   byte crucesEncontrados = 0;  // caminos contados desde la entrada
   //Mientras siguiente() encuentre cintas cruzadas
   while (cn->siguiente() == 1){
@@ -247,7 +247,7 @@ byte lee_nodo_A(Cnosos* cn, byte &id) {
  *   (Si ha empezado lee_nodo() 2 aristas despues del identificador,
  *    entrada = 2).
  */
-void lee_nodo_B(Cnosos* cn, byte crucesEncontrados, byte id,
+void lee_nodo_B(NodeTracker* cn, byte crucesEncontrados, byte id,
                 byte &grado, byte &entrada) {
   //Calcula el grado del nodo
   grado = 0;
@@ -272,7 +272,7 @@ void lee_nodo_B(Cnosos* cn, byte crucesEncontrados, byte id,
  * para llegar desde el final del identificador al cruce
  * por el que el robot ha empezado a investigar el nodo.
  */
-void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
+void NodeTracker::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
   byte crucesEncontrados = lee_nodo_A(this, etiq);
   lee_nodo_B(this, crucesEncontrados, etiq, grado, entrada);
 }
@@ -280,7 +280,7 @@ void Cnosos::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
 /*
  * Dos giros a la izquierda.
  */
-void Cnosos::sal_aqui() {
+void NodeTracker::sal_aqui() {
   this->sal_izq();
   if (this->siguiente() == 1){
     this->sal_izq();
@@ -289,7 +289,7 @@ void Cnosos::sal_aqui() {
   }
 }
 
-void Cnosos::sal( byte aristaATomar,
+void NodeTracker::sal( byte aristaATomar,
                   byte grado,
                   byte posicionInicial) {
   /*
@@ -346,7 +346,7 @@ void Cnosos::sal( byte aristaATomar,
 }
 
 //Es necesario que esta funcion este en la interfaz?
-void Cnosos::sal_izq() {
+void NodeTracker::sal_izq() {
   robot.rotaIzda();
   while(!SENSOR_IZDA){};
   while(!SENSOR_CENTRO){};
@@ -354,7 +354,7 @@ void Cnosos::sal_izq() {
 
 // Necesita modulo Morse inicializado para que suene/luzca
 // Necesita modulo Bluetooth inicializado para mandar mensajes
-void Cnosos::luce_numero(byte n) {
+void NodeTracker::luce_numero(byte n) {
   robot.BLUETOOTH.envia("Numero: ");
   robot.BLUETOOTH.enviaLinea(String(n));
 
@@ -365,7 +365,7 @@ void Cnosos::luce_numero(byte n) {
 
 // Necesita modulo Morse inicializado para que suene/luzca
 // Necesita modulo Bluetooth inicializado para mandar mensajes
-void Cnosos::error() {
+void NodeTracker::error() {
   robot.para();
   while (true){
     robot.BLUETOOTH.enviaLinea("¡ERROR!");
