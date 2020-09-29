@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * morse.h
+ * Morse.h
  * Libreria que permite que la Arduino pueda enviar señales en Morse.
  * Necesita de un dispositivo que pueda cambiar notablemente de estado,
  * como un LED o una sirena.
@@ -15,32 +15,37 @@
 
 #include "Arduino.h"
 
+// TODO
+enum class MorseDeviceType {none, led, siren};
 
 class Morse{
+  // TODO
+  #define INVALID_PIN 255
+
   /// Frecuencia por defecto de la sirena, en hercios.
-  #define DEFAULT_FREC_SIRENA 18000
+  #define DEFAULT_SIREN_FREC 18000
   /**
    * Tiempo que va a estar la señal activa para representar una raya,
    * en ms.
    */
-  #define TIEMPO_RAYA 300
+  #define DASH_TIME 300
   /**
    * Tiempo que va a estar la señal activa para representar un punto,
    * en ms.
    */
-  #define TIEMPO_PUNTO 100
+  #define DOT_TIME 100
   /**
    * Tiempo que va a estar la señal desactivada
    * para diferenciar simbolos morse, en ms.
    */
-  #define TIEMPO_ENTRE_SIMBOLOS 100
+  #define TIME_BETWEEN_SYMBOLS 100
 
   private:
     /**
-     * Pin que transmitira la señal morse.
+     * Pin que transmitira la señal Morse.
      * Puede conectarse a un LED o a una sirena.
      */
-    byte PIN_MORSE;
+    byte morsePin;
     /**
      * Caracter que guarda el dispositivo de salida.
      * 'l' = LED, dispositivo que funciona de manera binaria,
@@ -49,9 +54,9 @@ class Morse{
      *       Puede variar de frecuencia ademas
      *       de poder estar ENCENDIDO o APAGADO.
      */
-    char DISPOSITIVO;
+    char device;
     /// Frecuencia a la que funcionara la sirena.
-    unsigned int FREC_SIRENA;
+    unsigned int sirenFrec;
   public:
     //Constructor
     /**
@@ -69,17 +74,17 @@ class Morse{
      *    Los humanos podemos oír entre 20 Hz y 20 kHz.
      *    Las frecuencias mas bajas se perciben con mas volumen
      *    y pueden llegar a ser muy molestas.
-     *    Por defecto, toma el valor de DEFAULT_FREC_SIRENA.
+     *    Por defecto, toma el valor de DEFAULT_SIREN_FREC.
      */
-    Morse(byte, char, unsigned int = DEFAULT_FREC_SIRENA);
+    Morse(byte, char, unsigned int = DEFAULT_SIREN_FREC);
     //Constructor por defecto
     /**
      * Constructor que no necesita argumentos, y que permite
-     * inicializar variables como las presentes en robot.h.
-     * Las variables se inicializan a valores no recomendables como
+     * initr variables como las presentes en robot.h.
+     * Las variables se initn a valores no recomendables como
      * pines inaccesibles y caracteres que no tiene significado en la clase.
-     * IMPORTANTE: Sustituir todas las instancias no inicializadas
-     *    o inicializadas de esta manera para que
+     * IMPORTANTE: Sustituir todas las instancias no initdas
+     *    o initdas de esta manera para que
      *    el modulo funcione como se espera.
      */
     Morse();
@@ -91,18 +96,18 @@ class Morse{
      * Permite al pin establecido en el constructor
      * mandar señales en Morse.
      */
-    void inicializa();
+    void init();
 
     //Funciones
     /**
      * Manda una señal "raya", y espera un tiempo callado.
      */
-    void raya();
+    void dash();
 
     /**
      * Manda una señal "punto", y espera un tiempo callado.
      */
-    void punto();
+    void dot();
 
     /**
      * Manda un conjunto de señales que comunican "sos".

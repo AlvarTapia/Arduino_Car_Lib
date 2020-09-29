@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * morse.cpp
+ * Morse.cpp
  * Libreria que permite que la Arduino pueda enviar señales en Morse.
  * Necesita de un dispositivo que pueda cambiar notablemente de estado,
  * como un LED o una sirena.
@@ -17,65 +17,65 @@
 
 //Constructores
 Morse::Morse(byte pinMorse, char outputDevice, unsigned int sirenFrec) {
-  PIN_MORSE = pinMorse;
-  DISPOSITIVO = outputDevice;
-  FREC_SIRENA = sirenFrec;
+  morsePin = pinMorse;
+  device = outputDevice;
+  sirenFrec = sirenFrec;
 }
 //Constructor por defecto
 Morse::Morse(){
-  PIN_MORSE = 255;
-  DISPOSITIVO = 'x';
-  FREC_SIRENA = DEFAULT_FREC_SIRENA;
+  morsePin = INVALID_PIN;
+  device = 'x';
+  sirenFrec = DEFAULT_SIREN_FREC;
 }
 //Destructor
 
 
 //Inicializador
-void Morse::inicializa() {
-  pinMode(PIN_MORSE, OUTPUT);
+void Morse::init() {
+  pinMode(morsePin, OUTPUT);
 }
 
 //Funciones
-void Morse::raya() {
-  switch (DISPOSITIVO) {
+void Morse::dash() {
+  switch (device) {
     case 's':
-      tone(PIN_MORSE, FREC_SIRENA);
+      tone(morsePin, sirenFrec);
     case 'l':
-      digitalWrite(PIN_MORSE, HIGH);
+      digitalWrite(morsePin, HIGH);
   }
-  delay(TIEMPO_RAYA);
-  switch (DISPOSITIVO) {
+  delay(DASH_TIME);
+  switch (device) {
     case 's':
-      noTone(PIN_MORSE);
+      noTone(morsePin);
     case 'l':
-      digitalWrite(PIN_MORSE, LOW);
+      digitalWrite(morsePin, LOW);
   }
-  delay(TIEMPO_ENTRE_SIMBOLOS);
+  delay(TIME_BETWEEN_SYMBOLS);
 }
 
-void Morse::punto() {
-  switch (DISPOSITIVO) {
+void Morse::dot() {
+  switch (device) {
     case 's':
-      tone(PIN_MORSE, FREC_SIRENA);
+      tone(morsePin, sirenFrec);
     case 'l':
-      digitalWrite(PIN_MORSE, HIGH);
+      digitalWrite(morsePin, HIGH);
   }
-  delay(TIEMPO_PUNTO);
-  switch (DISPOSITIVO) {
+  delay(DOT_TIME);
+  switch (device) {
     case 's':
-      noTone(PIN_MORSE);
+      noTone(morsePin);
     case 'l':
-      digitalWrite(PIN_MORSE, LOW);
+      digitalWrite(morsePin, LOW);
   }
-  delay(TIEMPO_ENTRE_SIMBOLOS);
+  delay(TIME_BETWEEN_SYMBOLS);
 }
 
 void Morse::sos() {
-  this->punto(); this->punto(); this->punto();
-  delay(TIEMPO_ENTRE_SIMBOLOS);
-  this->raya(); this->raya(); this->raya();
-  delay(TIEMPO_ENTRE_SIMBOLOS);
-  this->punto(); this->punto(); this->punto();
+  this->dot(); this->dot(); this->dot();
+  delay(TIME_BETWEEN_SYMBOLS);
+  this->dash(); this->dash(); this->dash();
+  delay(TIME_BETWEEN_SYMBOLS);
+  this->dot(); this->dot(); this->dot();
   delay(1000);
 }
 
