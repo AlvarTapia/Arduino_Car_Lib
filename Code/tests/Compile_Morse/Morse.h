@@ -14,16 +14,11 @@
 #define morse_h
 
 #include "Arduino.h"
-
-// TODO
-enum class MorseDeviceType {NONE, LED, SIREN};
+#include "MorseDeviceType.h"
 
 class Morse{
-  // TODO
   #define INVALID_PIN 255
 
-  /// Frecuencia por defecto de la sirena, en hercios.
-  #define DEFAULT_SIREN_FREC 18000
   /**
    * Tiempo que va a estar la señal activa para representar una raya,
    * en ms.
@@ -55,8 +50,6 @@ class Morse{
      *       de poder estar ENCENDIDO o APAGADO.
      */
     MorseDeviceType device;
-    /// Frecuencia a la que funcionara la sirena.
-    unsigned int sirenFrec;
   public:
     //Constructor
     /**
@@ -99,7 +92,7 @@ class Morse{
     void init();
 
     //Funciones
-    
+
     void symbol(int);
 
     /**
