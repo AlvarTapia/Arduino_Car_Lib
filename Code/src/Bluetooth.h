@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * bluetooth.h
+ * Bluetooth.h
  * Clase controlador del modulo Bluetooth.
  * Permite que la Arduino pueda enviar y recibir mensajes.
  *
@@ -16,10 +16,10 @@
 
 
 class Bluetooth{
-  #define BAUDIOS_DEFECTO 9600
+  #define DEFAULT_BAUDS 9600
   private:
     /// Señales por segundo a la que se establece la comunicacion.
-    int BAUDIOS;
+    int BAUDS;
     /// Caracter de sincronizacion.
     char START_CHAR;
 
@@ -31,11 +31,11 @@ class Bluetooth{
      *    Señales por segundo de la comunicacion.
      *    Por defecto, Bluetooth se comunica a 9600 baudios.
      * @param Caracter de sincronizacion
-     *    Si se utiliza el metodo inicializa(), se esperara
+     *    Si se utiliza el metodo init(), se esperara
      *    este caracter para seguir con el codigo.
      *    Por defecto, sera el caracter 'x'.
      */
-    Bluetooth(int = BAUDIOS_DEFECTO, char = 'x');
+    Bluetooth(int = DEFAULT_BAUDS, char = 'x');
     //Destructor
     /**
      * Si el objeto se ha inicializado, al eliminarlo
@@ -48,35 +48,35 @@ class Bluetooth{
      * Inicializa las conexiones de la Arduino para que pueda
      * enviar datos a otro dispositivo.
      */
-    void inicializa();
+    void init();
 
     //Funciones
     /**
      * Desactiva la comunicacion de la Arduino
      * con otros dispositivos.
      */
-    void finaliza();
+    void finish();
 
     /**
      * La Arduino envia un String a otro dispositivo
      * (sin retorno de carro).
      * @param String con la informacion a enviar.
      */
-    void envia(String);
+    void send(String);
 
     /**
      * La Arduino envia un String a otro dispositivo
      * e introduce un retorno de carro al final.
      * @param String con la informacion a enviar.
      */
-    void enviaLinea(String);
+    void sendNewLine(String);
 
     /**
      * La Arduino esperara al caracter de
      * sincronizacion (definido en el constructor)
      * antes de ejecutar mas instrucciones.
      */
-    void sincroniza();
+    void sync();
 };
 
 #endif
