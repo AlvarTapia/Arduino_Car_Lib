@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * siguelineas.h
+ * LineFollower.h
  * Clase que permite utilizar los sensores siguelineas.
  * Se espera que se usen como mucho tres sensores por objeto.
  *
@@ -9,17 +9,17 @@
  * ----------------------------------------------------------------
  */
 
-#ifndef siguelineas_h
-#define siguelineas_h
+#ifndef linefollower_h
+#define linefollower_h
 
 #include "Arduino.h"
 
-class Siguelineas {
+class LineFollower {
   protected:
     /// Pines a los que estan conectados los siguelineas.
-    byte PIN_SIGUELINEAS_IZDA;
-    byte PIN_SIGUELINEAS_CENTRO;
-    byte PIN_SIGUELINEAS_DCHA;
+    byte LEFT_LINE_SENSOR_PIN;
+    byte CENTRE_LINE_SENSOR_PIN;
+    byte RIGHT_LINE_SENSOR_PIN;
 
   public:
     //Constructores
@@ -32,7 +32,7 @@ class Siguelineas {
      * @param Pin siguelineas derecho
      *    Pin conectado al siguelineas derecho.
      */
-    Siguelineas(byte, byte, byte);
+    LineFollower(byte, byte, byte);
     /**
      * Establece dos pines para los sensores siguelineas.
      * @param Pin siguelineas izquierdo
@@ -40,13 +40,13 @@ class Siguelineas {
      * @param Pin siguelineas derecho
      *    Pin conectado al siguelineas derecho.
      */
-    Siguelineas(byte, byte);
+    LineFollower(byte, byte);
     /**
      * Establece un pin para el sensor siguelineas.
      * @param Pin siguelineas central
      *    Pin conectado al siguelineas central.
      */
-    Siguelineas(byte);
+    LineFollower(byte);
     //Constructor por defecto
     /**
      * Constructor que no necesita argumentos,
@@ -57,7 +57,7 @@ class Siguelineas {
      *    o inicializadas de esta manera para que el modulo
      *    funcione como se espera.
      */
-    Siguelineas();
+    LineFollower();
     //Destructor
 
 
@@ -66,26 +66,34 @@ class Siguelineas {
      * Permite a los pines establecidos en el constructor
      * recibir señales de los modulos siguelineas.
      */
-    void inicializa();
+    void init();
 
     //Funciones
     /**
      * Accede al sensor izquierdo y devuelve su lectura.
      * @return TRUE si hay una linea debajo del sensor izquierdo.
      */
-    bool readIzda();
+    bool leftRead();
 
     /**
      * Accede al sensor central y devuelve su lectura.
      * @return TRUE si hay una linea debajo del sensor central.
      */
-     bool readCentro();
+     bool centreRead();
 
     /**
      * Accede al sensor derecho y devuelve su lectura.
      * @return TRUE si hay una linea debajo del sensor derecho.
      */
-     bool readDcha();
+     bool rightRead();
+
+     /**
+      * Access all available sensors and returns its collective reading.
+      * @return 3 bit number.
+      *         If sensors are detecting lines, left, centre or right
+      *         adds 1, 2 or 4 respectively to the default value (0).
+      */
+     byte read();
 };
 
 #endif
