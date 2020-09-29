@@ -15,8 +15,8 @@
 #include "Bluetooth.h"
 
 //Constructor
-Bluetooth::Bluetooth(int baudios, char startChar) {
-  BAUDIOS = baudios;
+Bluetooth::Bluetooth(int bauds, char startChar) {
+  BAUDS = bauds;
   START_CHAR = startChar;
 }
 //Destructor
@@ -24,37 +24,38 @@ Bluetooth::~Bluetooth() {
   //No funciona como se espera.
   //A Abril 2019 se deja sin implementar.
   //if (Serial) Serial.end();
+  //while(!Serial) {}; Serial.end();
 }
 
 //Inicializador
-void Bluetooth::inicializa() {
-  Serial.begin(BAUDIOS);
+void Bluetooth::init() {
+  Serial.begin(BAUDS);
   //Espera mientras no se puedan mandar/recibir mensajes
   while(!Serial){};
 }
 
 //Funciones
-void Bluetooth::finaliza() {
+void Bluetooth::finish() {
   Serial.end();
 }
 
-void Bluetooth::envia(String s) {
+void Bluetooth::send(String s) {
   Serial.print(s);
 }
 
-void Bluetooth::enviaLinea(String s) {
+void Bluetooth::sendNewLine(String s) {
   Serial.println(s);
 }
 
-void Bluetooth::sincroniza() {
+void Bluetooth::sync() {
   char xtart = 0;
   while (xtart != START_CHAR) {
     if ( Serial.available() ) {
       xtart = Serial.read();
-      Serial.println("Caracter leido");
+      Serial.println("Char read");
     }
   }
-  Serial.println("Sincronizados!");
+  Serial.println("Synchronized!");
 }
 
 #endif
