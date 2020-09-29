@@ -13,7 +13,7 @@
 #ifndef morse_cpp
 #define morse_cpp
 
-#include "morse.h"
+#include "Morse.h"
 
 //Constructores
 Morse::Morse(byte pinMorse, char outputDevice, unsigned int sirenFrec) {
