@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * bluetooth.cpp
+ * Bluetooth.cpp
  * Clase controlador del modulo Bluetooth.
  * Permite que la Arduino pueda enviar y recibir mensajes.
  *
@@ -12,7 +12,7 @@
 #ifndef bluetooth_cpp
 #define bluetooth_cpp
 
-#include "bluetooth.h"
+#include "Bluetooth.h"
 
 //Constructor
 Bluetooth::Bluetooth(int baudios, char startChar) {

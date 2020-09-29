@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * bluetooth.h
+ * Bluetooth.h
  * Clase controlador del modulo Bluetooth.
  * Permite que la Arduino pueda enviar y recibir mensajes.
  *
