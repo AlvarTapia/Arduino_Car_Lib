@@ -16,9 +16,7 @@
 #include "Arduino.h"
 
 // TODO
-class MorseDeviceType {NONE, LED, SIREN};
-
-const MorseDeviceType NONE_DEVICE
+enum class MorseDeviceType {NONE, LED, SIREN};
 
 class Morse{
   // TODO
@@ -56,7 +54,7 @@ class Morse{
      *       Puede variar de frecuencia ademas
      *       de poder estar ENCENDIDO o APAGADO.
      */
-    char device;
+    MorseDeviceType device;
     /// Frecuencia a la que funcionara la sirena.
     unsigned int sirenFrec;
   public:

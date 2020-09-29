@@ -41,7 +41,6 @@ void Morse::symbol(int symbolTime) {
     case MorseDeviceType::LED:
       digitalWrite(morsePin, HIGH);
   }
-
   delay(symbolTime);
 
   switch (device) {
@@ -50,7 +49,6 @@ void Morse::symbol(int symbolTime) {
     case MorseDeviceType::LED:
       digitalWrite(morsePin, LOW);
   }
-  
   delay(TIME_BETWEEN_SYMBOLS);
 }
 
