@@ -16,16 +16,14 @@
 #include "Morse.h"
 
 //Constructores
-Morse::Morse(byte pinMorse, char outputDevice, unsigned int sirenFrec) {
+Morse::Morse(byte pinMorse, MorseDeviceType outputDevice, unsigned int sirenFrec) {
   morsePin = pinMorse;
   device = outputDevice;
   sirenFrec = sirenFrec;
 }
 //Constructor por defecto
 Morse::Morse(){
-  morsePin = INVALID_PIN;
-  device = 'x';
-  sirenFrec = DEFAULT_SIREN_FREC;
+  Morse(INVALID_PIN, MorseDeviceType::NONE, DEFAULT_SIREN_FREC);
 }
 //Destructor
 
@@ -36,38 +34,32 @@ void Morse::init() {
 }
 
 //Funciones
-void Morse::dash() {
+void Morse::symbol(int symbolTime) {
   switch (device) {
-    case 's':
+    case MorseDeviceType::SIREN:
       tone(morsePin, sirenFrec);
-    case 'l':
+    case MorseDeviceType::LED:
       digitalWrite(morsePin, HIGH);
   }
-  delay(DASH_TIME);
+
+  delay(symbolTime);
+
   switch (device) {
-    case 's':
+    case MorseDeviceType::SIREN:
       noTone(morsePin);
-    case 'l':
+    case MorseDeviceType::LED:
       digitalWrite(morsePin, LOW);
   }
+  
   delay(TIME_BETWEEN_SYMBOLS);
 }
 
+void Morse::dash() {
+  symbol(DASH_TIME);
+}
+
 void Morse::dot() {
-  switch (device) {
-    case 's':
-      tone(morsePin, sirenFrec);
-    case 'l':
-      digitalWrite(morsePin, HIGH);
-  }
-  delay(DOT_TIME);
-  switch (device) {
-    case 's':
-      noTone(morsePin);
-    case 'l':
-      digitalWrite(morsePin, LOW);
-  }
-  delay(TIME_BETWEEN_SYMBOLS);
+  symbol(DOT_TIME);
 }
 
 void Morse::sos() {

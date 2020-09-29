@@ -16,7 +16,9 @@
 #include "Arduino.h"
 
 // TODO
-enum class MorseDeviceType {none, led, siren};
+class MorseDeviceType {NONE, LED, SIREN};
+
+const MorseDeviceType NONE_DEVICE
 
 class Morse{
   // TODO
@@ -76,7 +78,7 @@ class Morse{
      *    y pueden llegar a ser muy molestas.
      *    Por defecto, toma el valor de DEFAULT_SIREN_FREC.
      */
-    Morse(byte, char, unsigned int = DEFAULT_SIREN_FREC);
+    Morse(byte, MorseDeviceType, unsigned int = DEFAULT_SIREN_FREC);
     //Constructor por defecto
     /**
      * Constructor que no necesita argumentos, y que permite
@@ -99,6 +101,9 @@ class Morse{
     void init();
 
     //Funciones
+    
+    void symbol(int);
+
     /**
      * Manda una señal "raya", y espera un tiempo callado.
      */
