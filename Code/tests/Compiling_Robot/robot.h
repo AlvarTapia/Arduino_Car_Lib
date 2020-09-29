@@ -14,10 +14,10 @@
 #ifndef robot_h
 #define robot_h
 
-//#include "siguelineas.h"
+#include "siguelineas.h"
 //#include "infrarrojos.h" //A Abril 2019, esta biblioteca no se utiliza
-//#include "morse.h"
-//#include "bluetooth.h"
+#include "morse.h"
+#include "bluetooth.h"
 
 #include "Arduino.h"
 
@@ -71,13 +71,13 @@ class Robot {
      * Para utilizar los modulos, los objetos deben establecerse e inicializarse.
      */
     /// Modulo siguelineas
-//    Siguelineas LINEFOLLOWER;
+    Siguelineas LINEFOLLOWER;
     /// Modulo mando infrarrojo
     //Infrarrojos INFRARROJOS; //A Abril 2019, este objeto no se utiliza
     /// Modulo morse
-//    Morse MORSE;
+    Morse MORSE;
     /// Modulo bluetooth
-//    Bluetooth BLUETOOTH;
+    Bluetooth BLUETOOTH;
 
     //Constructores
     /**
@@ -139,7 +139,7 @@ class Robot {
      *    Velocidad a la que ira el robot.
      *    Valores entre 0-255.
      */
-    void setVel(byte);
+    void setVelocity(byte);
 
     /**
      * Deja de alimentar los motores y para el robot.
@@ -156,7 +156,7 @@ class Robot {
      * Establece una velocidad moderada,
      * en la que el robot es siempre capaz de girar.
      */
-    void spinVelocity();
+    void turnVelocity();
 
     /**
      * Alimenta los motores al 100% de la capacidad de las pilas.

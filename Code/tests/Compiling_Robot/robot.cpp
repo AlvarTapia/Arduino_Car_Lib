@@ -88,9 +88,9 @@ void Robot::maxVelocity() {
 
 //Cambios de direccion
 void Robot::turnLeft(byte velocity) {
-  if (currentMotion != turnLeftMotion) {
+  if (currentMotion != leftTurnMotion) {
     this->startUp();
-    currentMotion = turnLeftMotion;
+    currentMotion = leftTurnMotion;
   }
   analogWrite(LEFT_VEL_PIN, velocity);
   analogWrite(RIGHT_VEL_PIN, 0);
@@ -98,9 +98,9 @@ void Robot::turnLeft(byte velocity) {
 }
 
 void Robot::turnRight(byte velocity) {
-  if (currentMotion != turnRightMotion) {
+  if (currentMotion != rightTurnMotion) {
     this->startUp();
-    currentMotion = turnRightMotion;
+    currentMotion = rightTurnMotion;
   }
   analogWrite(LEFT_VEL_PIN, 0);
   analogWrite(RIGHT_VEL_PIN, velocity);
@@ -108,7 +108,7 @@ void Robot::turnRight(byte velocity) {
 
 
 //Cambios de direccion de los motores
-void Robot::forward(byte velocity) {
+void Robot::forwards(byte velocity) {
   if (currentMotion != forwardMotion) {
     digitalWrite(FRONT_LEFT_PIN, HIGH);
     digitalWrite(BACK_LEFT_PIN, LOW);
