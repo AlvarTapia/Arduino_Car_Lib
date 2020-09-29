@@ -13,12 +13,12 @@
 
 #include "NodeTracker.h"
 
-#define TIEMPO_PARA_LEER_0 5000
+#define READING_TIME_VALUE_0 5000
 
 //Constructores
-NodeTracker::NodeTracker(Robot r, byte bits) {
+NodeTracker::NodeTracker(Robot r, byte numBits) {
   robot = r;
-  BITS = bits;
+  BITS_OF_ID = numBits;
 }
 //Constructor por defecto
 NodeTracker::NodeTracker(){
@@ -28,181 +28,57 @@ NodeTracker::NodeTracker(){
 
 
 //Funciones
-/*
-//Traducido directamente
-byte NodeTracker::siguiente(){
-  robot.alante();
-  bool bit;
-  bool sigo = true;
-  byte izda, centro, dcha;
-  while (sigo) {
-    izda = SENSOR_IZDA;
-    centro = SENSOR_CENTRO;
-    dcha = SENSOR_DCHA;
-    if (izda && centro && dcha) {
-      // cinta atravesada
-      bit = true;
-      sigo = false;
-      while (SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA);
-    }else if (!(izda || centro || dcha)) {
-      //Salta el hueco
-      while(!(SENSOR_IZDA || SENSOR_CENTRO || SENSOR_DCHA)) {};
-      if (!SENSOR_IZDA && SENSOR_CENTRO && !SENSOR_DCHA){
-        // hueco
-        bit = false;
-        sigo = false;
-      }
-    }else if (izda ^ dcha) {
-      if (SENSOR_IZDA) {
-        robot.rotaIzda();
-        while (SENSOR_IZDA && !SENSOR_DCHA) {};
-      } else if (SENSOR_DCHA) {
-        robot.rotaDcha();
-        while (SENSOR_DCHA && !SENSOR_IZDA) {};
-      }
-      robot.alante();
-    }
-  }
-
-  // Bit sobrepasado. Enderezamos si es preciso.
-  while (SENSOR_IZDA || SENSOR_DCHA) {
-    if (SENSOR_IZDA) {
-      robot.rotaIzda();
-      while (SENSOR_IZDA);
-    } else if (SENSOR_DCHA) {
-      robot.rotaDcha();
-      while (SENSOR_DCHA);
-    }
-  }
-
-  robot.para();
-  delay(TIEMPO_PENSAR);
-
-  return bit;
-}
-*/
-/*
-//Interpretacion Tapia
-byte NodeTracker::siguiente() {
-  robot.alante();
-  byte bit;
-  bool sigo = true;
-  bool izda, centro, dcha;
-  //Avanza hasta encontrar un hueco o una cinta atravesada
-  while (sigo) {
-    izda = SENSOR_IZDA;
-    centro = SENSOR_CENTRO;
-    dcha = SENSOR_DCHA;
-    if (izda && centro && dcha) {
-      //Se confirma que es una cinta atravesada
-      Serial.println("Todos activados");
-      // cinta atravesada confirmada
-      bit = 1;
-      sigo = false;
-      //Mientras haya cinta atravesada, sigue alante para evitarla
-      while(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA) {
-        robot.alante();
-      }
-      //Si al final del cruce se encuentra con un hueco,
-      //rota a la dcha para evitarlo
-      while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA) {
-        robot.rotaDcha();
-      }
-      //Una vez el robot centrado, se continua normalmente
-    } else if (!izda && !centro && !dcha) {
-      //TODO funciona raro,
-      //huecos entre sensores entran en esta categoria
-      Serial.println("Ninguno activado");
-      while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA) {
-        //Mientras haya hueco, sigue alante
-        robot.alante();
-      }
-      //Si solo se activa el sensor del centro
-      if (!SENSOR_IZDA && SENSOR_CENTRO && !SENSOR_DCHA) {
-        // hueco confirmado
-        bit = 0;
-        sigo = false;
-      }
-      //Si se activa otra combinacion de sensores, descartalo;
-      //ha sido un error
-    }
-    //Avanza normalmente a partir de ahora.
-    if (izda) {
-      robot.rotaIzda();
-      Serial.println("Girando izda");
-      //Espera a que se limpie el sensor izquierdo
-      while(SENSOR_IZDA){ }
-      //Mientras haya un hueco, ignoralo
-      while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA){ };
-    } else if (dcha) {
-      robot.rotaDcha();
-      Serial.println("Girando dcha");
-      //Espera a que se limpie el sensor derecho
-      while(SENSOR_DCHA){ }
-      //Mientras haya un hueco, ignoralo
-      while(!SENSOR_IZDA && !SENSOR_CENTRO && !SENSOR_DCHA){ };
-    }
-    robot.alante();
-    Serial.println("Otro bucle");
-  }
-  robot.para();
-  Serial.println("Bit leido");
-  delay(TIEMPO_PENSAR);
-  return bit;
-}
-*/
-
 //Doble atravesado es el nuevo hueco
-byte NodeTracker::siguiente() {
+byte NodeTracker::nextBit() {
   byte bit;
-  bool sigo = true;
-  bool izda, dcha;
+  bool keepGoing = true;
+  bool left, right;
   int i;
   //Avanza hasta encontrar una cinta atravesada
-  while (sigo) {
+  while (keepGoing) {
     robot.alante();
-    //centro = SENSOR_CENTRO;
-    if(SENSOR_IZDA || SENSOR_DCHA){
+    //centro = CENTRE_SENSOR;
+    if(LEFT_SENSOR || RIGHT_SENSOR){
       delay(50);
-      izda = SENSOR_IZDA;
-      dcha = SENSOR_DCHA;
-      if(izda && dcha){
+      left = LEFT_SENSOR;
+      right = RIGHT_SENSOR;
+      if(left && right){
         bit = 1;
-        sigo = false;
+        keepGoing = false;
 
         i = 0;
-        while(SENSOR_IZDA && SENSOR_CENTRO && SENSOR_DCHA){
+        while(LEFT_SENSOR && CENTRE_SENSOR && RIGHT_SENSOR){
           i++;
         }
         //Si se ha pasado el limite,
         //entonces esta cinta atravesada vale 0
-        if(i>TIEMPO_PARA_LEER_0){
+        if(i>READING_TIME_VALUE_0){
           bit = 0;
         }
-      }else if(izda && !dcha){
-        robot.rotaIzda();
-      }else if(!izda && dcha){
-        robot.rotaDcha();
+      }else if(left && !right){
+        robot.leftRotation();
+      }else if(!left && right){
+        robot.rightRotation();
       }
     }
-    while(!SENSOR_CENTRO);
+    while(!CENTRE_SENSOR);
   }
-  robot.para();
-  Serial.println("Bit leido");
-  delay(TIEMPO_PENSAR);
+  robot.stop();
+  Serial.println("Bit read");
+  delay(THINKING_TIME);
   return bit;
 }
 
 
-byte NodeTracker::lee_numero() {
+byte NodeTracker::readNumber() {
   byte x = 0;
-  for (byte i = 0; i < BITS; i++) {
+  for (byte i = 0; i < BITS_OF_ID; i++) {
     //Desplaza el numero a la izquierda.
     //Si x = 0, despues de la operacion x = 0
     //Si x = 0b1, despues de la operacion x = 0b10
     x = x << 1;
     //Si encuentra un cruce, suma 1 a x
-    if(siguiente() == 1){
+    if(nextBit() == 1){
       x++;
     }
     //Si no encuentra un cruce, como ya se introduce un 0
@@ -212,86 +88,88 @@ byte NodeTracker::lee_numero() {
 }
 
 /*
+ * lee_nodo_A()
  * Recorre el perimetro del nodo,
  * y devuelve el numero de cruces que se encuentre
  * (tambien reconoce y devuelve por referencia
  * el identificador del nodo actual).
  * Este metodo no sabe desde que parte del nodo empieza, por lo que
- * crucesEncontrados es menor o igual que el grado.
+ * crossroadsFound es menor o igual que el degree.
  */
-byte lee_nodo_A(NodeTracker* cn, byte &id) {
-  byte crucesEncontrados = 0;  // caminos contados desde la entrada
-  //Mientras siguiente() encuentre cintas cruzadas
-  while (cn->siguiente() == 1){
-    crucesEncontrados++;
+byte recon_trip(NodeTracker* nt, byte &id) {
+  byte crossroadsFound = 0;  // caminos contados desde la entrance
+  //Mientras nextBit() encuentre cintas cruzadas
+  while (nt->nextBit() == 1){
+    crossroadsFound++;
   }
 
-  //Cuando siguiente() encuentre un hueco en la cinta
+  //Cuando nextBit() encuentre un hueco en la cinta
   //Empieza a leer el identificador
-  id = cn->lee_numero();
+  id = nt->readNumber();
 
   //Devuelve los cruces que haya encontrado
-  return crucesEncontrados;
+  return crossroadsFound;
 }
 
 /*
- * Despues de lee_nodo_A sabemos que el robot
+ * lee_nodo_b()
+ * Despues de recon_trip sabemos que el robot
  * esta detras del identificador de nodo.
  *
- * Calcula el grado del nodo (numero aristas),
+ * Calcula el degree del nodo (numero aristas),
  * y lo devuelve por referencia.
- * El identificador leido en lee_nodo_A debe ser el mismo
- * que el leido en lee_nodo_B.
+ * El identificador leido en recon_trip debe ser el mismo
+ * que el leido en degreeOfNode.
  * Calcula la arista desde la que ha empezado contando
- * desde despues de la etiqueta, con la ayuda de crucesEncontrados.
- *   (Si ha empezado lee_nodo() 2 aristas despues del identificador,
- *    entrada = 2).
+ * desde despues de la labelueta, con la ayuda de crossroadsFound.
+ *   (Si ha empezado readNode() 2 aristas despues del identificador,
+ *    entrance = 2).
  */
-void lee_nodo_B(NodeTracker* cn, byte crucesEncontrados, byte id,
-                byte &grado, byte &entrada) {
-  //Calcula el grado del nodo
-  grado = 0;
-  while (cn->siguiente() == 1){
-    grado++;
+void degreeOfNode(NodeTracker* nt, byte crossroadsFound, byte id,
+                byte &degree, byte &entrance) {
+  //Calcula el degree del nodo
+  degree = 0;
+  while (nt->nextBit() == 1){
+    degree++;
   }
 
   // Calcula el cruce por el que ha entrado el robot
-  entrada = grado - crucesEncontrados + 1;
+  entrance = degree - crossroadsFound + 1;
 
   //Si el id leido es distinto del recibido por argumentos
-  if (id != cn->lee_numero()){
+  if (id != nt->readNumber()){
     //Salta error
-    cn->error();
+    nt->error();
   }
 }
 
 /*
  * Despues de dos vueltas al nodo, devuelve por referencia
- * el identificador del nodo, el grado del nodo,
+ * el identificador del nodo, el degree del nodo,
  * y cuantos cruces debe saltarse el robot
  * para llegar desde el final del identificador al cruce
  * por el que el robot ha empezado a investigar el nodo.
  */
-void NodeTracker::lee_nodo(byte &etiq, byte &grado, byte &entrada) {
-  byte crucesEncontrados = lee_nodo_A(this, etiq);
-  lee_nodo_B(this, crucesEncontrados, etiq, grado, entrada);
+void NodeTracker::readNode(byte &label, byte &degree, byte &entrance) {
+  byte crossroadsFound = recon_trip(this, label);
+  degreeOfNode(this, crossroadsFound, label, degree, entrance);
 }
 
 /*
  * Dos giros a la izquierda.
  */
-void NodeTracker::sal_aqui() {
-  this->sal_izq();
-  if (this->siguiente() == 1){
-    this->sal_izq();
+void NodeTracker::takeThisTurn() {
+  this->takeLeft();
+  if (this->nextBit() == 1){
+    this->takeLeft();
   }else{
     this->error();
   }
 }
 
-void NodeTracker::sal( byte aristaATomar,
-                  byte grado,
-                  byte posicionInicial) {
+void NodeTracker::takeExit( byte edgesToTurn,
+                  byte degree,
+                  byte initialPos) {
   /*
    * Arista saltado representa los cruces que el robot
    * se ha saltado hasta el momento.
@@ -301,35 +179,35 @@ void NodeTracker::sal( byte aristaATomar,
    * siendo "0" el tramo entre el identificador y la primera arista,
    * y "n" el tramo entre la ultima arista y el identificador.
    */
-  byte aristaSaltada = posicionInicial;
+  byte disregardedEdge = initialPos;
 
   /*
    * Mientras la arista que el robot se ha saltado
    * no sea la arista anterior a la que se quiere tomar:
    */
-  while (aristaSaltada != aristaATomar - 1) {
+  while (disregardedEdge != edgesToTurn - 1) {
     /*
-     * Si la arista actual supera o iguala el grado:
+     * Si la arista actual supera o iguala el degree:
      * Esta en la zona de identificadores
      */
-    if (aristaSaltada >= grado) {
+    if (disregardedEdge >= degree) {
       //Si no encuentra el identificador, error
-      if (this->siguiente() == 1) {
+      if (this->nextBit() == 1) {
         error();
       }
       //Descarta el identificador, no lo necesitamos ahora
-      lee_numero();
+      readNumber();
       //La arista actual es 0 (no nos hemos saltado ninguna)
-      aristaSaltada = 0;
+      disregardedEdge = 0;
     }else{
       //El robot no esta en zona de identificadores
       //Si encuentra un identificador, error
-      if (this->siguiente() == 0){
+      if (this->nextBit() == 0){
        this->error();
       }
       //El robot acaba de saltarse un cruce
       //La arista saltada aumenta en 1
-      aristaSaltada++;
+      disregardedEdge++;
     }
   }
 
@@ -338,39 +216,163 @@ void NodeTracker::sal( byte aristaATomar,
    * es que se quiere tomar el siguiente cruce.
    * El robot toma el siguiente cruce.
    */
-  if (this->siguiente() == 1){
-    this->sal_aqui();
+  if (this->nextBit() == 1){
+    this->takeThisTurn();
   }else{
     this->error();
   }
 }
 
 //Es necesario que esta funcion este en la interfaz?
-void NodeTracker::sal_izq() {
-  robot.rotaIzda();
-  while(!SENSOR_IZDA){};
-  while(!SENSOR_CENTRO){};
+void NodeTracker::takeLeft() {
+  robot.leftRotation();
+  while(!LEFT_SENSOR){};
+  while(!CENTRE_SENSOR){};
 }
 
 // Necesita modulo Morse inicializado para que suene/luzca
 // Necesita modulo Bluetooth inicializado para mandar mensajes
-void NodeTracker::luce_numero(byte n) {
-  robot.BLUETOOTH.envia("Numero: ");
-  robot.BLUETOOTH.enviaLinea(String(n));
+void NodeTracker::showNumber(byte n) {
+  robot.BLUETOOTH.send("Number: ");
+  robot.BLUETOOTH.sendNewLine(String(n));
 
   for (byte i = 0; i < n; i++) {
-    robot.MORSE.raya();
+    robot.MORSE.dash();
   }
 }
 
 // Necesita modulo Morse inicializado para que suene/luzca
 // Necesita modulo Bluetooth inicializado para mandar mensajes
 void NodeTracker::error() {
-  robot.para();
+  robot.stop();
   while (true){
-    robot.BLUETOOTH.enviaLinea("¡ERROR!");
+    robot.BLUETOOTH.sendNewLine("¡ERROR!");
     robot.MORSE.sos();
   }
 }
 
 #endif
+
+/* DEPRECATED
+//Traducido directamente
+byte NodeTracker::nextBit(){
+  robot.alante();
+  bool bit;
+  bool keepGoing = true;
+  byte left, centro, right;
+  while (keepGoing) {
+    left = LEFT_SENSOR;
+    centro = CENTRE_SENSOR;
+    right = RIGHT_SENSOR;
+    if (left && centro && right) {
+      // cinta atravesada
+      bit = true;
+      keepGoing = false;
+      while (LEFT_SENSOR && CENTRE_SENSOR && RIGHT_SENSOR);
+    }else if (!(left || centro || right)) {
+      //Salta el hueco
+      while(!(LEFT_SENSOR || CENTRE_SENSOR || RIGHT_SENSOR)) {};
+      if (!LEFT_SENSOR && CENTRE_SENSOR && !RIGHT_SENSOR){
+        // hueco
+        bit = false;
+        keepGoing = false;
+      }
+    }else if (left ^ right) {
+      if (LEFT_SENSOR) {
+        robot.leftRotation();
+        while (LEFT_SENSOR && !RIGHT_SENSOR) {};
+      } else if (RIGHT_SENSOR) {
+        robot.rightRotation();
+        while (RIGHT_SENSOR && !LEFT_SENSOR) {};
+      }
+      robot.alante();
+    }
+  }
+
+  // Bit sobrepasado. Enderezamos si es preciso.
+  while (LEFT_SENSOR || RIGHT_SENSOR) {
+    if (LEFT_SENSOR) {
+      robot.leftRotation();
+      while (LEFT_SENSOR);
+    } else if (RIGHT_SENSOR) {
+      robot.rightRotation();
+      while (RIGHT_SENSOR);
+    }
+  }
+
+  robot.stop();
+  delay(THINKING_TIME);
+
+  return bit;
+}
+*/
+/*
+//Interpretacion Tapia
+byte NodeTracker::nextBit() {
+  robot.alante();
+  byte bit;
+  bool keepGoing = true;
+  bool left, centro, right;
+  //Avanza hasta encontrar un hueco o una cinta atravesada
+  while (keepGoing) {
+    left = LEFT_SENSOR;
+    centro = CENTRE_SENSOR;
+    right = RIGHT_SENSOR;
+    if (left && centro && right) {
+      //Se confirma que es una cinta atravesada
+      Serial.println("Todos activados");
+      // cinta atravesada confirmada
+      bit = 1;
+      keepGoing = false;
+      //Mientras haya cinta atravesada, sigue alante para evitarla
+      while(LEFT_SENSOR && CENTRE_SENSOR && RIGHT_SENSOR) {
+        robot.alante();
+      }
+      //Si al final del cruce se encuentra con un hueco,
+      //rota a la right para evitarlo
+      while(!LEFT_SENSOR && !CENTRE_SENSOR && !RIGHT_SENSOR) {
+        robot.rightRotation();
+      }
+      //Una vez el robot centrado, se continua normalmente
+    } else if (!left && !centro && !right) {
+      //TODO funciona raro,
+      //huecos entre sensores entran en esta categoria
+      Serial.println("Ninguno activado");
+      while(!LEFT_SENSOR && !CENTRE_SENSOR && !RIGHT_SENSOR) {
+        //Mientras haya hueco, sigue alante
+        robot.alante();
+      }
+      //Si solo se activa el sensor del centro
+      if (!LEFT_SENSOR && CENTRE_SENSOR && !RIGHT_SENSOR) {
+        // hueco confirmado
+        bit = 0;
+        keepGoing = false;
+      }
+      //Si se activa otra combinacion de sensores, descartalo;
+      //ha sido un error
+    }
+    //Avanza normalmente a partir de ahora.
+    if (left) {
+      robot.leftRotation();
+      Serial.println("Girando left");
+      //Espera a que se limpie el sensor izquierdo
+      while(LEFT_SENSOR){ }
+      //Mientras haya un hueco, ignoralo
+      while(!LEFT_SENSOR && !CENTRE_SENSOR && !RIGHT_SENSOR){ };
+    } else if (right) {
+      robot.rightRotation();
+      Serial.println("Girando right");
+      //Espera a que se limpie el sensor derecho
+      while(RIGHT_SENSOR){ }
+      //Mientras haya un hueco, ignoralo
+      while(!LEFT_SENSOR && !CENTRE_SENSOR && !RIGHT_SENSOR){ };
+    }
+    robot.alante();
+    Serial.println("Otro bucle");
+  }
+  robot.stop();
+  Serial.println("Bit read");
+  delay(THINKING_TIME);
+  return bit;
+}
+*/
