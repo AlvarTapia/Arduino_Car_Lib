@@ -17,6 +17,52 @@
 
 class MorseDeviceType{
 
+  #define INVALID_PIN 255
+
+  protected:
+    /**
+     *
+     */
+    byte devicePin;
+
+  public:
+    /**
+     *
+     */
+    MorseDeviceType(byte = INVALID_PIN);
+
+    /**
+     *
+     */
+    void startSignaling();
+
+    /**
+     *
+     */
+    void stopSignaling();
+};
+
+class Led : public MorseDeviceType{
+  public:
+    void startSignaling();
+
+    void stopSignaling();
+};
+
+class Siren : public MorseDeviceType{
+  /// Frecuencia por defecto de la sirena, en hercios.
+  #define DEFAULT_SIREN_FREC 18000
+
+  private:
+    /// Frecuencia a la que funcionara la sirena.
+    unsigned int sirenFrec;
+
+  public:
+    Siren(byte = INVALID_PIN, unsigned int = DEFAULT_SIREN_FREC);
+
+    void startSignaling();
+
+    void stopSignaling();
 };
 
 #endif

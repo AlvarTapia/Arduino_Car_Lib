@@ -16,48 +16,36 @@
 #include "Morse.h"
 
 //Constructores
-Morse::Morse(byte pinMorse, MorseDeviceType outputDevice, unsigned int sirenFrec) {
-  morsePin = pinMorse;
+Morse::Morse(MorseDeviceType outputDevice) {
   device = outputDevice;
-  sirenFrec = sirenFrec;
 }
 //Constructor por defecto
 Morse::Morse(){
-  Morse(INVALID_PIN, MorseDeviceType::NONE, DEFAULT_SIREN_FREC);
+  Morse(noneDevice);
 }
 //Destructor
 
 
 //Inicializador
 void Morse::init() {
-  pinMode(morsePin, OUTPUT);
+  pinMode(device->devicePin(), OUTPUT);
 }
 
 //Funciones
 void Morse::symbol(int symbolTime) {
-  switch (device) {
-    case MorseDeviceType::SIREN:
-      tone(morsePin, sirenFrec);
-    case MorseDeviceType::LED:
-      digitalWrite(morsePin, HIGH);
-  }
+  device->startSignaling();
   delay(symbolTime);
 
-  switch (device) {
-    case MorseDeviceType::SIREN:
-      noTone(morsePin);
-    case MorseDeviceType::LED:
-      digitalWrite(morsePin, LOW);
-  }
+  device->stopSignaling();
   delay(TIME_BETWEEN_SYMBOLS);
 }
 
 void Morse::dash() {
-  symbol(DASH_TIME);
+  this->symbol(DASH_TIME);
 }
 
 void Morse::dot() {
-  symbol(DOT_TIME);
+  this->symbol(DOT_TIME);
 }
 
 void Morse::sos() {

@@ -15,20 +15,43 @@
 
 #include "MorseDeviceType.h"
 
-class NoneDevice : public MorseDeviceType{};
 
-class Led : public MorseDeviceType{
+MorseDeviceType::MorseDeviceType(byte devicePin){
+  devicePin = devicePin;
+}
 
-};
+MorseDeviceType::devicePin(){
+  return devicePin;
+}
 
-class Siren : public MorseDeviceType{
-  /// Frecuencia por defecto de la sirena, en hercios.
-  #define DEFAULT_SIREN_FREC 18000
-  
-  private:
-    /// Frecuencia a la que funcionara la sirena.
-    unsigned int sirenFrec;
-};
+
+Led::Led(byte devicePin){
+  this->devicePin = devicePin;
+}
+
+void Led::startSignaling(){
+  digitalWrite(this->devicePin, HIGH);
+}
+
+void Led::stopSignaling(){
+  digitalWrite(this->devicePin, LOW);
+}
+
+
+Siren::Siren(byte devicePin, unsigned int sirenFrec){
+  this->devicePin = devicePin;
+  this->sirenFrec = sirenFrec;
+}
+
+void Siren::startSignaling(){
+  tone(this->devicePin, this->sirenFrec);
+}
+void Siren::stopSignaling(){
+  noTone(this->devicePin);
+}
+
+
+const MorseDeviceType noneDevice = MorseDeviceType();
 
 
 #endif

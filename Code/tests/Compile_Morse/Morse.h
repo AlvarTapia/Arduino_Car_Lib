@@ -17,8 +17,6 @@
 #include "MorseDeviceType.h"
 
 class Morse{
-  #define INVALID_PIN 255
-
   /**
    * Tiempo que va a estar la señal activa para representar una raya,
    * en ms.
@@ -36,11 +34,6 @@ class Morse{
   #define TIME_BETWEEN_SYMBOLS 100
 
   private:
-    /**
-     * Pin que transmitira la señal Morse.
-     * Puede conectarse a un LED o a una sirena.
-     */
-    byte morsePin;
     /**
      * Caracter que guarda el dispositivo de salida.
      * 'l' = LED, dispositivo que funciona de manera binaria,
@@ -69,7 +62,7 @@ class Morse{
      *    y pueden llegar a ser muy molestas.
      *    Por defecto, toma el valor de DEFAULT_SIREN_FREC.
      */
-    Morse(byte, MorseDeviceType, unsigned int = DEFAULT_SIREN_FREC);
+    Morse(MorseDeviceType = noneDevice);
     //Constructor por defecto
     /**
      * Constructor que no necesita argumentos, y que permite
@@ -80,7 +73,7 @@ class Morse{
      *    o initdas de esta manera para que
      *    el modulo funcione como se espera.
      */
-    Morse();
+     // TODO
     //Destructor
 
 
