@@ -20,14 +20,10 @@ MorseDeviceType::MorseDeviceType(byte devicePin){
   devicePin = devicePin;
 }
 
-MorseDeviceType::devicePin(){
+byte MorseDeviceType::getDevicePin(){
   return devicePin;
 }
 
-
-Led::Led(byte devicePin){
-  this->devicePin = devicePin;
-}
 
 void Led::startSignaling(){
   digitalWrite(this->devicePin, HIGH);
@@ -49,9 +45,4 @@ void Siren::startSignaling(){
 void Siren::stopSignaling(){
   noTone(this->devicePin);
 }
-
-
-const MorseDeviceType noneDevice = MorseDeviceType();
-
-
 #endif

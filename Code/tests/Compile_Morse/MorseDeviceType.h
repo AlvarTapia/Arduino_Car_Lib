@@ -32,6 +32,11 @@ class MorseDeviceType{
     MorseDeviceType(byte = INVALID_PIN);
 
     /**
+     * 
+     */
+    byte getDevicePin();
+
+    /**
      *
      */
     void startSignaling();
@@ -64,5 +69,8 @@ class Siren : public MorseDeviceType{
 
     void stopSignaling();
 };
+
+
+const MorseDeviceType noneDevice = MorseDeviceType();
 
 #endif

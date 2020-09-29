@@ -19,24 +19,20 @@
 Morse::Morse(MorseDeviceType outputDevice) {
   device = outputDevice;
 }
-//Constructor por defecto
-Morse::Morse(){
-  Morse(noneDevice);
-}
 //Destructor
 
 
 //Inicializador
 void Morse::init() {
-  pinMode(device->devicePin(), OUTPUT);
+  pinMode(device.getDevicePin(), OUTPUT);
 }
 
 //Funciones
 void Morse::symbol(int symbolTime) {
-  device->startSignaling();
+  device.startSignaling();
   delay(symbolTime);
 
-  device->stopSignaling();
+  device.stopSignaling();
   delay(TIME_BETWEEN_SYMBOLS);
 }
 

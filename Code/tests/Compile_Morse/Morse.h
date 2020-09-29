@@ -73,7 +73,6 @@ class Morse{
      *    o initdas de esta manera para que
      *    el modulo funcione como se espera.
      */
-     // TODO
     //Destructor
 
 
