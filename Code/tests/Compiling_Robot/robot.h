@@ -25,31 +25,33 @@
 class Robot {
   /// Velocidades por defecto de los motores del robot.
   /// Valores de 0-255, siendo 0 = motores parados, 255 = maxima potencia.
-  #define VELOCIDAD_LENTA 100
-  #define VELOCIDAD_GIRO 200
-  #define MAX_VELOCIDAD 255
+  #define SLOW_VEL 100
+  #define TURN_VEL 200
+  #define MAX_VEL 255
 
   private:
     /**
      * Enumerados que representan la direccion a la que va el robot.
      * Necesario para saber cuando arrancar.
      */
-    enum Direccion {dirNull = -1, dirAlante, dirAtras,
-                    dirGiroDcha, dirGiroIzda,
-                    dirRotaDcha, dirRotaIzda};
-    /// Direccion actual del robot. Se encuentra parado por defecto.
-    Direccion dirActual = dirNull;
+    enum Motion { nullMotion = -1,
+                  stopMotion,
+                  forwardMotion, backwardsMotion,
+                  rightTurnMotion, leftTurnMotion,
+                  leftRotMotion, rightRotMotion };
+    /// Motion actual del robot. Se encuentra parado por defecto.
+    Motion currentMotion = nullMotion;
 
 
   protected:
     /// Tiempo que necesita arrancar el robot, en milisegundos.
-    byte TIEMPO_ARRANQUE;
+    byte START_UP_TIME;
 
     /// Pines que controlan la direccion en la que giran los motores.
-    byte PIN_IZDA_ALANTE;
-    byte PIN_IZDA_ATRAS;
-    byte PIN_DCHA_ALANTE;
-    byte PIN_DCHA_ATRAS;
+    byte FRONT_LEFT_PIN;
+    byte BACK_LEFT_PIN;
+    byte FRONT_RIGHT_PIN;
+    byte BACK_RIGHT_PIN;
     /*
      * Para que el robot se mueva, ALANTE != ATRAS.
      * p.ej. ALANTE = HIGH y ATRAS = LOW hace
@@ -59,8 +61,8 @@ class Robot {
      */
 
     /// Pines que controlan la velocidad a la que giran los motores.
-    byte PIN_VEL_IZDA;
-    byte PIN_VEL_DCHA;
+    byte LEFT_VEL_PIN;
+    byte RIGHT_VEL_PIN;
 
   public:
     /**
@@ -69,7 +71,7 @@ class Robot {
      * Para utilizar los modulos, los objetos deben establecerse e inicializarse.
      */
     /// Modulo siguelineas
-    Siguelineas SIGUELINEAS;
+    Siguelineas LINEFOLLOWER;
     /// Modulo mando infrarrojo
     //Infrarrojos INFRARROJOS; //A Abril 2019, este objeto no se utiliza
     /// Modulo morse
@@ -111,7 +113,7 @@ class Robot {
     /**
      * Inicializa los pines para que el robot pueda alimentar los motores.
      */
-    void inicializa();
+    void init();
 
 
     //Funciones del robot
@@ -121,7 +123,7 @@ class Robot {
      *    Tiempo en milisegundos que estara el robot a maxima velocidad.
      *    Valores entre 0-255 ms.
      */
-    void setTiempoArranque(byte);
+    void setStartUpTime(byte);
 
 
     //Velocidad del robot
@@ -129,7 +131,7 @@ class Robot {
      * Aplica mucha tension durante un periodo de tiempo definido
      * para que los motores puedan empezar a girar.
      */
-    void arranca();
+    void startUp();
 
     /**
      * Establece la velocidad actual del robot.
@@ -137,29 +139,29 @@ class Robot {
      *    Velocidad a la que ira el robot.
      *    Valores entre 0-255.
      */
-    void setVelocidad(byte);
+    void setVelocity(byte);
 
     /**
      * Deja de alimentar los motores y para el robot.
      * Puede no ser inmediato dependiendo de la inercia que lleve.
      */
-    void para();
+    void stop();
 
     /**
      * Alimenta los motores al 40% de la capacidad de las pilas.
      */
-    void lento();
+    void slow();
 
     /**
      * Establece una velocidad moderada,
      * en la que el robot es siempre capaz de girar.
      */
-    void velGiro();
+    void turnVelocity();
 
     /**
      * Alimenta los motores al 100% de la capacidad de las pilas.
      */
-    void maxVelocidad();
+    void maxVelocity();
 
 
 	  //Cambios de direccion
@@ -169,9 +171,9 @@ class Robot {
      * Permite girar mientras el robot va marcha atras.
      * @param Velocidad
      *    Se puede indicar la velocidad a la que el robot hace la maniobra.
-     *    Por defecto, se utiliza VELOCIDAD_GIRO.
+     *    Por defecto, se utiliza TURN_VEL.
      */
-    void giraIzda(byte = VELOCIDAD_GIRO);
+    void turnLeft(byte = TURN_VEL);
 
 	  /**
      * El robot deja de alimentar los motores de la derecha
@@ -179,9 +181,9 @@ class Robot {
      * Permite girar mientras el robot va marcha atras.
      * @param Velocidad
      *    Se puede indicar la velocidad a la que el robot hace la maniobra.
-     *    Por defecto, se utiliza VELOCIDAD_GIRO.
+     *    Por defecto, se utiliza TURN_VEL.
      */
-    void giraDcha(byte = VELOCIDAD_GIRO);
+    void turnRight(byte = TURN_VEL);
 
 
     //Cambios de direccion de los motores
@@ -189,16 +191,16 @@ class Robot {
      * Los motores giran de manera que el robot vaya hacia delante.
      * @param Velocidad
      *    Se puede indicar la velocidad a la que el robot hace la maniobra.
-     *    Por defecto, se utiliza VELOCIDAD_LENTA.
+     *    Por defecto, se utiliza SLOW_VEL.
      */
-    void alante(byte = VELOCIDAD_LENTA);
+    void forwards(byte = SLOW_VEL);
 
     /** Los motores giran de manera que el robot vaya hacia atras.
      * @param Velocidad
      *    Se puede indicar la velocidad a la que el robot hace la maniobra.
-     *    Por defecto, se utiliza VELOCIDAD_LENTA.
+     *    Por defecto, se utiliza SLOW_VEL.
      */
-    void atras(byte = VELOCIDAD_LENTA);
+    void backwards(byte = SLOW_VEL);
 
     /**
      * El robot pivota hacia la izquierda haciendo
@@ -206,9 +208,9 @@ class Robot {
      * que los motores de la derecha vayan hacia delante.
      * @param Velocidad
      *    Se puede indicar la velocidad a la que el robot hace la maniobra.
-     *    Por defecto, se utiliza VELOCIDAD_GIRO.
+     *    Por defecto, se utiliza TURN_VEL.
      */
-    void rotaIzda(byte = VELOCIDAD_GIRO);
+    void leftRotation(byte = TURN_VEL);
 
     /**
      * El robot pivota hacia la derecha haciendo
@@ -216,9 +218,9 @@ class Robot {
      * que los motores de la izquierda vayan hacia delante.
      * @param Velocidad
      *    Se puede indicar la velocidad a la que el robot hace la maniobra.
-     *    Por defecto, se utiliza VELOCIDAD_GIRO.
+     *    Por defecto, se utiliza TURN_VEL.
      */
-    void rotaDcha(byte = VELOCIDAD_GIRO);
+    void rightRotation(byte = TURN_VEL);
 };
 
 
