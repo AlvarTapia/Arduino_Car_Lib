@@ -14,9 +14,8 @@
 #define morsedevice_h
 
 #include "Arduino.h"
-#include <exception>
 
-MORSE_DEVICE_EXCEPTION = logic_error("MorseDevice not initialized correctly");
+const String MORSE_DEVICE_EXCEPTION = "MorseDevice not initialized correctly";
 
 class MorseDevice{
 
@@ -42,19 +41,19 @@ class MorseDevice{
     /**
      *
      */
-    void startSignaling();
+    String startSignaling();
 
     /**
      *
      */
-    void stopSignaling();
+    String stopSignaling();
 };
 
 class Led : public MorseDevice{
   public:
-    void startSignaling();
+    String startSignaling();
 
-    void stopSignaling();
+    String stopSignaling();
 };
 
 class Siren : public MorseDevice{
@@ -68,9 +67,9 @@ class Siren : public MorseDevice{
   public:
     Siren(byte = INVALID_PIN, unsigned int = DEFAULT_SIREN_FREC);
 
-    void startSignaling();
+    String startSignaling();
 
-    void stopSignaling();
+    String stopSignaling();
 };
 
 

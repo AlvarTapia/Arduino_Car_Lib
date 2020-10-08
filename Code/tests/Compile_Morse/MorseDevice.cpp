@@ -24,27 +24,29 @@ byte MorseDevice::getDevicePin(){
   return this->devicePin;
 }
 
-void MorseDevice::startSignaling(){
-  throw MORSE_DEVICE_EXCEPTION;
+String MorseDevice::startSignaling(){
+  return MORSE_DEVICE_EXCEPTION;
 }
 
-void MorseDevice:stopSignaling(){
-  throw MORSE_DEVICE_EXCEPTION;
+String MorseDevice::stopSignaling(){
+  return MORSE_DEVICE_EXCEPTION;
 }
 
 
-void Led::startSignaling(){
+String Led::startSignaling(){
   if (this->devicePin == INVALID_PIN){
-    throw MORSE_DEVICE_EXCEPTION;
+    return MORSE_DEVICE_EXCEPTION;
   }
   digitalWrite(this->devicePin, HIGH);
+  return "";
 }
 
-void Led::stopSignaling(){
+String Led::stopSignaling(){
   if (this->devicePin == INVALID_PIN){
-    throw MORSE_DEVICE_EXCEPTION;
+    return MORSE_DEVICE_EXCEPTION;
   }
   digitalWrite(this->devicePin, LOW);
+  return "";
 }
 
 
@@ -53,16 +55,18 @@ Siren::Siren(byte devicePin, unsigned int sirenFrec){
   this->sirenFrec = sirenFrec;
 }
 
-void Siren::startSignaling(){
+String Siren::startSignaling(){
   if (this->devicePin == INVALID_PIN){
-    throw MORSE_DEVICE_EXCEPTION;
+    return MORSE_DEVICE_EXCEPTION;
   }
   tone(this->devicePin, this->sirenFrec);
+  return "";
 }
-void Siren::stopSignaling(){
+String Siren::stopSignaling(){
   if (this->devicePin == INVALID_PIN){
-    throw MORSE_DEVICE_EXCEPTION;
+    return MORSE_DEVICE_EXCEPTION;
   }
   noTone(this->devicePin);
+  return "";
 }
 #endif
