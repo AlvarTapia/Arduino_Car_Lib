@@ -10,10 +10,13 @@
  * ----------------------------------------------------------------
  */
 
-#ifndef morsedevicetype_h
-#define morsedevicetype_h
+#ifndef morsedevice_h
+#define morsedevice_h
 
 #include "Arduino.h"
+#include <exception>
+
+MORSE_DEVICE_EXCEPTION = logic_error("MorseDevice not initialized correctly");
 
 class MorseDevice{
 

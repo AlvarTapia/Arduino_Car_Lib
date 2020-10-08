@@ -10,26 +10,40 @@
  * ----------------------------------------------------------------
  */
 
-#ifndef morsedevicetype_cpp
-#define morsedevicetype_cpp
+#ifndef morsedevice_cpp
+#define morsedevice_cpp
 
 #include "MorseDevice.h"
 
 
 MorseDevice::MorseDevice(byte devicePin){
-  devicePin = devicePin;
+  this->devicePin = devicePin;
 }
 
 byte MorseDevice::getDevicePin(){
-  return devicePin;
+  return this->devicePin;
+}
+
+void MorseDevice::startSignaling(){
+  throw MORSE_DEVICE_EXCEPTION;
+}
+
+void MorseDevice:stopSignaling(){
+  throw MORSE_DEVICE_EXCEPTION;
 }
 
 
 void Led::startSignaling(){
+  if (this->devicePin == INVALID_PIN){
+    throw MORSE_DEVICE_EXCEPTION;
+  }
   digitalWrite(this->devicePin, HIGH);
 }
 
 void Led::stopSignaling(){
+  if (this->devicePin == INVALID_PIN){
+    throw MORSE_DEVICE_EXCEPTION;
+  }
   digitalWrite(this->devicePin, LOW);
 }
 
@@ -40,9 +54,15 @@ Siren::Siren(byte devicePin, unsigned int sirenFrec){
 }
 
 void Siren::startSignaling(){
+  if (this->devicePin == INVALID_PIN){
+    throw MORSE_DEVICE_EXCEPTION;
+  }
   tone(this->devicePin, this->sirenFrec);
 }
 void Siren::stopSignaling(){
+  if (this->devicePin == INVALID_PIN){
+    throw MORSE_DEVICE_EXCEPTION;
+  }
   noTone(this->devicePin);
 }
 #endif
