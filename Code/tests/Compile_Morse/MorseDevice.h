@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * MorseDeviceType.h
+ * MorseDevice.h
  * Libreria que permite que la Arduino pueda enviar señales en Morse.
  * Necesita de un dispositivo que pueda cambiar notablemente de estado,
  * como un LED o una sirena.
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-class MorseDeviceType{
+class MorseDevice{
 
   #define INVALID_PIN 255
 
@@ -29,10 +29,10 @@ class MorseDeviceType{
     /**
      *
      */
-    MorseDeviceType(byte = INVALID_PIN);
+    MorseDevice(byte = INVALID_PIN);
 
     /**
-     * 
+     *
      */
     byte getDevicePin();
 
@@ -47,14 +47,14 @@ class MorseDeviceType{
     void stopSignaling();
 };
 
-class Led : public MorseDeviceType{
+class Led : public MorseDevice{
   public:
     void startSignaling();
 
     void stopSignaling();
 };
 
-class Siren : public MorseDeviceType{
+class Siren : public MorseDevice{
   /// Frecuencia por defecto de la sirena, en hercios.
   #define DEFAULT_SIREN_FREC 18000
 
@@ -71,6 +71,6 @@ class Siren : public MorseDeviceType{
 };
 
 
-const MorseDeviceType noneDevice = MorseDeviceType();
+const MorseDevice noneDevice = MorseDevice();
 
 #endif

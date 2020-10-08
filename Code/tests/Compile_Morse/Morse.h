@@ -14,7 +14,7 @@
 #define morse_h
 
 #include "Arduino.h"
-#include "MorseDeviceType.h"
+#include "MorseDevice.h"
 
 class Morse{
   /**
@@ -42,7 +42,7 @@ class Morse{
      *       Puede variar de frecuencia ademas
      *       de poder estar ENCENDIDO o APAGADO.
      */
-    MorseDeviceType device;
+    MorseDevice device;
   public:
     //Constructor
     /**
@@ -62,7 +62,7 @@ class Morse{
      *    y pueden llegar a ser muy molestas.
      *    Por defecto, toma el valor de DEFAULT_SIREN_FREC.
      */
-    Morse(MorseDeviceType = noneDevice);
+    Morse(MorseDevice = noneDevice);
     //Constructor por defecto
     /**
      * Constructor que no necesita argumentos, y que permite

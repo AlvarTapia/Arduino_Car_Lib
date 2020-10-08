@@ -16,7 +16,7 @@
 #include "Morse.h"
 
 //Constructores
-Morse::Morse(MorseDeviceType outputDevice) {
+Morse::Morse(MorseDevice outputDevice) {
   device = outputDevice;
 }
 //Destructor

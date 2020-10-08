@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------
- * MorseDeviceType.cpp
+ * MorseDevice.cpp
  * Libreria que permite que la Arduino pueda enviar señales en Morse.
  * Necesita de un dispositivo que pueda cambiar notablemente de estado,
  * como un LED o una sirena.
@@ -13,14 +13,14 @@
 #ifndef morsedevicetype_cpp
 #define morsedevicetype_cpp
 
-#include "MorseDeviceType.h"
+#include "MorseDevice.h"
 
 
-MorseDeviceType::MorseDeviceType(byte devicePin){
+MorseDevice::MorseDevice(byte devicePin){
   devicePin = devicePin;
 }
 
-byte MorseDeviceType::getDevicePin(){
+byte MorseDevice::getDevicePin(){
   return devicePin;
 }
 
