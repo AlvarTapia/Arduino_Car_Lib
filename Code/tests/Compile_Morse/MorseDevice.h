@@ -31,7 +31,7 @@ class MorseDevice{
     /**
      *
      */
-    MorseDevice(byte = INVALID_PIN);
+    explicit MorseDevice(byte = INVALID_PIN);
 
     /**
      *
@@ -51,6 +51,8 @@ class MorseDevice{
 
 class Led : public MorseDevice{
   public:
+    explicit Led(byte = INVALID_PIN);
+
     String startSignaling();
 
     String stopSignaling();
@@ -65,7 +67,7 @@ class Siren : public MorseDevice{
     unsigned int sirenFrec;
 
   public:
-    Siren(byte = INVALID_PIN, unsigned int = DEFAULT_SIREN_FREC);
+    explicit Siren(byte = INVALID_PIN, unsigned int = DEFAULT_SIREN_FREC);
 
     String startSignaling();
 

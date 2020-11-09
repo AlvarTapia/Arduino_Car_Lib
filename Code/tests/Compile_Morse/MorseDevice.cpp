@@ -33,6 +33,8 @@ String MorseDevice::stopSignaling(){
 }
 
 
+Led::Led(byte devicePin) : MorseDevice(devicePin){}
+
 String Led::startSignaling(){
   if (this->devicePin == INVALID_PIN){
     return MORSE_DEVICE_EXCEPTION;
@@ -50,8 +52,7 @@ String Led::stopSignaling(){
 }
 
 
-Siren::Siren(byte devicePin, unsigned int sirenFrec){
-  this->devicePin = devicePin;
+Siren::Siren(byte devicePin, unsigned int sirenFrec) : MorseDevice(devicePin){
   this->sirenFrec = sirenFrec;
 }
 
@@ -62,6 +63,7 @@ String Siren::startSignaling(){
   tone(this->devicePin, this->sirenFrec);
   return "";
 }
+
 String Siren::stopSignaling(){
   if (this->devicePin == INVALID_PIN){
     return MORSE_DEVICE_EXCEPTION;
