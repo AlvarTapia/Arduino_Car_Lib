@@ -18,4 +18,5 @@ Next time Arduino IDE is executed:
 - In File > Examples, the RobotAlgoritmica examples should be in the list.
 
 ## Credits
-Software made by Alvar Tapia with the help of Universidad de Cantabria.
+Software made by Alvar Tapia in 2018 with the help of Universidad de Cantabria.
+Software translated by Alvar Tapia in 2020.
