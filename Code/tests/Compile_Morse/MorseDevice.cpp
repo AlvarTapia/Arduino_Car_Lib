@@ -15,6 +15,7 @@
 
 #include "MorseDevice.h"
 
+const String MorseDevice::MD_EXCEPTION = "MorseDevice not initialized correctly";
 
 MorseDevice::MorseDevice(byte devicePin){
   this->devicePin = devicePin;
@@ -25,19 +26,19 @@ byte MorseDevice::getDevicePin(){
 }
 
 String MorseDevice::startSignaling(){
-  return MORSE_DEVICE_EXCEPTION;
+  return MD_EXCEPTION;
 }
 
 String MorseDevice::stopSignaling(){
-  return MORSE_DEVICE_EXCEPTION;
+  return MD_EXCEPTION;
 }
 
 
-Led::Led(byte devicePin) : MorseDevice(devicePin){}
+Led::Led(byte devicePin) : MorseDevice(devicePin) {};
 
 String Led::startSignaling(){
   if (this->devicePin == INVALID_PIN){
-    return MORSE_DEVICE_EXCEPTION;
+    return MD_EXCEPTION;
   }
   digitalWrite(this->devicePin, HIGH);
   return "";
@@ -45,7 +46,7 @@ String Led::startSignaling(){
 
 String Led::stopSignaling(){
   if (this->devicePin == INVALID_PIN){
-    return MORSE_DEVICE_EXCEPTION;
+    return MD_EXCEPTION;
   }
   digitalWrite(this->devicePin, LOW);
   return "";
@@ -58,7 +59,7 @@ Siren::Siren(byte devicePin, unsigned int sirenFrec) : MorseDevice(devicePin){
 
 String Siren::startSignaling(){
   if (this->devicePin == INVALID_PIN){
-    return MORSE_DEVICE_EXCEPTION;
+    return MD_EXCEPTION;
   }
   tone(this->devicePin, this->sirenFrec);
   return "";
@@ -66,7 +67,7 @@ String Siren::startSignaling(){
 
 String Siren::stopSignaling(){
   if (this->devicePin == INVALID_PIN){
-    return MORSE_DEVICE_EXCEPTION;
+    return MD_EXCEPTION;
   }
   noTone(this->devicePin);
   return "";

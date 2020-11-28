@@ -17,7 +17,7 @@
 
 //Constructores
 Morse::Morse(MorseDevice outputDevice) {
-  device = outputDevice;
+  this->device = outputDevice;
 }
 //Destructor
 

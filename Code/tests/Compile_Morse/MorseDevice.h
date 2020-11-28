@@ -15,23 +15,21 @@
 
 #include "Arduino.h"
 
-const String MORSE_DEVICE_EXCEPTION = "MorseDevice not initialized correctly";
-
 class MorseDevice{
-
-  #define INVALID_PIN 255
-
   protected:
+
     /**
      *
      */
     byte devicePin;
 
   public:
+    static const String MD_EXCEPTION;
+    static const byte INVALID_PIN = 255;
     /**
      *
      */
-    explicit MorseDevice(byte = INVALID_PIN);
+    MorseDevice(byte = INVALID_PIN);
 
     /**
      *
@@ -41,17 +39,17 @@ class MorseDevice{
     /**
      *
      */
-    String startSignaling();
+    virtual String startSignaling();
 
     /**
      *
      */
-    String stopSignaling();
+    virtual String stopSignaling();
 };
 
 class Led : public MorseDevice{
   public:
-    explicit Led(byte = INVALID_PIN);
+    Led(byte = INVALID_PIN);
 
     String startSignaling();
 
@@ -59,15 +57,15 @@ class Led : public MorseDevice{
 };
 
 class Siren : public MorseDevice{
-  /// Frecuencia por defecto de la sirena, en hercios.
-  #define DEFAULT_SIREN_FREC 18000
-
-  private:
+  protected:
     /// Frecuencia a la que funcionara la sirena.
     unsigned int sirenFrec;
 
   public:
-    explicit Siren(byte = INVALID_PIN, unsigned int = DEFAULT_SIREN_FREC);
+    /// Frecuencia por defecto de la sirena, en hercios.
+    const static unsigned int DEFAULT_SIREN_FREC = 18000;
+
+    Siren(byte = INVALID_PIN, unsigned int = DEFAULT_SIREN_FREC);
 
     String startSignaling();
 
